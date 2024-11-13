@@ -71,11 +71,11 @@ router.get('/generate', async (req, res) => {
     var transomXml = ''; // Initialiser le XML pour le poteau intermédiaire
 
     // Ajuster le modèle en fonction de l'aspect et de la largeur
-    if (aspect === "1" && width > 4000 && !model.endsWith("-M")) {
+    if (aspect === "1" && width > 4000 && !model.endsWith("-M") && model.includes("310")) {
         model += "-M";
     }
 
-    if (aspect === "2" && !model.endsWith("-M")) {
+    if (aspect === "2" && !model.endsWith("-M") && model.includes("310")) {
         model += "-M";
         transomXml = `              <TRANSOM transom_id="1" leaf_id="1" filling_id="1" pos="W / 2" code="ALU ASPECT 2VTX" info="" masonry="1" />`;
     }
@@ -274,7 +274,7 @@ router.get('/generate', async (req, res) => {
 
     // Envoi de la requête SOAP, récupération de la réponse, génération du SVG et renvoi au client
     try {
-        console.log("------------ Nouvelle requête de génération de portail ------------");
+        console.log("------------ Nouvelle requête ------------");
         console.log(`\nParamètres de la requête : couleur1=${color1}, couleur2=${color2}, largeur=${width}, hauteur=${height}, largeur2=${width2}, modèle=${model}, pose=${pose}, sens_ouverture=${sens_ouverture}, poteau_gauche=${poteau_gauche}, poteau_droit=${poteau_droit}, serrure=${serrure}, ferrage=${ferrage}, poignée=${poignee}, décor=${decor}, gammeDecor=${gammeDecor}, numéroRue=${numeroRue}, aspect=${aspect}`);
         console.log("\nEnvoi de la requête SOAP...");
         const response = await fetch("http://127.0.0.1:8001/soap/IWebshopv1", {

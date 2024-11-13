@@ -119,7 +119,7 @@ Chaque paramètre accepte des valeurs spécifiques encodées par CFP. Voici une 
 | `poignee`        | `QQ_Poignee_BeqInox`, `QQ_Poignee_BeqDSIGN`, `QQ_Poignee_PoiPlqNoir`, `QQ_Poignee_PoiPlqBlanc`            |
 | `gammeDecor`     | `QP_GamDecor_Sans`, `QP_GamDecor_Acces`, `QP_GamDecor_Design`, `QP_GamDecor_Nature`                      |
 | `decor`          | `QP_ModDecor_Sans`, `QP_ModDecor_A01`, `QP_ModDecor_A02`, `QP_ModDecor_A03`, `QP_ModDecor_A04`, `QP_ModDecor_A05`, `QP_ModDecor_A06`, `QP_ModDecor_A07`, `QP_ModDecor_A08`, `QP_ModDecor_A09`, `QP_ModDecor_D01`, `QP_ModDecor_N03` |
-| `numeroRue`      | N'importe quel nombre entier positif (ex : `12`, `42`)                                                    |
+| `numeroRue`      | N'importe quel nombre entier positif inférieur à 10000 (ex : `12`, `42`)                                  |
 | `aspect`         | `1`, `2`                                                                                                  |
 
 Bien que plusieurs valeurs soient possibles pour chaque paramètre, certaines valeurs peuvent ne pas être compatibles avec le modèle de portail choisi ou avec d'autres paramètres.
