@@ -54,6 +54,7 @@ export function extractSvgAndAdjustViewBox(xmlContent, width, height) {
 
         // Modifier la chaîne pour inclure xmlns:xlink
         svgString = svgString.replace('xmlns="http://www.w3.org/2000/svg"', 'xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"');
+        svgString = svgString.replace('xmlns:xlink=""', 'xmlns:xlink="http://www.w3.org/1999/xlink"');
 
         // Retourner le SVG modifié
         return svgString;

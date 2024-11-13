@@ -30,11 +30,6 @@ router.get('/generate', async (req, res) => {
         aspect // Aspect du modèle (avec ou sans meneau)
     } = req.query;
 
-    // Vérifier si tous les paramètres sont fournis
-    if (!color1 || !color2 || !width || !height || !width2 || !model || !pose || !sens_ouverture || !poteau_gauche || !poteau_droit || !serrure || !ferrage || !poignee || !decor || !gammeDecor || !numeroRue || !aspect) {
-        console.log('Remarque : tous les paramètres ne sont pas fournis. Les paramètres qui ne sont pas fournis seront remplacés par des valeurs par défaut.');
-    }
-
     // Mettre à jour la collection selon le modèle
     // Si le modèle contient 210 -> WEB_ELEG_2VTX
     const collection = model.includes('210') ? 'WEB_ELEG_2VTX' : 'INCONNU POUR LE MOMENT';
@@ -279,7 +274,9 @@ router.get('/generate', async (req, res) => {
 
     // Envoi de la requête SOAP, récupération de la réponse, génération du SVG et renvoi au client
     try {
-        console.log("Envoi de la requête SOAP...");
+        console.log("------------ Nouvelle requête de génération de portail ------------");
+        console.log(`\nParamètres de la requête : couleur1=${color1}, couleur2=${color2}, largeur=${width}, hauteur=${height}, largeur2=${width2}, modèle=${model}, pose=${pose}, sens_ouverture=${sens_ouverture}, poteau_gauche=${poteau_gauche}, poteau_droit=${poteau_droit}, serrure=${serrure}, ferrage=${ferrage}, poignée=${poignee}, décor=${decor}, gammeDecor=${gammeDecor}, numéroRue=${numeroRue}, aspect=${aspect}`);
+        console.log("\nEnvoi de la requête SOAP...");
         const response = await fetch("http://127.0.0.1:8001/soap/IWebshopv1", {
             method: 'POST',
             headers: { 'Content-Type': 'text/xml; charset=utf-8' },
@@ -288,11 +285,24 @@ router.get('/generate', async (req, res) => {
 
         const responseText = await response.text();
 
-        console.log("Réponse SOAP reçue :", responseText);
+        console.log("Réponse SOAP reçue.\n");
+
+        // extraire les informations de la réponse
+        const errorCode = responseText.match(/&lt;ERROR_CODE&gt;(\d+)&lt;\/ERROR_CODE&gt;/)[1];
+
+        console.log("Code d'erreur :", errorCode);
+
+        // Extraire ERROR_MESSAGE et ERROR_EXPLANATION si le code d'erreur n'est pas 0
+        if (errorCode !== "0") {
+            const errorMessage = responseText.match(/&lt;ERROR_MESSAGE&gt;(.+)&lt;\/ERROR_MESSAGE&gt;/)[1];
+            const errorExplanation = responseText.match(/&lt;ERROR_EXPLANATION&gt;(.+)&lt;\/ERROR_EXPLANATION&gt;/)[1];
+
+            console.error(`Erreur : ${errorMessage} - ${errorExplanation}`);
+            return res.status(500).send(`Erreur : ${errorMessage} - ${errorExplanation}`);
+        }
 
         // Extraire et ajuster le SVG
         const svgElement = extractSvgAndAdjustViewBox(responseText, width, height);
-        console.log("SVG généré :", svgElement);
 
         // Ecrire le contenu du SVG dans un fichier
         const svgFilePath = path.resolve('portail.svg');
@@ -301,7 +311,7 @@ router.get('/generate', async (req, res) => {
         // Renvoi du SVG généré au client
         res.header("Content-Type", "image/svg+xml");
         res.send(svgElement);
-        console.log("Réponse SOAP retournée au client.");
+        console.log("Réponse SOAP retournée au client avec succès.\n");
     } catch (error) {
         console.error('Erreur lors de l\'envoi de la requête SOAP:', error);
         res.status(500).send('Erreur lors de l\'envoi de la requête SOAP');

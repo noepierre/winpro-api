@@ -90,9 +90,13 @@ Les paramètres suivants sont nécessaires pour la génération du fichier SVG :
 
 Mis à part le modèle, aucun paramètre n'est obligatoire.
 
+Si vous ne donnez pas de valeur pour la hauteur, vous devez laisser le paramètre de la largeur vide.
+
 Si un paramètre est manquant, il sera remplacé par une valeur par défaut.
 
 Si un paramètre n'a pas besoin d'être fourni, vous pouvez le laisser vide.
+
+Si un paramètre est specifié alors qu'il dépend d'un autre paramètre, il sera ignoré. (Ex : `numeroRue = 13` sans le `decor` correspondant)
 
 ### Valeurs possibles pour chaque paramètre
 
@@ -127,7 +131,7 @@ Il est possible qu'il y ai d'autres valeurs possibles pour chaque paramètre. Ve
 Utilisez votre navigateur, **curl** ou un outil comme **Postman** pour envoyer une requête.
 
 ```bash
-http://localhost:3000/api/generate?color1=7016STRU&color2=BLEUCANON&width=4000&height=1600&width2=0&model=ALTA210&pose=QD_typepose_RGarrp&sens_ouverture=QO_sensouv_droiteP&poteau_gauche=QD_poteauG_Sans&poteau_droit=QD_poteauD_Sans&serrure=QQ_serrure_PR&ferrage=QQ_ferrage_A&poignee=QQ_Poignee_BeqInox&decor=QP_ModDecor_A09&gammeDecor=QP_GamDecor_Acces&numeroRue=12&aspect=1
+http://localhost:3000/api/generate?color1=7016STRU&color2=BLEUCANON&width=4000&height=1600&width2=0&model=ALTA210&pose=QD_typepose_RGarrp&sens_ouverture=QO_sensouv_droiteP&poteau_gauche=QD_poteauG_Sans&poteau_droit=QD_poteauD_Sans&serrure=QQ_serrure_PR&ferrage=QQ_ferrage_A&poignee=QQ_Poignee_BeqInox&decor=QP_ModDecor_A08&gammeDecor=QP_GamDecor_Acces&numeroRue=12&aspect=1
 ```
 
 La réponse sera un fichier SVG généré avec les paramètres fournis.
