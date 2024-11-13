@@ -14,7 +14,7 @@ Une API Node.js simple qui génère un fichier SVG en fonction des paramètres f
 
 ## Description
 
-Cette API génère dynamiquement un fichier SVG en fonction des paramètres `couleur1`, `couleur2`, `largeur` et `hauteur` fournis via une requête HTTP GET. Elle est construite en utilisant **Node.js** et **Express**.
+Cette API permet de communiquer avec WinPro pour générer des fichiers SVG basés sur les paramètres fournis dans une requête HTTP.
 
 ## Prérequis
 
@@ -84,17 +84,19 @@ Les paramètres suivants sont nécessaires pour la génération du fichier SVG :
 | `ferrage`        | `string` | Type de ferrage                                               | `Ferrage A - Gond 2 points Haut et pivot de sol` |
 | `poignee`        | `string` | Poignée                                                       | `Poignée Béquille Inox`                    |
 | `decor`          | `string` | Décor                                                         | `A09 - Numéro de rue`                      |
-| `gammeDecor`     | `string` | Gamme du décor                                                | `Nature`                          |
+| `gammeDecor`     | `string` | Gamme du décor                                                | `Nature`                                   |
 | `numeroRue`      | `number` | Numéro de rue (si le décor est un numéro de rue)              | `42`                                       |
 | `aspect`         | `string` | Aspect du portail (pour les portails coulissants)             | `Aspect 2`                                 |
 
+Mis à part le modèle, aucun paramètre n'est obligatoire.
+
 Si un paramètre est manquant, il sera remplacé par une valeur par défaut.
 
-Si un paramètre n'a pas besoin d'être fourni, vous pouvez le laisser vide. 
+Si un paramètre n'a pas besoin d'être fourni, vous pouvez le laisser vide.
 
 ### Valeurs possibles pour chaque paramètre
 
-Chaque paramètre accepte des valeurs spécifiques. Voici les valeurs possibles pour chaque paramètre :
+Chaque paramètre accepte des valeurs spécifiques encodées par CFP. Voici une liste des valeurs possibles pour chaque paramètre :
 
 | Paramètre        | Valeurs possibles                                                                                          |
 |------------------|-----------------------------------------------------------------------------------------------------------|
@@ -115,6 +117,8 @@ Chaque paramètre accepte des valeurs spécifiques. Voici les valeurs possibles 
 | `decor`          | `QP_ModDecor_Sans`, `QP_ModDecor_A01`, `QP_ModDecor_A02`, `QP_ModDecor_A03`, `QP_ModDecor_A04`, `QP_ModDecor_A05`, `QP_ModDecor_A06`, `QP_ModDecor_A07`, `QP_ModDecor_A08`, `QP_ModDecor_A09`, `QP_ModDecor_D01`, `QP_ModDecor_N03` |
 | `numeroRue`      | N'importe quel nombre entier positif (ex : `12`, `42`)                                                    |
 | `aspect`         | `1`, `2`                                                                                                  |
+
+Bien que plusieurs valeurs soient possibles pour chaque paramètre, certaines valeurs peuvent ne pas être compatibles avec le modèle de portail choisi ou avec d'autres paramètres.
 
 Il est possible qu'il y ai d'autres valeurs possibles pour chaque paramètre. Veuillez vous référer à la documentation fournie par CFP pour plus d'informations.
 

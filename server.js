@@ -1,7 +1,5 @@
 import express from 'express';
 import generateRoute from './routes/generateRoute.js';
-
-// ------------------------------- IMPORTS POUR LA PARTIE CONFIGURATEUR WEB DE TEST -------------------------------
 import fs from 'fs';
 import cors from 'cors';
 import bodyParser from 'body-parser';
@@ -17,8 +15,6 @@ app.use(express.json());
 
 // Utiliser le routeur pour les API
 app.use('/api', generateRoute);
-
-// ------------------------------- POUR LA PARTIE CONFIGURATEUR WEB DE TEST -------------------------------
 
 // Utiliser bodyParser pour analyser les requêtes
 app.use(bodyParser.json());

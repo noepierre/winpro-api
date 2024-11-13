@@ -35,13 +35,6 @@ router.get('/generate', async (req, res) => {
         console.log('Remarque : tous les paramètres ne sont pas fournis. Les paramètres qui ne sont pas fournis seront remplacés par des valeurs par défaut.');
     }
 
-    const widthNum = parseInt(width, 10);
-    const heightNum = parseInt(height, 10);
-    const width2Num = parseInt(width2, 10);
-    if (isNaN(widthNum) || isNaN(heightNum) || isNaN(width2Num)) {
-        return res.status(400).json({ error: "Les paramètres de largeur et de hauteur doivent être des nombres." });
-    }
-
     // Mettre à jour la collection selon le modèle
     // Si le modèle contient 210 -> WEB_ELEG_2VTX
     const collection = model.includes('210') ? 'WEB_ELEG_2VTX' : 'INCONNU POUR LE MOMENT';
@@ -66,9 +59,6 @@ router.get('/generate', async (req, res) => {
     // Vérifier si le modèle est un modèle bicolor
     const isBicolor = specs.bicolor_fillings.includes(model);    
     const bicoloration = isBicolor ? `<FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n` : '';
-
-    // si la couleur 2 est vide, on affecte la couleur 1 à la couleur 2
-    if (!color2) color2 = color1;
 
     // Trouver les remplissages pour le modèle spécifié
     const modelName = model.match(/^[A-Za-z]+/)[0]; // Extraire le nom du modèle
@@ -284,8 +274,8 @@ router.get('/generate', async (req, res) => {
         .replace('{{poteau_droit}}', poteau_droit);
 
     // Ecrire le contenu de la requête dans un fichier
-    const requestFilePath = path.resolve('C:/Users/INFOCFP3/Documents/CFP-API/request.xml');
-    // fs.writeFileSync(requestFilePath, requestContent); // Commenté pour éviter que la page ne se recharge
+    const requestFilePath = path.resolve('request.xml');
+    fs.writeFileSync(requestFilePath, requestContent);
 
     // Envoi de la requête SOAP, récupération de la réponse, génération du SVG et renvoi au client
     try {
@@ -305,8 +295,8 @@ router.get('/generate', async (req, res) => {
         console.log("SVG généré :", svgElement);
 
         // Ecrire le contenu du SVG dans un fichier
-        const svgFilePath = path.resolve('C:/Users/INFOCFP3/Documents/CFP-API/response.svg');
-        // fs.writeFileSync(svgFilePath, svgElement); // Commenté pour éviter que la page ne se recharge
+        const svgFilePath = path.resolve('portail.svg');
+        fs.writeFileSync(svgFilePath, svgElement);
 
         // Renvoi du SVG généré au client
         res.header("Content-Type", "image/svg+xml");
