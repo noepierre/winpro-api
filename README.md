@@ -20,14 +20,14 @@ Cette API génère dynamiquement un fichier SVG en fonction des paramètres `cou
 
 Avant de commencer, assurez-vous d'avoir les éléments suivants installés sur votre machine :
 
-- [Node.js](https://nodejs.org/)
-- [npm](https://www.npmjs.com/)
+- [Node.js](https://nodejs.org/) pour exécuter le serveur.
+- [npm](https://www.npmjs.com/) pour installer les dépendances.
 
 Les dépendances suivantes sont utilisées dans ce projet :
 
-- [xmldom](https://www.npmjs.com/package/xmldom)
-- [express](https://www.npmjs.com/package/express)
-- [body-parser](https://www.npmjs.com/package/body-parser)
+- [xmldom](https://www.npmjs.com/package/xmldom) pour manipuler le fichier XML.
+- [express](https://www.npmjs.com/package/express) pour créer le serveur.
+- [body-parser](https://www.npmjs.com/package/body-parser) pour parser les requêtes HTTP.
 
 ## Installation
 
@@ -137,10 +137,13 @@ portail-api/
 ├── server.js
 ├── routes/
 │   └── generateRoute.js
-└── requete/
-    └── template.xml
+├── requete/
+|   └── template.xml
+├── utils/
+│   └── svgUtils.js
 ```
 
 - **server.js** : Point d'entrée du serveur.
 - **routes/generateRoute.js** : Route pour générer le fichier SVG.
 - **requete/template.xml** : Modèle XML pour générer le fichier SVG.
+- **utils/svgUtils.js** : Fonctions utilitaires pour générer le fichier SVG.

@@ -1,0 +1,40 @@
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:urn="urn:Webshopv1-IWebshopv1">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <urn:webshop soapenv:encodingStyle="http://schemas.xmlsoap.org/soap/encoding/">
+            <sValue xsi:type="xsd:string"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+
+                <REQUEST_TO_WINPRO>
+                    <REQUEST_TYPE>0</REQUEST_TYPE>
+                    <LIBRARY>{{collection}}</LIBRARY>
+                    <ITEM>{{model}}</ITEM>
+                    <IMAGE type="svg" view="reverse" />
+                    <DIMENSION_LINES>0</DIMENSION_LINES>
+                    <CONFIGS>
+                        <CONFIG>
+                            <WIDTH>{{width}}</WIDTH>
+                            <HEIGHT>{{height}}</HEIGHT>
+                            {{shapeXml}}
+                            <COLOUR>{{color1}}</COLOUR>
+                            {{bicoloration}}
+                            
+                            {{sashXml}}
+
+                            {{peripheralProfileXml}}                    
+                            
+                            <OPTION code="QD_ControleCoheL" value="QD_ControleCoheL_non" />
+                            <OPTION code="QD_typepose" value="{{pose}}" />
+                            <OPTION code="QD_sensouv" value="{{sens_ouverture}}" />
+                            <OPTION code="QD_poteauG" value="{{poteau_gauche}}" />
+                            <OPTION code="QD_poteauD" value="{{poteau_droit}}" />
+                        </CONFIG>
+                    </CONFIGS>
+                    <GET_CONFIG type="1"/>
+                </REQUEST_TO_WINPRO>
+
+                ]]></sValue>
+            <sLogin xsi:type="xsd:string">LOGIN</sLogin>
+            <sToken xsi:type="xsd:string">TOKEN</sToken>
+        </urn:webshop>
+    </soapenv:Body>
+</soapenv:Envelope>
