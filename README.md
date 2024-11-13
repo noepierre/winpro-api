@@ -1,4 +1,4 @@
-# API CFP
+# API WinPro
 
 Une API Node.js simple qui génère un fichier SVG en fonction des paramètres fournis dans la requête HTTP.
 
