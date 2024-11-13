@@ -101,6 +101,15 @@ router.get('/generate', async (req, res) => {
         remplissage_vantail2 = [];
     }
 
+    // Si modèle est 310 ou 510, que serrure contient "sans" alors on ajoute le moteur
+    
+    let motorXml = '';
+
+    if ((model.includes("310") || model.includes("510")) && serrure.includes("sans")) {
+        motorXml = `<FITTING_OPTION code="QQ_Motor" value="QQ_Motor_ELI" />\n`;
+    } else {
+        motorXml = '';
+    }
 
     // Construire le XML pour les vantaux
     const buildSashXml = () => {
@@ -108,6 +117,7 @@ router.get('/generate', async (req, res) => {
                     <ASYMETRIC_LEAVES_0>${width2}</ASYMETRIC_LEAVES_0>\n
                     <FITTING_OPTION code="QQ_serrure" value="${serrure}" />\n
                     <FITTING_OPTION code="QQ_poignee" value="${poignee}" />\n
+                    ${motorXml}
                     <SASH_OPTION code="QQ_ferrage" value="${ferrage}" />\n
                     <DIRECTION>${sens}</DIRECTION>\n\n`;
 
@@ -286,6 +296,10 @@ router.get('/generate', async (req, res) => {
         const responseText = await response.text();
 
         console.log("Réponse SOAP reçue.\n");
+
+        // enregistrer la réponse dans un fichier
+        const responseFilePath = path.resolve('response.xml');
+        fs.writeFileSync(responseFilePath, responseText);
 
         // extraire les informations de la réponse
         const errorCode = responseText.match(/&lt;ERROR_CODE&gt;(\d+)&lt;\/ERROR_CODE&gt;/)[1];
