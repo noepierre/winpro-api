@@ -6,8 +6,8 @@ const router = express.Router();
 router.post('/login', (req, res) => {
     const { username, password } = req.body;
 
-    // Vérifie les identifiants (ici, un exemple simple)
-    if (username === 'admin' && password === 'password') {
+    // Vérifie les identifiants
+    if (username === 'admin' && password === 'password') { // A changer peut-être
         const token = generateToken({ username });
         res.json({ token });
     } else {

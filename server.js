@@ -3,10 +3,14 @@ import generateRoute from './routes/generateRoute.js';
 import authRoute from './routes/authRoute.js';
 import jwtAuth from './middleware/authJwt.js';
 import fs from 'fs';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 
 const app = express();
 const PORT = 3000;
+
+// Utiliser CORS pour autoriser les requêtes de différents domaines
+app.use(cors());
 
 // Utiliser express.json pour analyser les requêtes JSON
 app.use(express.json());

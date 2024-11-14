@@ -36,28 +36,76 @@ router.get('/generate', async (req, res) => {
 
     let specs = {};
 
-    // Charger le fichier de spécifications
-    try {
-        const response = await fetch("http://localhost:3000/portail-specifications");
-        if (!response.ok) {
-            throw new Error("Erreur lors de la récupération des spécifications");
-        }
-        
-        specs = await response.json();
-    } catch (error) {
-        console.error("Erreur lors de la lecture des spécifications des portails:", error);
-    }
+    // Vérifier si le modèle est bicolore
+    let isBicolor = false;
 
+    // Récupérer les remplissages pour les vantaux
+    let vantaux = [];
+
+    // Vérifier si il existe des remplissages pour le modèle
+    let hasFillings = false;
+
+    async function getToken() {
+        try {
+            const response = await fetch('http://localhost:3000/api/auth/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username: 'admin', password: 'password' }) // A changer peut-être
+            });
+            
+            if (!response.ok) {
+                throw new Error('Erreur de connexion');
+            }
+    
+            const data = await response.json();
+            return data.token; // Retourne le token
+        } catch (error) {
+            console.error('Erreur lors de la récupération du token:', error);
+            return null; // Retourne null si une erreur se produit
+        }
+    }    
+
+    // Charger le fichier de spécifications et récupérer les informations nécessaires
+    try {
+        const token = await getToken();
+        if (!token) {
+            console.error('Impossible d\'obtenir le token');
+            return;
+        }
+
+        const response = await fetch('http://localhost:3000/portail-specifications', {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error('Erreur lors de la récupération des spécifications');
+        }
+
+        const specs = await response.json();
+
+        // Vérifier si le modèle est un modèle bicolor
+        isBicolor = specs.bicolor_fillings.includes(model);
+
+        // Trouver les remplissages pour le modèle spécifié
+        const modelName = model.match(/^[A-Za-z]+/)[0]; // Extraire le nom du modèle
+        vantaux = specs.remplissage_vantail.filter(vantail => vantail.model === modelName);
+
+        // Vérifier si il existe des remplissages pour le modèle
+        hasFillings = specs.remplissage_vantail.some(vantail => vantail.model === modelName)
+
+    } catch (error) {
+        console.error('Erreur lors de la récupération des spécifications des portails:', error);
+    }
+    
     // Déterminer le sens
     const sens = sens_ouverture.includes("gauche") ? "1" : "0";
 
-    // Vérifier si le modèle est un modèle bicolor
-    const isBicolor = specs.bicolor_fillings.includes(model);    
+    // Ajouter la couleur secondaire si le modèle est bicolore
     const bicoloration = isBicolor ? `<FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n` : '';
-
-    // Trouver les remplissages pour le modèle spécifié
-    const modelName = model.match(/^[A-Za-z]+/)[0]; // Extraire le nom du modèle
-    const vantaux = specs.remplissage_vantail.filter(vantail => vantail.model === modelName);
 
     let remplissage_vantail1 = 0;
     let remplissage_vantail2 = 0;
@@ -279,7 +327,7 @@ router.get('/generate', async (req, res) => {
         .replace('{{poteau_droit}}', poteau_droit);
 
     // Ecrire le contenu de la requête dans un fichier
-    const requestFilePath = path.resolve('request.xml');
+    const requestFilePath = path.resolve('temp/request.xml');
     fs.writeFileSync(requestFilePath, requestContent);
 
     // Envoi de la requête SOAP, récupération de la réponse, génération du SVG et renvoi au client
@@ -287,6 +335,7 @@ router.get('/generate', async (req, res) => {
         console.log("------------ Nouvelle requête ------------");
         console.log(`\nParamètres de la requête : couleur1=${color1}, couleur2=${color2}, largeur=${width}, hauteur=${height}, largeur2=${width2}, modèle=${model}, pose=${pose}, sens_ouverture=${sens_ouverture}, poteau_gauche=${poteau_gauche}, poteau_droit=${poteau_droit}, serrure=${serrure}, ferrage=${ferrage}, poignée=${poignee}, décor=${decor}, gammeDecor=${gammeDecor}, numéroRue=${numeroRue}, aspect=${aspect}`);
         console.log("\nEnvoi de la requête SOAP...");
+        
         const response = await fetch("http://127.0.0.1:8001/soap/IWebshopv1", {
             method: 'POST',
             headers: { 'Content-Type': 'text/xml; charset=utf-8' },
@@ -298,7 +347,7 @@ router.get('/generate', async (req, res) => {
         console.log("Réponse SOAP reçue.\n");
 
         // enregistrer la réponse dans un fichier
-        const responseFilePath = path.resolve('response.xml');
+        const responseFilePath = path.resolve('temp/response.xml');
         fs.writeFileSync(responseFilePath, responseText);
 
         // extraire les informations de la réponse
@@ -319,7 +368,7 @@ router.get('/generate', async (req, res) => {
         const svgElement = extractSvgAndAdjustViewBox(responseText, width, height);
 
         // Ecrire le contenu du SVG dans un fichier
-        const svgFilePath = path.resolve('portail.svg');
+        const svgFilePath = path.resolve('temp/portail.svg');
         fs.writeFileSync(svgFilePath, svgElement);
 
         // Renvoi du SVG généré au client

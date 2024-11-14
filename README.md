@@ -154,36 +154,72 @@ portail-api/
 ├── utils/
 │   ├── svgUtils.js
 │   └── jwtUtils.js
-└── middleware/
-    └── authJwt.js
+├── middleware/
+│   └── authJwt.js
+├── web/
+│   ├── index.html
+│   ├── script.js
+|   └── style.css
+└── temp/
+    │── portail.svg
+    │── request.xml
+    └── response.xml
+
 
 ```
 
 - **server.js** : Point d'entrée du serveur.
+
 - **portail_specifications.json** : Spécifications des modèles de portail.
+
 - **routes/generateRoute.js** : Route pour générer le fichier SVG.
 - **routes/authRoute.js** : Route pour gérer l'authentification.
+
 - **requete/template.xml** : Modèle XML pour générer le fichier SVG.
+
 - **utils/svgUtils.js** : Fonctions utilitaires pour générer le fichier SVG.
 - **utils/jwtUtils.js** : Fonctions utilitaires pour gérer les tokens JWT.
+
 - **middleware/authJwt.js** : Middleware pour vérifier le token JWT.
+
+- **temp/portail.svg** : Fichier SVG extrait de la réponse.
+- **temp/request.xml** : Fichier XML de la requête envoyée.
+- **temp/response.xml** : Fichier XML de la réponse reçue.
+
+- **web/index.html** : Page web pour tester concrètement l'API.
+- **web/script.js** : Script JavaScript pour la page web.
+- **web/style.css** : Feuille de style CSS pour la page web.
 
 ## Sécurisation
 
-Cette API est sécurisé par un token JWT.
+Cette API est sécurisée par un token JWT.
 
 Pour obtenir un token, envoyez une requête POST à la route `/api/auth/login` avec les identifiants suivants :
 
 ```bash
-curl -X POST http://localhost:3000/api/auth/login -H "Content-Type: application/json" -d "{\"username\":\"<the_username>\",\"password\":\"<the_password>\"}"
+curl -X POST http://localhost:3000/api/auth/login -H "Content-Type: application/json" -d "{\"username\":\"admin\",\"password\":\"password\"}"
 ```
 
 Le token sera renvoyé dans la réponse.
 
+Un exemple d'utilisation est disponible dans le fichier `web/script.js` (fonction `getToken`).
+
 Ensuite, il vous suffit de l'ajouter dans le header `Authorization` de vos requêtes :
 
 ```bash
-curl "http://localhost:3000/api/generate?color1=7016STRU&color2=BLEUCANON&width=4000&height=1600&width2=0&model=ALTA210&pose=QD_typepose_RGarrp&sens_ouverture=QO_sensouv_droiteP&poteau_gauche=QD_poteauG_Sans&poteau_droit=QD_poteauD_Sans&serrure=QQ_serrure_PR&ferrage=QQ_ferrage_A&poignee=QQ_Poignee_BeqInox&decor=QP_ModDecor_A08&gammeDecor=QP_GamDecor_Acces&numeroRue=12&aspect=1" -H "Authorization: Bearer <your_token>"
+curl -X GET http://localhost:3000/api/generate?color1=7016STRU&color2=BLEUCANON&width=4000&height=1600&width2=0&model=ALTA210&pose=QD_typepose_RGarrp&sens_ouverture=QO_sensouv_droiteP&poteau_gauche=QD_poteauG_Sans&poteau_droit=QD_poteauD_Sans&serrure=QQ_serrure_PR&ferrage=QQ_ferrage_A&poignee=QQ_Poignee_BeqInox&decor=QP_ModDecor_A08&gammeDecor=QP_GamDecor_Acces&numeroRue=12&aspect=1 -H "Authorization: Bearer <the_token>"
 ```
 
-Actuellement le token expire après 24 heures. Vous pouvez changer cette valeur dans le fichier `utils/jwtUtils.js`.
+Un exemple d'utilisation est disponible dans le fichier `web/script.js` (lignes 159 à 170).
+
+## Exemple d'utilisation
+
+Un exemple d'utilisation complet de cette API à travers une page web est fourni dans le répertoire `web`.
+
+Pour lancer l'application web, naviguez vers le répertoire `web` et exécutez la commande suivante :
+
+```bash
+http-server
+```
+
+La page web sera accessible sur `http://localhost:8080` si aucun autre service n'utilise ce port sinon, un autre port sera utilisé.

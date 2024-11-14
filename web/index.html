@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONFIGURATUEUR</title>
+    <link rel="stylesheet" href="styles.css"> <!-- Lien vers le fichier CSS -->
+</head>
+<body onload="loadSpecs()">
+    <h1>CONFIGURATUEUR</h1>
+
+    <div class="choice">
+        <!-- Bouton pour changer de vue -->
+        <button type="button" id="110" onclick="toggleActive(1) & loadSpecs()">XXXX110</button>
+        <button type="button" id="210" onclick="toggleActive(2) & loadSpecs()" class="active">XXXX210</button>
+        <button type="button" id="310" onclick="toggleActive(3) & loadSpecs()">XXXX310</button>
+        <button type="button" id="510" onclick="toggleActive(4) & loadSpecs()">XXXX510</button>
+    </div>
+
+    <div class="description" id="description"></div>
+
+    <div class="container">
+        <div class="info" id="info">
+            <h2>Liste des modèles disponibles</h2>
+            <table id="portalTable">
+                <tbody id="portalList">
+                    <!-- Les lignes de modèles seront insérées ici dynamiquement -->
+                </tbody>
+            </table>
+        </div>
+
+            
+
+        <form id="Form">
+            <button type="button" onclick="sendRequest()">Générer l'image</button>
+
+            <p>Tous les champs sont remplissables et toutes les valeurs sont possibles. Il faut choisir des valeurs appropriées au portail choisi.</p>
+
+            <h2>Générale</h2>
+
+            <label for="collection">Collection :</label>
+            <input type="text" id="collection" name="collection" placeholder="Ex : ELEG SEMI AJ 200" value="WEB_ELEG_2VTX">
+
+            <label for="model">Modèle :</label>
+            <input type="text" id="model" name="model" placeholder="Ex : ANTA210" value="ANTA210" oninput="updateCollection()">
+
+            <label for="color1">Couleur 1 :</label>
+            <input type="text" id="color1" name="color1" placeholder="Ex : 7016STRU" value="7016STRU">
+
+            <label for="color2">Couleur 2 :</label>
+            <input type="text" id="color2" name="color2" placeholder="Ex : BLEUCANON" value="1015STRU">
+
+            <label for="width">Largeur :</label>
+            <input type="number" id="width" name="width" placeholder="Ex : 1000" value="4000">
+
+            <label for="height">Hauteur :</label>
+            <input type="number" id="height" name="height" placeholder="Ex : 1400" value="1400">
+
+            <label for="width2">Largeur vantail secondaire (si vantaux inégaux, sinon laisser à 0) :</label>
+            <input type="number" id="width2" name="width2" placeholder="Ex : 2000" value="0">
+
+            <label for="aspect">Aspect (pour les portails coulissants) :</label>
+            <select id="aspect" name="aspect">
+                <option value="1">Aspect 1</option>
+                <option value="2">Aspect 2</option>
+            </select>
+            
+            <h2>Pose et configuration</h2>
+            <label for="pose">Type de pose :</label>
+            <select id="pose" name="pose">
+                <option value="QD_typepose_RGarrp">Pose arrière piliers</option>
+                <option value="QD_typepose_entrep">Pose entre piliers</option>
+                <option value="QD_typepose_entGA">Pose Entre piliers, Gonds Arrière piliers</option>
+                <option value="QD_typepose_ouvext">Pose entre piliers, Ouverture extérieure</option>
+                <option value="QD_typepose_ouvextDP">Pose devant piliers, Ouverture extérieure</option>
+                <option value="QD_typepose_entrepDapG">Pose Entre pilier à Droite, Arrière Pilier à Gauche</option>
+                <option value="QD_typepose_entrepGapD">Pose Entre pilier à Gauche, Arrière Pilier à Droite</option>
+                <option value="QD_typepose_gonarr">Pose portail et gonds arrière piliers</option>
+                <option value="QD_typepose_RarrGc">Pose arrrière piliers - Réception murale</option>
+                <option value="QD_typepose_RGdevp">Pose Devant Piliers  (Refoulement et gache)</option>
+                <option value="QD_typepose_RdevGc">Pose Devant Pilier -  Réception Murale</option>
+            </select>
+
+            <label for="sens_ouverture">Sens d'ouverture :</label>
+            <select id="sens_ouverture" name="sens_ouverture">
+                <option value="QO_sensouv_droiteP">Droite POUSSANT - vue de l'exterieur (std)</option>
+                <option value="QO_sensouv_gaucheP">Gauche POUSSANT - vue de l'exterieur</option>
+                <option value="QO_sensouv_droiteT">Droite TIRANT - vue de l'exterieur</option>
+                <option value="QO_sensouv_gaucheT">Gauche TIRANT - vue de l'exterieur</option>
+            </select>
+
+            <label for="poteau_gauche">Pilier ou poteau gauche :</label>
+            <select id="poteau_gauche" name="poteau_gauche">
+                <option value="QD_poteauD_Sans">Pilier à gauche</option>
+                <option value="QD_poteauG_100">Poteau de 100mm à gauche</option>
+                <option value="QD_poteauG_150">Poteau de 150mm à gauche</option>
+                <option value="QD_poteauG_180">Poteau de 180mm à gauche</option>
+                <option value="QD_poteauG_100F">Poteau de Façade 100mm à gauche</option>
+                <option value="QD_poteauG_150F">Poteau de Façade 150mm à gauche</option>
+                <option value="QD_poteauG_180F">Poteau de Façade 180mm à gauche</option>
+                <option value="QD_poteauG_100R">Poteau de Réception 100mm à gauche</option>
+                <option value="QD_poteauG_150R">Poteau de Réception 150mm à gauche</option>
+                <option value="QD_poteauG_180R">Poteau de Réception 180mm à gauche</option>
+                <option value="QD_poteauG_SansPP">Sans poteau ni pilier à gauche</option>
+            </select>
+
+            <label for="poteau_droit">Pilier ou poteau droit :</label>
+            <select id="poteau_droit" name="poteau_droit">
+                <option value="QD_poteauG_Sans">Pilier à droite</option>
+                <option value="QD_poteauD_100">Poteau de 100mm à droite</option>
+                <option value="QD_poteauD_150">Poteau de 150mm à droite</option>
+                <option value="QD_poteauD_180">Poteau de 180mm à droite</option>
+                <option value="QD_poteauD_100F">Poteau de Façade 100mm à droite</option>
+                <option value="QD_poteauD_150F">Poteau de Façade 150mm à droite</option>
+                <option value="QD_poteauD_180F">Poteau de Façade 180mm à droite</option>
+                <option value="QD_poteauD_100R">Poteau de Réception 100mm à droite</option>
+                <option value="QD_poteauD_150R">Poteau de Réception 150mm à droite</option>
+                <option value="QD_poteauD_180R">Poteau de Réception 180mm à droite</option>
+                <option value="QD_poteauD_SansPP">Sans poteau ni pilier à droite</option>
+            </select>
+
+            <h2>Manoeuvre et automatisme</h2>
+            <label for="serrure">Serrure</label>
+            <select id="serrure" name="serrure">
+                <option value="QQ_serrure_PR">Serrure Pène Rentrant</option>
+                <option value="QQ_serrure_sans">Sans serrure</option>
+            </select>
+
+            <label for="ferrage">Type de ferrage</label>
+            <select id="ferrage" name="ferrage">
+                <option value="QQ_ferrage_A">Ferrage A - Gond 2 points Haut et pivot de sol</option>
+                <option value="QQ_ferrage_B">Ferrage B - Gond 2 points Haut et multireglable Bas</option>
+                <option value="QQ_ferrage_C">Ferrage C - Gonds Fixpress Haut et pivot de sol</option>
+                <option value="QQ_ferrage_D">Ferrage D - Gonds Fixpress Haut et Bas</option>
+                <option value="QQ_ferrage_E">Ferrage E - Régulateur de pente</option>
+                <option value="QQ_ferrage_Ebis">Ferrage E Bis - Régulateur pour faible pente</option>
+                <option value="QQ_ferrage_F">Ferrage F - Régulateur pour faible pente</option>
+                <option value="QQ_ferrage_G">Ferrage G - Gonds L Multiréglable Haut et Bas</option>
+                <option value="QQ_ferrage_H">Ferrage H - Gonds 2 points Haut et Bas</option>
+                <option value="QQ_ferrage_P">Ferrage Paumelles</option>
+                <option value="QQ_ferrage_Dep">Ferrage Dépareillé Demande Spéciale</option>
+            </select>
+
+            <h2>Design et finition</h2>
+            <label for="poignee" name="poignee">Poignées</label>
+            <select id="poignee" name="poignee">
+                <option value="QQ_Poignee_BeqInox">Poignée Béquille Inox</option>
+                <option value="QQ_Poignee_BeqDSIGN">Poignée D-SIGN</option>
+                <option value="QQ_Poignee_PoiPlqNoir">Poignée sur plaque noir exterieur</option>
+                <option value="QQ_Poignee_PoiPlqBlanc">Poignée sur plaque blanc exterieur</option>
+            </select>
+
+
+            <label for="gammeDecor">Gamme de décors</label>
+            <select id="gammeDecor" name="gammeDecor">
+                <option value="QP_GamDecor_Sans">Sans décor</option>
+                <option value="QP_GamDecor_Acces">Acces</option>
+                <option value="QP_GamDecor_Design">Design</option>
+                <option value="QP_GamDecor_Nature">Nature</option>
+            </select>
+
+            <label for="decor">Décor</label>
+            <select id="decor" name="decor">
+                <option value="QP_ModDecor_Sans">Sans décor</option>
+                <option value="QP_ModDecor_A01">A01 - 3 Carrés Evidés 160mm</option>
+                <option value="QP_ModDecor_A02">A02 - 2 Carrés Evidés et 1 plein 160mm</option>
+                <option value="QP_ModDecor_A03">A03 - 3 Carrés pleins 160mm</option>
+                <option value="QP_ModDecor_A04">A04 - Carrés 150mm dégradés et N° de rue sur plaque</option>
+                <option value="QP_ModDecor_A05">A05 - Ensemble 8 barettes 50mm coupe oblique</option>
+                <option value="QP_ModDecor_A06">A06 - Ensemble Bulles</option>
+                <option value="QP_ModDecor_A07">A07 - Ensemble courbe évidé 4 éléments</option>
+                <option value="QP_ModDecor_A08">A08 - Numéro de rue sur plaque</option>
+                <option value="QP_ModDecor_A09">A09 - Numéro de rue</option>
+                <option value="QP_ModDecor_D01">D01 - Décor DESIGN</option>
+                <option value="QP_ModDecor_N03">N03 - Décor NATURE</option>
+            </select>
+            
+            <label for="numero">Numéro de rue</label>
+            <input type="text" id="numero" name="numero" placeholder="Ex : 12" value="12">
+
+            <button type="button" onclick="sendRequest(event)">Générer l'image</button>
+        </form>
+
+        <div id="imageContainer">
+            <h2>Cliquez sur "Générer l'image" pour afficher l'image</h2>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
