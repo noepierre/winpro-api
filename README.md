@@ -28,6 +28,8 @@ Les dépendances suivantes sont utilisées dans ce projet :
 - [xmldom](https://www.npmjs.com/package/xmldom) pour manipuler le fichier XML.
 - [express](https://www.npmjs.com/package/express) pour créer le serveur.
 - [body-parser](https://www.npmjs.com/package/body-parser) pour parser les requêtes HTTP.
+- [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken) pour gérer les tokens JWT.
+- [dotenv](https://www.npmjs.com/package/dotenv) pour charger les variables d'environnement.
 
 ## Installation
 
@@ -117,7 +119,7 @@ Chaque paramètre accepte des valeurs spécifiques encodées par CFP. Voici une 
 | `serrure`        | `QQ_serrure_PR`, `QQ_serrure_sans`                                                                        |
 | `ferrage`        | `QQ_ferrage_A`, `QQ_ferrage_B`, `QQ_ferrage_C`, `QQ_ferrage_D`, `QQ_ferrage_E`, `QQ_ferrage_Ebis`, `QQ_ferrage_F`, `QQ_ferrage_G`, `QQ_ferrage_H`, `QQ_ferrage_P`, `QQ_ferrage_Dep` |
 | `poignee`        | `QQ_Poignee_BeqInox`, `QQ_Poignee_BeqDSIGN`, `QQ_Poignee_PoiPlqNoir`, `QQ_Poignee_PoiPlqBlanc`            |
-| `gammeDecor`     | `QP_GamDecor_Sans`, `QP_GamDecor_Acces`, `QP_GamDecor_Design`, `QP_GamDecor_Nature`                      |
+| `gammeDecor`     | `QP_GamDecor_Sans`, `QP_GamDecor_Acces`, `QP_GamDecor_Design`, `QP_GamDecor_Nature`                       |
 | `decor`          | `QP_ModDecor_Sans`, `QP_ModDecor_A01`, `QP_ModDecor_A02`, `QP_ModDecor_A03`, `QP_ModDecor_A04`, `QP_ModDecor_A05`, `QP_ModDecor_A06`, `QP_ModDecor_A07`, `QP_ModDecor_A08`, `QP_ModDecor_A09`, `QP_ModDecor_D01`, `QP_ModDecor_N03` |
 | `numeroRue`      | N'importe quel nombre entier positif inférieur à 10000 (ex : `12`, `42`)                                  |
 | `aspect`         | `1`, `2`                                                                                                  |
@@ -142,16 +144,46 @@ La réponse sera un fichier SVG généré avec les paramètres fournis.
 portail-api/
 ├── package.json
 ├── package-lock.json
+├── portail_specifications.json
 ├── server.js
 ├── routes/
 │   └── generateRoute.js
+│   ├── authRoute.js
 ├── requete/
 |   └── template.xml
 ├── utils/
-│   └── svgUtils.js
+│   ├── svgUtils.js
+│   └── jwtUtils.js
+└── middleware/
+    └── authJwt.js
+
 ```
 
 - **server.js** : Point d'entrée du serveur.
+- **portail_specifications.json** : Spécifications des modèles de portail.
 - **routes/generateRoute.js** : Route pour générer le fichier SVG.
+- **routes/authRoute.js** : Route pour gérer l'authentification.
 - **requete/template.xml** : Modèle XML pour générer le fichier SVG.
 - **utils/svgUtils.js** : Fonctions utilitaires pour générer le fichier SVG.
+- **utils/jwtUtils.js** : Fonctions utilitaires pour gérer les tokens JWT.
+- **middleware/authJwt.js** : Middleware pour vérifier le token JWT.
+
+## Sécurisation
+
+Cette API est sécurisé par un token JWT.
+
+Pour obtenir un token, envoyez une requête POST à la route `/api/auth/login` avec les identifiants suivants :
+
+```bash
+curl -X POST http://localhost:3000/api/auth/login -H "Content-Type: application/json" -d "{\"username\":\"<the_username>\",\"password\":\"<the_password>\"}"
+```
+
+Le token sera renvoyé dans la réponse.
+
+Ensuite, il vous suffit de l'ajouter dans le header `Authorization` de vos requêtes :
+
+```bash
+curl "http://localhost:3000/api/generate?color1=7016STRU&color2=BLEUCANON&width=4000&height=1600&width2=0&model=ALTA210&pose=QD_typepose_RGarrp&sens_ouverture=QO_sensouv_droiteP&poteau_gauche=QD_poteauG_Sans&poteau_droit=QD_poteauD_Sans&serrure=QQ_serrure_PR&ferrage=QQ_ferrage_A&poignee=QQ_Poignee_BeqInox&decor=QP_ModDecor_A08&gammeDecor=QP_GamDecor_Acces&numeroRue=12&aspect=1" -H "Authorization: Bearer <your_token>"
+```
+
+Actuellement le token expire après 24 heures. Vous pouvez changer cette valeur dans le fichier `utils/jwtUtils.js`.

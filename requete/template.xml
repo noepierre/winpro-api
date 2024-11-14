@@ -6,7 +6,7 @@
 
                 <REQUEST_TO_WINPRO>
                     <REQUEST_TYPE>0</REQUEST_TYPE>
-                    <LIBRARY>ELEG PLEIN 500</LIBRARY>
+                    <LIBRARY>{{collection}}</LIBRARY>
                     <ITEM>{{model}}</ITEM>
                     <IMAGE type="svg" view="reverse" />
                     <DIMENSION_LINES>0</DIMENSION_LINES>

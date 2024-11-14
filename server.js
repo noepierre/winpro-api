@@ -1,17 +1,20 @@
 import express from 'express';
 import generateRoute from './routes/generateRoute.js';
+import authRoute from './routes/authRoute.js';
+import jwtAuth from './middleware/authJwt.js';
 import fs from 'fs';
-import cors from 'cors';
 import bodyParser from 'body-parser';
 
 const app = express();
 const PORT = 3000;
 
-// Utiliser CORS avant tout autre middleware
-app.use(cors());
-
-// Middleware pour parser les requêtes JSON
+// Utiliser express.json pour analyser les requêtes JSON
 app.use(express.json());
+
+app.use('/api/auth', authRoute);
+
+// Middleware pour la vérification du JWT
+app.use(jwtAuth);
 
 // Utiliser le routeur pour les API
 app.use('/api', generateRoute);
