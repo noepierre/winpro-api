@@ -96,7 +96,7 @@ Mis à part le modèle, aucun paramètre n'est obligatoire.
 
 Si vous ne donnez pas de valeur pour la hauteur, vous devez laisser le paramètre de la largeur vide.
 
-Si un paramètre est manquant, il sera remplacé par une valeur par défaut.
+Si un paramètre est manquant, il sera remplacé par une valeur par défaut chosie par WinPro.
 
 Si un paramètre n'a pas besoin d'être fourni, vous pouvez le laisser vide.
 
@@ -202,7 +202,7 @@ curl -X POST http://localhost:3000/api/auth/login -H "Content-Type: application/
 
 Le token sera renvoyé dans la réponse.
 
-Un exemple d'utilisation est disponible dans le fichier `web/script.js` (fonction `getToken`).
+Un exemple d'utilisation avec JavaScript est disponible dans le fichier `web/script.js` (fonction `getToken`).
 
 Ensuite, il vous suffit de l'ajouter dans le header `Authorization` de vos requêtes :
 
@@ -210,7 +210,7 @@ Ensuite, il vous suffit de l'ajouter dans le header `Authorization` de vos requ�
 curl -X GET http://localhost:3000/api/generate?color1=7016STRU&color2=BLEUCANON&width=4000&height=1600&width2=0&model=ALTA210&pose=QD_typepose_RGarrp&sens_ouverture=QO_sensouv_droiteP&poteau_gauche=QD_poteauG_Sans&poteau_droit=QD_poteauD_Sans&serrure=QQ_serrure_PR&ferrage=QQ_ferrage_A&poignee=QQ_Poignee_BeqInox&decor=QP_ModDecor_A08&gammeDecor=QP_GamDecor_Acces&numeroRue=12&aspect=1 -H "Authorization: Bearer <the_token>"
 ```
 
-Un exemple d'utilisation est disponible dans le fichier `web/script.js` (lignes 159 à 170).
+Un exemple d'utilisation avec JavaScript est disponible dans le fichier `web/script.js` (lignes 159 à 170).
 
 ## Exemple d'utilisation
 
