@@ -11,6 +11,8 @@ Une API Node.js qui génère un fichier SVG en fonction des paramètres fournis 
 - [Utilisation](#utilisation)
 - [Exemple de Requête](#exemple-de-requête)
 - [Structure du Projet](#structure-du-projet)
+- [Sécurisation](#sécurisation)
+- [Exemple d'utilisation](#exemple-dutilisation)
 
 ## Description
 
@@ -164,8 +166,6 @@ portail-api/
     │── portail.svg
     │── request.xml
     └── response.xml
-
-
 ```
 
 - **server.js** : Point d'entrée du serveur.
@@ -192,7 +192,7 @@ portail-api/
 
 ## Sécurisation
 
-Cette API est sécurisée par un token JWT.
+Cette API est sécurisée par un **token JWT**.
 
 Pour obtenir un token, envoyez une requête POST à la route `/api/auth/login` avec les identifiants suivants :
 
