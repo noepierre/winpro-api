@@ -143,7 +143,7 @@ La réponse sera un fichier SVG généré avec les paramètres fournis.
 ## Structure du Projet
 
 ```
-portail-api/
+winpro-api/
 ├── package.json
 ├── package-lock.json
 ├── portail_specifications.json
