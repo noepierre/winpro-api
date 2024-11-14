@@ -1,6 +1,6 @@
 # API WinPro
 
-Une API Node.js simple qui génère un fichier SVG en fonction des paramètres fournis dans la requête HTTP.
+Une API Node.js qui génère un fichier SVG en fonction des paramètres fournis dans la requête HTTP.
 
 ## Table des matières
 
