@@ -11,6 +11,7 @@ Cette API Node.js génère un fichier SVG en fonction de paramètres fournis dan
 - [Utilisation](#utilisation)
 - [Exemple de Requête](#exemple-de-requête)
 - [Structure du Projet](#structure-du-projet)
+- [Explication de portail_specifications.json](#explication-de-portail_specificationsjson)
 - [Sécurisation](#sécurisation)
 - [Exemple d'utilisation](#exemple-dutilisation)
 
@@ -189,6 +190,24 @@ winpro-api/
 - **web/index.html** : Page web pour tester concrètement l'API.
 - **web/script.js** : Script JavaScript pour la page web.
 - **web/style.css** : Feuille de style CSS pour la page web.
+
+## Explication de portail_specifications.json
+
+Ce fichier contient les spécifications des modèles de portail. Il est utilisé pour construire la requête en fonction des spécifications du modèle choisi.
+
+- **bicolores** : Modèles de portail pouvant être bicolores.
+- **models_DG** : Modèles de portillons (XXXX110) qui existe en deux versions : XXXX110-D et XXXX110-G (et pas en XXXX110).
+- **remplissage_vantail** : Indique pour chaque modèle quelle partie du vantail est remplissable (d'une couleur).
+
+    Exemple :
+
+    ```json
+    "model":"MAGN", // Modèle de portail
+    "remplissage_vantail1":[2], // Parties du vantail 1 remplissables
+    "remplissage_vantail2":[1] // Parties du vantail 2 remplissables
+    ```
+
+    Ici, le modèle MAGN le vantail 1 a la partie 2 remplissable et le vantail 2 a la partie 1 remplissable.
 
 ## Sécurisation
 
