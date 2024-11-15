@@ -30,14 +30,20 @@ router.get('/generate', async (req, res) => {
         aspect // Aspect du modèle (avec ou sans meneau)
     } = req.query;
 
+    // Copier le modèle pour le modifier si nécessaire
+    let modelInput = model;
+
     // Mettre à jour la collection selon le modèle
-    // Si le modèle contient 210 -> WEB_ELEG_2VTX
-    const collection = model.includes('210') ? 'WEB_ELEG_2VTX' : 'INCONNU POUR LE MOMENT';
+    // Si le modèle contient 210 -> WEB_ELEG_2VTX sinon si le modèle contient 210 -> WEB_ELEG_1VTL sinon ''
+    let collection = modelInput.includes("210") ? "WEB_ELEG_2VTX" : modelInput.includes("110") ? "WEB_ELEG_1VTL" : '';
 
     let specs = {};
 
     // Vérifier si le modèle est bicolore
     let isBicolor = false;
+
+    // Vérifier si le modèle est dans la liste des modèles -G ou -D
+    let isGDmodelInput = false;
 
     // Récupérer les remplissages pour les vantaux
     let vantaux = [];
@@ -88,14 +94,17 @@ router.get('/generate', async (req, res) => {
         const specs = await response.json();
 
         // Vérifier si le modèle est un modèle bicolor
-        isBicolor = specs.bicolor_fillings.includes(model);
+        isBicolor = specs.bicolor_fillings.includes(modelInput);
+
+        // Vérifier si le modèle est dans la liste des modèles -G ou -D
+        isGDmodelInput = specs.models_DG.includes(modelInput);
 
         // Trouver les remplissages pour le modèle spécifié
-        const modelName = model.match(/^[A-Za-z]+/)[0]; // Extraire le nom du modèle
-        vantaux = specs.remplissage_vantail.filter(vantail => vantail.model === modelName);
+        const modelInputName = modelInput.match(/^[A-Za-z]+/)[0]; // Extraire le nom du modèle
+        vantaux = specs.remplissage_vantail.filter(vantail => vantail.modelInput === modelInputName);
 
         // Vérifier si il existe des remplissages pour le modèle
-        hasFillings = specs.remplissage_vantail.some(vantail => vantail.model === modelName)
+        hasFillings = specs.remplissage_vantail.some(vantail => vantail.modelInput === modelInputName)
 
     } catch (error) {
         console.error('Erreur lors de la récupération des spécifications des portails:', error);
@@ -119,17 +128,17 @@ router.get('/generate', async (req, res) => {
     var transomXml = ''; // Initialiser le XML pour le poteau intermédiaire
 
     // Ajuster le modèle en fonction de l'aspect et de la largeur
-    if (aspect === "1" && width > 4000 && !model.endsWith("-M") && model.includes("310")) {
-        model += "-M";
+    if (aspect === "1" && width > 4000 && !modelInput.endsWith("-M") && modelInput.includes("310")) {
+        modelInput += "-M";
     }
 
-    if (aspect === "2" && !model.endsWith("-M") && model.includes("310")) {
-        model += "-M";
+    if (aspect === "2" && !modelInput.endsWith("-M") && modelInput.includes("310")) {
+        modelInput += "-M";
         transomXml = `              <TRANSOM transom_id="1" leaf_id="1" filling_id="1" pos="W / 2" code="ALU ASPECT 2VTX" info="" masonry="1" />`;
     }
 
     // Si le modèle est de type '310' et qu'il existe des remplissages pour ce modèle
-    if (model.includes("310") && specs.remplissage_vantail.some(vantail => vantail.model === modelName)) {
+    if (modelInput.includes("310") && specs.remplissage_vantail.some(vantail => vantail.modelInput === modelInputName)) {
         // Modèle 310 n'a qu'un seul vantail
         let nombre_panneaux = 1;
 
@@ -153,7 +162,7 @@ router.get('/generate', async (req, res) => {
     
     let motorXml = '';
 
-    if ((model.includes("310") || model.includes("510")) && serrure.includes("sans")) {
+    if ((modelInput.includes("310") || modelInput.includes("510")) && serrure.includes("sans")) {
         motorXml = `<FITTING_OPTION code="QQ_Motor" value="QQ_Motor_ELI" />\n`;
     } else {
         motorXml = '';
@@ -169,7 +178,7 @@ router.get('/generate', async (req, res) => {
                     <SASH_OPTION code="QQ_ferrage" value="${ferrage}" />\n
                     <DIRECTION>${sens}</DIRECTION>\n\n`;
 
-        if (!model.includes("110")) {
+        if (!modelInput.includes("110")) {
             
             for (let i = 0; i < remplissage_vantail1.length; i++) {
                 sashXml += `                    <FILLING leaf_id="1" filling_id="${remplissage_vantail1[i]}">\n
@@ -197,28 +206,28 @@ router.get('/generate', async (req, res) => {
     };
 
     // Si le modèle n'est pas un portillon
-    if (!model.includes("110")) {
+    if (!modelInput.includes("110")) {
         // Ajuster les dimensions pour les modèles B, BH, BB, B, CDG et CDGI
-        if (model.endsWith("-B") || model.endsWith("-BB") || model.endsWith("-BH") || model.endsWith("-CDG") || model.endsWith("-CDGI")) {
-            console.log("Ajustement des dimensions pour le modèle:", model);
+        if (modelInput.endsWith("-B") || modelInput.endsWith("-BB") || modelInput.endsWith("-BH") || modelInput.endsWith("-CDG") || modelInput.endsWith("-CDGI")) {
+            console.log("Ajustement des dimensions pour le modèle:", modelInput);
 
-            if (model.endsWith("-BH")) {
+            if (modelInput.endsWith("-BH")) {
                 // Si le modèle est un modèle -BH ou -BB, C = width/2, D = C * Tangeant(7°) et E = C * Tangeant(7°)
                 var C = width / 2;
                 var D = C * Math.tan(7 * Math.PI / 180);
                 var E = C * Math.tan(7 * Math.PI / 180);
                 var shapeXml = `<SHAPE id="16" c="${C}" d="${D}" e="${E}" />`;
-            } else if (model.endsWith("-BB")) {
+            } else if (modelInput.endsWith("-BB")) {
                 // Si le modèle est un modèle -BH ou -BB, C = width/2, D = - (C * Tangeant(7°)) et E = - (C * Tangeant(7°))
                 var C = width / 2;
                 var D = - (C * Math.tan(7 * Math.PI / 180));
                 var E = - (C * Math.tan(7 * Math.PI / 180));
                 var shapeXml = `<SHAPE id="16" c="${C}" d="${D}" e="${E}" />`;
-            } else if (model.endsWith("-B")) {
+            } else if (modelInput.endsWith("-B")) {
                 // Si le modèle est un modèle -B, C = 7514 * (1 - racine(1 - (width^2/4*7514^2)))
                 var C = 7514 * (1 - Math.sqrt(1 - (width ** 2 / (4 * 7514 ** 2))));
                 var shapeXml = `<SHAPE id="8" c="${C}" />`;
-            } else if (model.endsWith("-CDG")) {
+            } else if (modelInput.endsWith("-CDG")) {
                 // Si le modèle est un modèle -CDG, C = 200, E = 1686, F = 1804, D = (width - 2329) / 4 + 15
                 var C = 200;
                 var E = 1686;
@@ -239,10 +248,10 @@ router.get('/generate', async (req, res) => {
         }
     } else { // Si le modèle est un portillon
         // Ajuster les dimensions pour les modèles B, BH, BB, B, CDG et CDGI
-        if (model.includes("-B") || model.includes("-CDG") || model.includes("-CDGI")) {
-            console.log("Ajustement des dimensions pour le modèle:", model);
+        if (modelInput.includes("-B") || modelInput.includes("-CDG") || modelInput.includes("-CDGI")) {
+            console.log("Ajustement des dimensions pour le modèle:", modelInput);
 
-            if (model.includes("-B")) {
+            if (modelInput.includes("-B")) {
                 // Si le modèle est un modèle -B, C = 7514, E = B - C
                 var C = 7514
                 var E = height - C;
@@ -251,15 +260,15 @@ router.get('/generate', async (req, res) => {
                     var D = width;
 
                     // ajouter -D à la fin du modèle
-                    model = model + "-G";
+                    modelInput = modelInput + "-G";
                 } else {
                     var D = 0;
 
                     // ajouter -G à la fin du modèle
-                    model = model + "-D";
+                    modelInput = modelInput + "-D";
                 }
                 var shapeXml = `<SHAPE id="5" c="${C}" d="${D}" e="${E}" />`;
-            } else if (model.includes("-CDG") && sens_ouverture.includes("droite")) {
+            } else if (modelInput.includes("-CDG") && sens_ouverture.includes("droite")) {
                 // Si le modèle est un modèle -CDG et ouverture droite, C = 200, E = 904, F = 786, D = (weight - 797.5) / 2 + 5
                 var C = 200;
                 var E = 904;
@@ -268,8 +277,8 @@ router.get('/generate', async (req, res) => {
                 var shapeXml = `<SHAPE id="43" orientation="1" c="${C}" d="${D}" e="${E}" f="${F}" />`;
 
                 // ajouter -D à la fin du modèle
-                model = model + "-D";
-            } else if (model.includes("-CDG") && sens_ouverture.includes("gauche")) {
+                modelInput = modelInput + "-D";
+            } else if (modelInput.includes("-CDG") && sens_ouverture.includes("gauche")) {
                 // Si le modèle est un modèle -CDG et ouverture gauche, C = 200, E = 786, F = 904, D = (weight - 797.5) / 2 - 5*
                 var C = 200;
                 var E = 786;
@@ -278,11 +287,23 @@ router.get('/generate', async (req, res) => {
                 var shapeXml = `<SHAPE id="43" orientation="-1" c="${C}" d="${D}" e="${E}" f="${F}" />`;
 
                 // ajouter -G à la fin du modèle
-                model = model + "-G";
+                modelInput = modelInput + "-G";
             }
+
+        // Sinon, si le modèle est dans "modelInputs_DG" dans le fichier de spécifications on ajoute -D ou -G selon le sens d'ouverture
+        } else if (isGDmodelInput) {
+
+            if (sens_ouverture.includes("droite")) {
+                modelInput = modelInput + "-D";
+                shapeXml = '';
+            } else {
+                modelInput = modelInput + "-G";
+                shapeXml = '';
+            }            
 
         } else {
             var shapeXml = '';
+
         }
     }
 
@@ -308,7 +329,7 @@ router.get('/generate', async (req, res) => {
     // Remplacer les placeholders dans le fichier SVG
     requestContent = requestContent
         .replace('{{collection}}', collection)
-        .replace('{{model}}', model)
+        .replace('{{model}}', modelInput)
 
         .replace('{{width}}', width)
         .replace('{{height}}', height)
@@ -333,7 +354,7 @@ router.get('/generate', async (req, res) => {
     // Envoi de la requête SOAP, récupération de la réponse, génération du SVG et renvoi au client
     try {
         console.log("------------ Nouvelle requête ------------");
-        console.log(`\nParamètres de la requête : couleur1=${color1}, couleur2=${color2}, largeur=${width}, hauteur=${height}, largeur2=${width2}, modèle=${model}, pose=${pose}, sens_ouverture=${sens_ouverture}, poteau_gauche=${poteau_gauche}, poteau_droit=${poteau_droit}, serrure=${serrure}, ferrage=${ferrage}, poignée=${poignee}, décor=${decor}, gammeDecor=${gammeDecor}, numéroRue=${numeroRue}, aspect=${aspect}`);
+        console.log(`\nParamètres de la requête : couleur1=${color1}, couleur2=${color2}, largeur=${width}, hauteur=${height}, largeur2=${width2}, modèle=${modelInput}, pose=${pose}, sens_ouverture=${sens_ouverture}, poteau_gauche=${poteau_gauche}, poteau_droit=${poteau_droit}, serrure=${serrure}, ferrage=${ferrage}, poignée=${poignee}, décor=${decor}, gammeDecor=${gammeDecor}, numéroRue=${numeroRue}, aspect=${aspect}`);
         console.log("\nEnvoi de la requête SOAP...");
         
         const response = await fetch("http://127.0.0.1:8001/soap/IWebshopv1", {
@@ -358,10 +379,9 @@ router.get('/generate', async (req, res) => {
         // Extraire ERROR_MESSAGE et ERROR_EXPLANATION si le code d'erreur n'est pas 0
         if (errorCode !== "0") {
             const errorMessage = responseText.match(/&lt;ERROR_MESSAGE&gt;(.+)&lt;\/ERROR_MESSAGE&gt;/)[1];
-            const errorExplanation = responseText.match(/&lt;ERROR_EXPLANATION&gt;(.+)&lt;\/ERROR_EXPLANATION&gt;/)[1];
 
-            console.error(`Erreur : ${errorMessage} - ${errorExplanation}`);
-            return res.status(500).send(`Erreur : ${errorMessage} - ${errorExplanation}`);
+            console.error(`Erreur : ${errorMessage}`);
+            return res.status(500).send(`Erreur : ${errorMessage}`);
         }
 
         // Extraire et ajuster le SVG

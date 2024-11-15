@@ -6,8 +6,8 @@
 
                 <REQUEST_TO_WINPRO>
                     <REQUEST_TYPE>0</REQUEST_TYPE>
-                    <LIBRARY>ELEG PLEIN 100</LIBRARY>
-                    <ITEM>ALTA110</ITEM>
+                    <LIBRARY>WEB_ELEG_1VTL</LIBRARY>
+                    <ITEM>ANTAR110</ITEM>
                     <IMAGE type="svg" view="reverse" />
                     <DIMENSION_LINES>0</DIMENSION_LINES>
                     <CONFIGS>
@@ -16,8 +16,7 @@
                             <HEIGHT>1400</HEIGHT>
                             
                             <COLOUR>7016STRU</COLOUR>
-                            <FILLING_INNER_COLOUR info="">1015STRU</FILLING_INNER_COLOUR>
-
+                            
                             
                             <SASH id="1" leaves="2" leaf_orientation="H" door="0" fixe="0" doorfixe="0">
 
@@ -30,7 +29,7 @@
                     
                     <SASH_OPTION code="QQ_ferrage" value="QQ_ferrage_A" />
 
-                    <DIRECTION>0</DIRECTION>
+                    <DIRECTION>1</DIRECTION>
 
                     <FILLING leaf_id="1" filling_id="2">
 
@@ -45,7 +44,7 @@
                             
                             <OPTION code="QD_ControleCoheL" value="QD_ControleCoheL_non" />
                             <OPTION code="QD_typepose" value="QD_typepose_RGarrp" />
-                            <OPTION code="QD_sensouv" value="0" />
+                            <OPTION code="QD_sensouv" value="QO_sensouv_gaucheP" />
                             <OPTION code="QD_poteauG" value="QD_poteauD_Sans" />
                             <OPTION code="QD_poteauD" value="QD_poteauG_Sans" />
                         </CONFIG>

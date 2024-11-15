@@ -17,7 +17,46 @@
     ],
 
     "models110": [
-        "ALTA110", "ARCE110", "ESPA110-B", "ASTR110-CDG"
+      "ALTA110", "ANTA110", "ANTAR110", "ANTAR110-M", "ARCE110",
+      "ARCT110", "ARCT110-M", "ASTR110-CDG",
+       "ASTR110-B", "ATAC110", "ATAC110-M", "ATLA110", "ATLA110-M",
+      "ATRI110", "ATRI110-M", "BARA110", "CHAL110",
+      "COME110", "CREP110", "DANA110",
+      "ESPA110-B", "ESPA110-CDG", "ETIN110-B",
+      "ETIN110-CDG", "FOUD110-B",
+      "FOUD110-CDG", "GALA110", "GALA110-M", "GIBS110", "GIEN110",
+      "GIEN110-M", "GURB110", "GURB110-M", "HIBO110", "KAMA110",
+      "LODR110", "LOMP110", "LOMP110-M", "LYBI110",
+      "MAGN110", "MEDI110", "MEDI110-M", "MEGA110", "MERA110",
+      "METE110", "METE110-M", "MIR110", "MIZA110", "MIZA110-M", "MOJA110",
+      "NAMI110", "NASA110", "NINE110", "NINE110-BH", "NINE110-BB",
+      "NODU110", "NUBI110", "NUBI110-M", "ORDO110", "PATA110", "PATA110-M",
+      "PESK110", "PESK110-M", "PICT110", "PLES110",
+      "POLA110", "REDA110", "SADI110-3T", "SADI110-4T",
+      "SIRI110", "SONO110", "TERR110", "THAR110", "TONN110-B",
+      "TONN110-CDG", "TOUR110", "TOUR110-BH", "TOUR110-BB", "UNIV110",
+      "UNIV110-BH", "UNIV110-BB", "VICT110", "VONA110"
+    ],
+
+    "models_DG" : [
+      "ARCE110",
+      "BARA110",
+      "CHAL110",
+      "COME110",
+      "CREP110",
+      "GIBS110",
+      "HIBO110",
+      "LODR110",
+      "LYBI110",
+      "MAGN110",
+      "MIR110",
+      "NASA110",
+      "NODU110",
+      "PICT110",
+      "PLES110",
+      "POLA110",
+      "REDA110",
+      "TERR110-D"
     ],
 
     "models210": [

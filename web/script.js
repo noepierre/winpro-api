@@ -110,6 +110,8 @@ function updateCollection() {
     // Si le modèle contient "210", on définit la collection à "WEB_ELEG_2VTX"
     if (modelInput.includes("210")) {
         collectionInput.value = "WEB_ELEG_2VTX";
+    } else if (modelInput.includes("110")) {
+        collectionInput.value = "WEB_ELEG_1VTL";
     } else {
         // Recherche la collection correspondant au modèle
         const collection = specs.model_collections[modelInput] || ''; // Valeur par défaut si non trouvée
@@ -151,13 +153,10 @@ async function sendRequest() {
     const numeroRue = getValue('numero');
     const aspect = getValue('aspect');
 
-    // Déterminer le sens
-    const sens = sens_ouverture.includes("gauche") ? "1" : "0";
-
     const token = await getToken(); // Récupère le token
 
     // URL de l'API avec les paramètres
-    const url = `http://localhost:3000/api/generate?color1=${color1}&color2=${color2}&width=${width}&height=${height}&width2=${width2}&model=${model}&pose=${pose}&sens_ouverture=${sens}&poteau_gauche=${poteau_gauche}&poteau_droit=${poteau_droit}&serrure=${serrure}&ferrage=${ferrage}&poignee=${poignee}&decor=${decor}&gammeDecor=${gammeDecor}&numeroRue=${numeroRue}&aspect=${aspect}`;
+    const url = `http://localhost:3000/api/generate?color1=${color1}&color2=${color2}&width=${width}&height=${height}&width2=${width2}&model=${model}&pose=${pose}&sens_ouverture=${sens_ouverture}&poteau_gauche=${poteau_gauche}&poteau_droit=${poteau_droit}&serrure=${serrure}&ferrage=${ferrage}&poignee=${poignee}&decor=${decor}&gammeDecor=${gammeDecor}&numeroRue=${numeroRue}&aspect=${aspect}`;
 
     try {
         // Envoi de la requête avec l'en-tête Authorization contenant le token
