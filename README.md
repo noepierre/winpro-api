@@ -195,6 +195,8 @@ winpro-api/
 
 Ce fichier contient les spécifications des modèles de portail. Il est utilisé pour construire la requête en fonction des spécifications du modèle choisi.
 
+Il contient les champs suivants :
+
 - **bicolores** : Modèles de portail pouvant être bicolores.
 - **models_DG** : Modèles de portillons (XXXX110) qui existe en deux versions : XXXX110-D et XXXX110-G (et pas en XXXX110).
 - **remplissage_vantail** : Indique pour chaque modèle quelle partie du vantail est remplissable (d'une couleur).
@@ -207,7 +209,7 @@ Ce fichier contient les spécifications des modèles de portail. Il est utilisé
     "remplissage_vantail2":[1] // Parties du vantail 2 remplissables
     ```
 
-    Ici, le modèle MAGN le vantail 1 a la partie 2 remplissable et le vantail 2 a la partie 1 remplissable.
+    Ici, pour le modèle MAGN, le vantail 1 a la partie 2 remplissable et le vantail 2 a la partie 1 remplissable.
 
 ## Sécurisation
 

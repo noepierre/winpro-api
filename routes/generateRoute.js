@@ -69,7 +69,9 @@ router.get('/generate', async (req, res) => {
             console.error('Erreur lors de la récupération du token:', error);
             return null; // Retourne null si une erreur se produit
         }
-    }    
+    }
+    
+    let modelInputName = '';
 
     // Charger le fichier de spécifications et récupérer les informations nécessaires
     try {
@@ -94,17 +96,18 @@ router.get('/generate', async (req, res) => {
         const specs = await response.json();
 
         // Vérifier si le modèle est un modèle bicolor
-        isBicolor = specs.bicolor_fillings.includes(modelInput);
+        isBicolor = specs.bicolores.includes(modelInput);
 
         // Vérifier si le modèle est dans la liste des modèles -G ou -D
         isGDmodelInput = specs.models_DG.includes(modelInput);
 
         // Trouver les remplissages pour le modèle spécifié
-        const modelInputName = modelInput.match(/^[A-Za-z]+/)[0]; // Extraire le nom du modèle
-        vantaux = specs.remplissage_vantail.filter(vantail => vantail.modelInput === modelInputName);
+        modelInputName = modelInput.match(/^[A-Za-z]+/)[0]; // Extraire le nom du modèle sans les chiffres
+
+        vantaux = specs.remplissage_vantail.filter(vantail => vantail.model === modelInputName);
 
         // Vérifier si il existe des remplissages pour le modèle
-        hasFillings = specs.remplissage_vantail.some(vantail => vantail.modelInput === modelInputName)
+        hasFillings = specs.remplissage_vantail.some(vantail => vantail.model === modelInputName);
 
     } catch (error) {
         console.error('Erreur lors de la récupération des spécifications des portails:', error);
@@ -193,6 +196,55 @@ router.get('/generate', async (req, res) => {
                     </FILLING>\n\n`;
             }
 
+        // Si c'est un modèle -M et que remplissage_vantail1 existe, on ajoute un remplissage pour les ou la zone spécifiée ET un remplissage pour les ou la zone spécifiée + 1
+        } else if (remplissage_vantail1.length > 0 && modelInput.endsWith("-M")) {
+            for (let i = 0; i < remplissage_vantail1.length; i++) {
+                sashXml += `                    <FILLING leaf_id="1" filling_id="${remplissage_vantail1[i]}">\n
+                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
+                    </FILLING>\n\n`;
+            }
+        
+            for (let i = 0; i < remplissage_vantail1.length; i++) {
+                sashXml += `                    <FILLING leaf_id="1" filling_id="${remplissage_vantail1[i] + 1}">\n
+                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
+                    </FILLING>\n\n`;
+            }
+        
+        // Si c'est le modèle MIZA110, la zone à remplir est la zone 2 (cas particulier)
+        } else if (model === "MIZA110") {
+            sashXml += `                    <FILLING leaf_id="1" filling_id="2">\n
+                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
+                    </FILLING>\n\n`;
+        
+        // Si le remplissage_vantail1 existe pour le modèle, on ajoute les remplissages pour le vantail 1
+        } else if (remplissage_vantail1.length > 0 && !modelInput.endsWith("-M")) {
+
+            if (sens == 0) { // Si le modèle le sens est 0, on ajoute le remplissage correspondant à la zone 2 du vantail 1 (cas particulier si les deux vantaux sont différents)
+                sashXml += `                    <FILLING leaf_id="1" filling_id="${remplissage_vantail2[0]}">\n
+                                    <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
+                        </FILLING>\n\n`;
+            } else {
+                sashXml += `                    <FILLING leaf_id="1" filling_id="${remplissage_vantail1[0]}">\n
+                                    <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
+                        </FILLING>\n\n`;
+            }
+            
+            if (remplissage_vantail1.length > 1) {
+                sashXml += `                    <FILLING leaf_id="1" filling_id="${remplissage_vantail1[1]}">\n
+                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
+                    </FILLING>\n\n`;
+            }
+
+        // Si c'est un modèle -M et que remplissage_vantail1 n'existe pas pour le modèle, on ajoute un remplissage pour la zone 1 et 2 du vantail 1
+        } else if (remplissage_vantail1 === 0 && modelInput.endsWith("-M")) {
+            sashXml += `                    <FILLING leaf_id="1" filling_id="1">\n
+                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
+                    </FILLING>\n\n`;
+
+            sashXml += `                    <FILLING leaf_id="1" filling_id="2}">\n
+                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
+                    </FILLING>\n\n`;
+
         } else {
             sashXml += `                    <FILLING leaf_id="1" filling_id="2">\n
                                     <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
@@ -209,7 +261,6 @@ router.get('/generate', async (req, res) => {
     if (!modelInput.includes("110")) {
         // Ajuster les dimensions pour les modèles B, BH, BB, B, CDG et CDGI
         if (modelInput.endsWith("-B") || modelInput.endsWith("-BB") || modelInput.endsWith("-BH") || modelInput.endsWith("-CDG") || modelInput.endsWith("-CDGI")) {
-            console.log("Ajustement des dimensions pour le modèle:", modelInput);
 
             if (modelInput.endsWith("-BH")) {
                 // Si le modèle est un modèle -BH ou -BB, C = width/2, D = C * Tangeant(7°) et E = C * Tangeant(7°)
@@ -378,10 +429,28 @@ router.get('/generate', async (req, res) => {
 
         // Extraire ERROR_MESSAGE et ERROR_EXPLANATION si le code d'erreur n'est pas 0
         if (errorCode !== "0") {
-            const errorMessage = responseText.match(/&lt;ERROR_MESSAGE&gt;(.+)&lt;\/ERROR_MESSAGE&gt;/)[1];
+            /*
+            &lt;ERROR_CODE&gt;4&lt;/ERROR_CODE&gt;
+            &lt;ERROR_MESSAGE&gt;Computation error&lt;/ERROR_MESSAGE&gt;
+            &lt;ERROR_EXPLANATION&gt;Echec #100101
+            Reduire Hauteur de 83 mm ou augmenter de 97 mm , Pour Remplissage non déligné&lt;/ERROR_EXPLANATION&gt;
+            */
+
+            const decodedResponse = responseText
+                .replace(/&lt;/g, '<')
+                .replace(/&gt;/g, '>');
+
+            // Extraire les informations d'erreur du texte décodé avec le flag 's' pour capturer les retours à la ligne
+            const errorMessageMatch = decodedResponse.match(/<ERROR_MESSAGE>(.+)<\/ERROR_MESSAGE>/);
+            const errorExplanationMatch = decodedResponse.match(/<ERROR_EXPLANATION>(.+)<\/ERROR_EXPLANATION>/s);
+
+            const errorMessage = errorMessageMatch ? errorMessageMatch[1] : "Erreur inconnue";
+            const errorExplanation = errorExplanationMatch ? errorExplanationMatch[1].trim() : "Aucune explication disponible";
 
             console.error(`Erreur : ${errorMessage}`);
+            console.error(`Explication : ${errorExplanation}`);
             return res.status(500).send(`Erreur : ${errorMessage}`);
+
         }
 
         // Extraire et ajuster le SVG

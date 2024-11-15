@@ -1,5 +1,5 @@
 {
-   "bicolor_fillings": [
+   "bicolores": [
       "LYBI310", "LYBI310-1M", "LYBICHA310", "LYBI110", "LYBI110-G",
       "LYBI410", "OSOY110", "OSOY110-G", "PICT110", "PICT110-G",
       "OSOY410", "PICT410", "SABL410", "LYBI210", "ALTA210",
@@ -13,7 +13,7 @@
       "PICT510", "OSOY310", "PICT310", "PICT310-D", "ALTA110",
       "DANA110", "KAMA110", "MERA110", "MOJA110", "NAMI110",
       "ORDO110", "SIRI110", "THAR110", "OSOY210", "PICT210",
-      "NUBI210"
+      "NUBI210", "LODR110", "LODR210", "LODR310", "LODR510"
    ],
 
    "models110": [
