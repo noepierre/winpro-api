@@ -145,6 +145,7 @@ async function sendRequest() {
     const poteau_droit = getValue('poteau_droit');
     const serrure = getValue('serrure');
     const ferrage = getValue('ferrage');
+    const tole = getValue('tole');
     const poignee = getValue('poignee');
     const decor = getValue('decor');
     const gammeDecor = getValue('gammeDecor');
@@ -154,7 +155,7 @@ async function sendRequest() {
     const token = await getToken(); // Récupère le token
 
     // URL de l'API avec les paramètres
-    const url = `http://localhost:3000/api/generate?color1=${color1}&color2=${color2}&width=${width}&height=${height}&width2=${width2}&model=${model}&pose=${pose}&sens_ouverture=${sens_ouverture}&poteau_gauche=${poteau_gauche}&poteau_droit=${poteau_droit}&serrure=${serrure}&ferrage=${ferrage}&poignee=${poignee}&decor=${decor}&gammeDecor=${gammeDecor}&numeroRue=${numeroRue}&aspect=${aspect}`;
+    const url = `http://localhost:3000/api/generate?color1=${color1}&color2=${color2}&width=${width}&height=${height}&width2=${width2}&model=${model}&pose=${pose}&sens_ouverture=${sens_ouverture}&poteau_gauche=${poteau_gauche}&poteau_droit=${poteau_droit}&serrure=${serrure}&ferrage=${ferrage}&tole=${tole}&poignee=${poignee}&decor=${decor}&gammeDecor=${gammeDecor}&numeroRue=${numeroRue}&aspect=${aspect}`;
 
     try {
         // Envoi de la requête avec l'en-tête Authorization contenant le token
