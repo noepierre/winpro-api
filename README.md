@@ -87,6 +87,7 @@ Les paramètres suivants sont nécessaires pour la génération du fichier SVG :
 | `poteau_droit`   | `string` | Poteau droit                                                  | `Poteau de Façade 150mm`                   |
 | `serrure`        | `string` | Serrure                                                       | `Serrure Pène Rentrant`                    |
 | `ferrage`        | `string` | Type de ferrage                                               | `Ferrage A - Gond 2 points Haut et pivot de sol` |
+| `tole`           | `string` | Modèle de tôle                                                | `Tôle pleine`                              |
 | `poignee`        | `string` | Poignée                                                       | `Poignée Béquille Inox`                    |
 | `decor`          | `string` | Décor                                                         | `A09 - Numéro de rue`                      |
 | `gammeDecor`     | `string` | Gamme du décor                                                | `Nature`                                   |
@@ -114,16 +115,17 @@ Chaque paramètre accepte des valeurs spécifiques encodées par CFP. Voici une 
 | `width`          | N'importe quel nombre entier (largeur en mm, ex : `1000`, `4000`)                                 |
 | `height`         | N'importe quel nombre entier (hauteur en mm, ex : `1200`, `2000`)                                 |
 | `width2`         | N'importe quel nombre entier (largeur du vantail secondaire en mm, `0` si vantaux symétriques)    |
-| `model`          | N'importe quel nom de modèle de portail (ex : `ANTA210`, `WEB_ELEG_2VTX`)                                 |
+| `model`          | N'importe quel nom de modèle de portail (ex : `ANTA210`, `TONN110-B`, `FOUD110-CDG`)                       |
 | `pose`           | `QD_typepose_RGarrp`, `QD_typepose_entrep`, `QD_typepose_entGA`, `QD_typepose_ouvext`, `QD_typepose_ouvextDP`, `QD_typepose_entrepDapG`, `QD_typepose_entrepGapD`, `QD_typepose_gonarr`, `QD_typepose_RarrGc`, `QD_typepose_RGdevp`, `QD_typepose_RdevGc` |
 | `sens_ouverture` | `QO_sensouv_droiteP`, `QO_sensouv_gaucheP`, `QO_sensouv_droiteT`, `QO_sensouv_gaucheT`                    |
 | `poteau_gauche`  | `QD_poteauD_Sans`, `QD_poteauG_100`, `QD_poteauG_150`, `QD_poteauG_180`, `QD_poteauG_100F`, `QD_poteauG_150F`, `QD_poteauG_180F`, `QD_poteauG_100R`, `QD_poteauG_150R`, `QD_poteauG_180R`, `QD_poteauG_SansPP` |
 | `poteau_droit`   | `QD_poteauG_Sans`, `QD_poteauD_100`, `QD_poteauD_150`, `QD_poteauD_180`, `QD_poteauD_100F`, `QD_poteauD_150F`, `QD_poteauD_180F`, `QD_poteauD_100R`, `QD_poteauD_150R`, `QD_poteauD_180R`, `QD_poteauD_SansPP` |
 | `serrure`        | `QQ_serrure_PR`, `QQ_serrure_sans`                                                                        |
 | `ferrage`        | `QQ_ferrage_A`, `QQ_ferrage_B`, `QQ_ferrage_C`, `QQ_ferrage_D`, `QQ_ferrage_E`, `QQ_ferrage_Ebis`, `QQ_ferrage_F`, `QQ_ferrage_G`, `QQ_ferrage_H`, `QQ_ferrage_P`, `QQ_ferrage_Dep` |
+| `tole`           | `QR_ModTole_0`, `QR_ModTole_pleine`, `QR_ModTole_TrouCar`, `QR_ModTole_Lhassa`, `QR_ModTole_Perseide`, ... |
 | `poignee`        | `QQ_Poignee_BeqInox`, `QQ_Poignee_BeqDSIGN`, `QQ_Poignee_PoiPlqNoir`, `QQ_Poignee_PoiPlqBlanc`            |
 | `gammeDecor`     | `QP_GamDecor_Sans`, `QP_GamDecor_Acces`, `QP_GamDecor_Design`, `QP_GamDecor_Nature`                       |
-| `decor`          | `QP_ModDecor_Sans`, `QP_ModDecor_A01`, `QP_ModDecor_A02`, `QP_ModDecor_A03`, `QP_ModDecor_A04`, `QP_ModDecor_A05`, `QP_ModDecor_A06`, `QP_ModDecor_A07`, `QP_ModDecor_A08`, `QP_ModDecor_A09`, `QP_ModDecor_D01`, `QP_ModDecor_N03` |
+| `decor`          | `QP_ModDecor_Sans`, `QP_ModDecor_A01`, `QP_ModDecor_A02`, `QP_ModDecor_A03`, `QP_ModDecor_A04`, `QP_ModDecor_A05`, `QP_ModDecor_A06`, `QP_ModDecor_A07`, `QP_ModDecor_A08`, `QP_ModDecor_A09`, `QP_ModDecor_D01`, `QP_ModDecor_N03`, ... |
 | `numeroRue`      | N'importe quel nombre entier positif inférieur à 10000 (ex : `12`, `42`)                                  |
 | `aspect`         | `1`, `2`                                                                                                  |
 
@@ -136,7 +138,7 @@ Il est possible qu'il y ai d'autres valeurs possibles pour chaque paramètre. Ve
 Utilisez votre navigateur, **curl** ou un outil comme **Postman** pour envoyer une requête.
 
 ```bash
-http://localhost:3000/api/generate?color1=7016STRU&color2=BLEUCANON&width=4000&height=1600&width2=0&model=ALTA210&pose=QD_typepose_RGarrp&sens_ouverture=QO_sensouv_droiteP&poteau_gauche=QD_poteauG_Sans&poteau_droit=QD_poteauD_Sans&serrure=QQ_serrure_PR&ferrage=QQ_ferrage_A&poignee=QQ_Poignee_BeqInox&decor=QP_ModDecor_A08&gammeDecor=QP_GamDecor_Acces&numeroRue=12&aspect=1
+http://localhost:3000/api/generate?color1=7016STRU&color2=BLEUCANON&width=4000&height=1600&width2=0&model=ALTA210&pose=QD_typepose_RGarrp&sens_ouverture=QO_sensouv_droiteP&poteau_gauche=QD_poteauG_Sans&poteau_droit=QD_poteauD_Sans&serrure=QQ_serrure_PR&ferrage=QQ_ferrage_A&tole=QR_ModTole_0&poignee=QQ_Poignee_BeqInox&decor=QP_ModDecor_A08&gammeDecor=QP_GamDecor_Acces&numeroRue=12&aspect=1
 ```
 
 La réponse sera un fichier SVG généré avec les paramètres fournis.
@@ -199,6 +201,16 @@ Il contient les champs suivants :
 
 - **bicolores** : Modèles de portail pouvant être bicolores.
 - **models_DG** : Modèles de portillons (XXXX110) qui existe en deux versions : XXXX110-D et XXXX110-G (et pas en XXXX110).
+- **models_tole_changeable** : Modèles de portail pour lesquels la tôle est changeable.
+- **remplissage_vantail_110** : Remplissage du vantail des modèles 110 (Portillons).
+
+    Exemple :
+
+    ```json
+    "model":"ARCE", // Modèle de portail
+    "remplissage_vantail_110":[1, 2] // Parties du vantail remplissables
+    ```
+
 - **remplissage_vantail** : Indique pour chaque modèle quelle partie du vantail est remplissable (d'une couleur).
 
     Exemple :
@@ -210,6 +222,17 @@ Il contient les champs suivants :
     ```
 
     Ici, pour le modèle MAGN, le vantail 1 a la partie 2 remplissable et le vantail 2 a la partie 1 remplissable.
+
+- **remplissage_vantail_310** : Remplissage du vantail des modèles 310.
+
+    Exemple :
+
+    ```json
+    "model":"ARCE", // Modèle de portail
+    "remplissage_vantail_310":[3, 4] // Parties du vantail remplissables
+    ```
+
+    Ici, pour le modèle ARCE310, les parties 3 et 4 du vantail sont remplissables.
 
 ## Sécurisation
 
@@ -228,7 +251,7 @@ Un exemple d'utilisation avec JavaScript est disponible dans le fichier `web/scr
 Ensuite, il vous suffit de l'ajouter dans le header `Authorization` de vos requêtes :
 
 ```bash
-curl -X GET http://localhost:3000/api/generate?color1=7016STRU&color2=BLEUCANON&width=4000&height=1600&width2=0&model=ALTA210&pose=QD_typepose_RGarrp&sens_ouverture=QO_sensouv_droiteP&poteau_gauche=QD_poteauG_Sans&poteau_droit=QD_poteauD_Sans&serrure=QQ_serrure_PR&ferrage=QQ_ferrage_A&poignee=QQ_Poignee_BeqInox&decor=QP_ModDecor_A08&gammeDecor=QP_GamDecor_Acces&numeroRue=12&aspect=1 -H "Authorization: Bearer <the_token>"
+curl -X GET http://localhost:3000/api/generate?color1=7016STRU&color2=BLEUCANON&width=4000&height=1600&width2=0&model=ALTA210&pose=QD_typepose_RGarrp&sens_ouverture=QO_sensouv_droiteP&poteau_gauche=QD_poteauG_Sans&poteau_droit=QD_poteauD_Sans&serrure=QQ_serrure_PR&ferrage=QQ_ferrage_A&tole=QR_ModTole_0&poignee=QQ_Poignee_BeqInox&decor=QP_ModDecor_A08&gammeDecor=QP_GamDecor_Acces&numeroRue=12&aspect=1 -H "Authorization: Bearer <the_token>"
 ```
 
 Un exemple d'utilisation avec JavaScript est disponible dans le fichier `web/script.js` (lignes 159 à 170).

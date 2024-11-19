@@ -6,13 +6,13 @@
 
                 <REQUEST_TO_WINPRO>
                     <REQUEST_TYPE>0</REQUEST_TYPE>
-                    <LIBRARY>WEB_ELEG_1VTL</LIBRARY>
-                    <ITEM>NASA110-D</ITEM>
+                    <LIBRARY>WEB_ELEG_COUL1</LIBRARY>
+                    <ITEM>VICT310</ITEM>
                     <IMAGE type="svg" view="reverse" />
                     <DIMENSION_LINES>0</DIMENSION_LINES>
                     <CONFIGS>
                         <CONFIG>
-                            <WIDTH>1000</WIDTH>
+                            <WIDTH>4000</WIDTH>
                             <HEIGHT>1400</HEIGHT>
                             
                             <COLOUR>7016STRU</COLOUR>
@@ -33,9 +33,9 @@
 
                     <FILLING leaf_id="1" filling_id="2">
 
-                                    <FILLING_INNER_COLOUR info="">1015STRU</FILLING_INNER_COLOUR>
-
-                        </FILLING>
+                                <FILLING_INNER_COLOUR info="">1015STRU</FILLING_INNER_COLOUR>
+                                <FILLING_OPTION code="QR_ModTole" value="QR_ModTole_TrouRond"/>
+                    </FILLING>
 
                     </SASH>
 

@@ -11,17 +11,17 @@
 
     <div class="choice">
         <!-- Bouton pour changer de vue -->
-        <button type="button" id="110" onclick="toggleActive(1) & loadSpecs()">XXXX110</button>
-        <button type="button" id="210" onclick="toggleActive(2) & loadSpecs()" class="active">XXXX210</button>
-        <button type="button" id="310" onclick="toggleActive(3) & loadSpecs()">XXXX310</button>
-        <button type="button" id="510" onclick="toggleActive(4) & loadSpecs()">XXXX510</button>
+        <button type="button" id="110" onclick="toggleActive(1) & loadSpecs()">PORTILLONS</button>
+        <button type="button" id="210" onclick="toggleActive(2) & loadSpecs()" class="active">PORTAILS 2 VANTAUX</button>
+        <button type="button" id="310" onclick="toggleActive(3) & loadSpecs()">PORTAIL COULISSANT 1 VANTAIL</button>
+        <button type="button" id="510" onclick="toggleActive(4) & loadSpecs()">PORTAIL COULISSANT 2 VANTAUX</button>
     </div>
-
-    <div class="description" id="description"></div>
 
     <div class="container">
         <div class="info" id="info">
             <h2>Liste des modèles disponibles</h2>
+            <button id="nextPortal" onclick="goToNextPortal()">Suivant</button>
+
             <table id="portalTable">
                 <tbody id="portalList">
                     <!-- Les lignes de modèles seront insérées ici dynamiquement -->
@@ -65,7 +65,16 @@
                 <option value="2">Aspect 2</option>
             </select>
             
-            <h2>Pose et configuration</h2>
+            <h2>Pose et configuration</h2>            
+
+            <label for="sens_ouverture">Sens d'ouverture :</label>
+            <select id="sens_ouverture" name="sens_ouverture">
+                <option value="QO_sensouv_droiteP">Droite POUSSANT - vue de l'exterieur (std)</option>
+                <option value="QO_sensouv_gaucheP">Gauche POUSSANT - vue de l'exterieur</option>
+                <option value="QO_sensouv_droiteT">Droite TIRANT - vue de l'exterieur</option>
+                <option value="QO_sensouv_gaucheT">Gauche TIRANT - vue de l'exterieur</option>
+            </select>
+
             <label for="pose">Type de pose :</label>
             <select id="pose" name="pose">
                 <option value="QD_typepose_RGarrp">Pose arrière piliers</option>
@@ -79,14 +88,6 @@
                 <option value="QD_typepose_RarrGc">Pose arrrière piliers - Réception murale</option>
                 <option value="QD_typepose_RGdevp">Pose Devant Piliers  (Refoulement et gache)</option>
                 <option value="QD_typepose_RdevGc">Pose Devant Pilier -  Réception Murale</option>
-            </select>
-
-            <label for="sens_ouverture">Sens d'ouverture :</label>
-            <select id="sens_ouverture" name="sens_ouverture">
-                <option value="QO_sensouv_droiteP">Droite POUSSANT - vue de l'exterieur (std)</option>
-                <option value="QO_sensouv_gaucheP">Gauche POUSSANT - vue de l'exterieur</option>
-                <option value="QO_sensouv_droiteT">Droite TIRANT - vue de l'exterieur</option>
-                <option value="QO_sensouv_gaucheT">Gauche TIRANT - vue de l'exterieur</option>
             </select>
 
             <label for="poteau_gauche">Pilier ou poteau gauche :</label>
@@ -142,6 +143,17 @@
             </select>
 
             <h2>Design et finition</h2>
+            <label for="tole">Tôle</label>
+            <select id="tole" name="tole">
+                <option value="QR_ModTole_pleine">Tôle pleine</option>
+                <option value="QR_ModTole_TrouCar">Tôle trous carrés</option>
+                <option value="QR_ModTole_TrouRect">Tôle trous rectangulaires</option>
+                <option value="QR_ModTole_TrouRond">Tôle trous ronds</option>
+                <option value="QR_ModTole_Lhassa">Tôle Lhassa</option>
+                <option value="QR_ModTole_Perseide">Tôle Perseide</option>
+                <option value="QR_ModTole_0">Pas concerné</option>
+            </select>
+
             <label for="poignee" name="poignee">Poignées</label>
             <select id="poignee" name="poignee">
                 <option value="QQ_Poignee_BeqInox">Poignée Béquille Inox</option>

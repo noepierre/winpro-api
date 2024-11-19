@@ -1,5 +1,5 @@
 import express from 'express';
-import fs from 'fs';
+import fs, { cp } from 'fs';
 import path from 'path';
 import { extractSvgAndAdjustViewBox } from '../utils/svgUtils.js';
 
@@ -23,6 +23,7 @@ router.get('/generate', async (req, res) => {
         poteau_droit, // Poteaux
         serrure, // Serrure
         ferrage, // Ferrage
+        tole, // Tôle
         poignee, // Poignée
         decor, // Décor du modèle
         gammeDecor, // Gamme de décor
@@ -34,10 +35,8 @@ router.get('/generate', async (req, res) => {
     let modelInput = model;
 
     // Mettre à jour la collection selon le modèle
-    // Si le modèle contient 210 -> WEB_ELEG_2VTX sinon si le modèle contient 210 -> WEB_ELEG_1VTL sinon ''
-    let collection = modelInput.includes("210") ? "WEB_ELEG_2VTX" : modelInput.includes("110") ? "WEB_ELEG_1VTL" : '';
-
-    let specs = {};
+    // Si le modèle contient 210 -> WEB_ELEG_2VTX,  si le modèle contient 210 -> WEB_ELEG_1VTL, sinon si le modèle contient 310 -> WEB_ELEG_COUL1
+    let collection = modelInput.includes("210") ? "WEB_ELEG_2VTX" : modelInput.includes("110") ? "WEB_ELEG_1VTL" : modelInput.includes("310") ? "WEB_ELEG_COUL1" : '';
 
     // Vérifier si le modèle est bicolore
     let isBicolor = false;
@@ -49,7 +48,20 @@ router.get('/generate', async (req, res) => {
     let vantaux = [];
 
     // Vérifier si il existe des remplissages pour le modèle
-    let hasFillings = false;
+    let remplissage210 = false;
+
+    // Vérifier si le modèle a un remplissage pour le modèle 310
+    let remplissage310 = false;
+
+    // Vérifier si le modèle a un remplissage pour les modèles 110
+    let remplissage110 = false;
+
+    // Remplissages pour les modèles
+    let vantail110 = [];
+    let vantail310 = [];
+
+    // On vérifie si le modèle a une tole changeable ou non
+    let tole_changeable = false;
 
     async function getToken() {
         try {
@@ -95,19 +107,53 @@ router.get('/generate', async (req, res) => {
 
         const specs = await response.json();
 
-        // Vérifier si le modèle est un modèle bicolor
-        isBicolor = specs.bicolores.includes(modelInput);
-
         // Vérifier si le modèle est dans la liste des modèles -G ou -D
         isGDmodelInput = specs.models_DG.includes(modelInput);
 
         // Trouver les remplissages pour le modèle spécifié
         modelInputName = modelInput.match(/^[A-Za-z]+/)[0]; // Extraire le nom du modèle sans les chiffres
 
-        vantaux = specs.remplissage_vantail.filter(vantail => vantail.model === modelInputName);
+        vantaux = specs.remplissage_vantails_210.filter(vantail => vantail.model === modelInputName);
 
-        // Vérifier si il existe des remplissages pour le modèle
-        hasFillings = specs.remplissage_vantail.some(vantail => vantail.model === modelInputName);
+        // Vérifier si le modèle est un modèle bicolore
+        isBicolor = specs.bicolores.includes(modelInputName);
+
+        // Vérifier si le modèle a une tole changeable
+        tole_changeable = specs.models_tole_changeable.includes(model);
+
+        // Remplir vantail110 par les remplissages pour les modèles 110
+        if (model.includes("110")) {
+
+            // Vérifier si le modèle a un remplissage pour les modèles 110
+            remplissage110 = specs.remplissage_vantail_110.some(vantail => vantail.model === modelInputName);
+
+            if (modelInput.endsWith("-M")) {
+                vantail110 = specs.remplissage_vantail_110.filter(vantail => vantail.model === modelInput);
+            } else {
+                vantail110 = specs.remplissage_vantail_110.filter(vantail => vantail.model === modelInputName);
+            }
+             
+        } else if (model.includes("210")) {
+
+            remplissage210 = specs.remplissage_vantails_210.some(vantail => vantail.model === modelInputName);
+
+        } else if (model.includes("310")) {
+
+            // Vérifier si le modèle a un remplissage pour les modèles 310
+            remplissage310 = specs.remplissage_vantail_310.some(vantail => vantail.model.includes(modelInputName));
+
+            // Remplir vantail310 par les remplissages pour les modèles 310
+            if (modelInput.endsWith("-M3")) {
+                vantail310 = specs.remplissage_vantail_310.filter(vantail => vantail.model === modelInput);
+            } else if (modelInput.endsWith("-M2")) {
+                vantail310 = specs.remplissage_vantail_310.filter(vantail => vantail.model === modelInput);
+            } else if (modelInput.endsWith("-M")) {
+                vantail310 = specs.remplissage_vantail_310.filter(vantail => vantail.model === modelInput);
+            } else {
+                vantail310 = specs.remplissage_vantail_310.filter(vantail => vantail.model === modelInputName);
+            }
+
+        }
 
     } catch (error) {
         console.error('Erreur lors de la récupération des spécifications des portails:', error);
@@ -119,52 +165,34 @@ router.get('/generate', async (req, res) => {
     // Ajouter la couleur secondaire si le modèle est bicolore
     const bicoloration = isBicolor ? `<FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n` : '';
 
+    // Initialiser les remplissages pour les portillons (110)
+    let remplissage_vantail_110 = 0;
+
+    // Initialiser les remplissages pour les 2 vantaux
     let remplissage_vantail1 = 0;
     let remplissage_vantail2 = 0;
 
-    // Récupérer les remplissages pour les vantaux
-    if (vantaux.length > 0) {
+    // remplissage du vantail si le modèle est 310
+    let remplissage_vantail_310 = 0;
+
+    // Récupérer les remplissages pour les vantaux et affecter les valeurs aux variables
+    if (remplissage210 && vantaux.length > 0) {
         ({ remplissage_vantail1, remplissage_vantail2 } = vantaux[0]);
+    } else if (remplissage310 && vantail310.length > 0) {
+        ({ remplissage_vantail_310 } = vantail310[0]);
+    } else if (remplissage110 && vantail110.length > 0) {
+        ({ remplissage_vantail_110 } = vantail110[0]);
     }
 
-    var nombre_panneaux = 2;
     var transomXml = ''; // Initialiser le XML pour le poteau intermédiaire
 
-    // Ajuster le modèle en fonction de l'aspect et de la largeur
-    if (aspect === "1" && width > 4000 && !modelInput.endsWith("-M") && modelInput.includes("310")) {
-        modelInput += "-M";
-    }
-
-    if (aspect === "2" && !modelInput.endsWith("-M") && modelInput.includes("310")) {
-        modelInput += "-M";
+    // Si l'aspect est 2 et que le modèle ne se termine pas par -M2 et que le modèle n'est pas un 310, alors on ajoute le poteau intermédiaire
+    if (aspect === "2" && !modelInput.endsWith("-M2") && modelInput.includes("310")) {
         transomXml = `              <TRANSOM transom_id="1" leaf_id="1" filling_id="1" pos="W / 2" code="ALU ASPECT 2VTX" info="" masonry="1" />`;
     }
 
-    // Si le modèle est de type '310' et qu'il existe des remplissages pour ce modèle
-    if (modelInput.includes("310") && specs.remplissage_vantail.some(vantail => vantail.modelInput === modelInputName)) {
-        // Modèle 310 n'a qu'un seul vantail
-        let nombre_panneaux = 1;
-
-        // Fusionner les remplissages du vantail 2 dans le vantail 1 pour les modèles '310'
-        // Exemple : si remplissage_vantail1 = [2] et remplissage_vantail2 = [2], le résultat sera remplissage_vantail1 = [2, 4]
-        
-        // Trouver le plus grand remplissage existant dans les deux vantaux
-        const maxRemplissage1 = Math.max(...remplissage_vantail1, 0); // Si vide, renvoie 0
-        const maxRemplissage2 = Math.max(...remplissage_vantail2, 0);
-        const maxRemplissage = Math.max(maxRemplissage1, maxRemplissage2);
-
-        // Ajouter les éléments de remplissage_vantail2 avec un décalage pour les fusionner dans remplissage_vantail1
-        remplissage_vantail1 = remplissage_vantail1.concat(
-            remplissage_vantail2.map(value => value + maxRemplissage)
-        );
-        // Vider le remplissage du vantail 2 car tout est transféré dans le vantail 1
-        remplissage_vantail2 = [];
-    }
-
-    // Si modèle est 310 ou 510, que serrure contient "sans" alors on ajoute le moteur
-    
+    // Si modèle est 310 ou 510, que serrure contient "sans" alors on ajoute le moteur    
     let motorXml = '';
-
     if ((modelInput.includes("310") || modelInput.includes("510")) && serrure.includes("sans")) {
         motorXml = `<FITTING_OPTION code="QQ_Motor" value="QQ_Motor_ELI" />\n`;
     } else {
@@ -173,7 +201,7 @@ router.get('/generate', async (req, res) => {
 
     // Construire le XML pour les vantaux
     const buildSashXml = () => {
-        let sashXml = `<SASH id="1" leaves="${nombre_panneaux}" leaf_orientation="H" door="0" fixe="0" doorfixe="0">\n
+        let sashXml = `<SASH id="1" leaves="2" leaf_orientation="H" door="0" fixe="0" doorfixe="0">\n
                     <ASYMETRIC_LEAVES_0>${width2}</ASYMETRIC_LEAVES_0>\n
                     <FITTING_OPTION code="QQ_serrure" value="${serrure}" />\n
                     <FITTING_OPTION code="QQ_poignee" value="${poignee}" />\n
@@ -181,74 +209,60 @@ router.get('/generate', async (req, res) => {
                     <SASH_OPTION code="QQ_ferrage" value="${ferrage}" />\n
                     <DIRECTION>${sens}</DIRECTION>\n\n`;
 
-        if (!modelInput.includes("110")) {
+        if (modelInput.includes("210") || modelInput.includes("510")) {
             
+
             for (let i = 0; i < remplissage_vantail1.length; i++) {
                 sashXml += `                    <FILLING leaf_id="1" filling_id="${remplissage_vantail1[i]}">\n
-                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
-                    </FILLING>\n\n`;
+                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n`;
+                
+                if (tole_changeable) {
+                    sashXml += `                                <FILLING_OPTION code="QR_ModTole" value="${tole}"/>\n`;
+                }
+
+                sashXml += `                    </FILLING>\n\n`;
             }
-        
-        
+
             for (let i = 0; i < remplissage_vantail2.length; i++) {
                 sashXml += `                    <FILLING leaf_id="2" filling_id="${remplissage_vantail2[i]}">\n
-                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
-                    </FILLING>\n\n`;
+                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n`;
+                
+                if (tole_changeable) {
+                    sashXml += `                                <FILLING_OPTION code="QR_ModTole" value="${tole}"/>\n`;
+                }
+
+                sashXml += `                    </FILLING>\n\n`;
+            }
+
+        } else if (modelInput.includes("310") && remplissage310) {
+  
+            // On ajoute les remplissages pour le vantail 1
+            for (let i = 0; i < remplissage_vantail_310.length; i++) {
+                sashXml += `                    <FILLING leaf_id="1" filling_id="${remplissage_vantail_310[i]}">\n
+                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n`;
+                
+                if (tole_changeable) {
+                    sashXml += `                                <FILLING_OPTION code="QR_ModTole" value="${tole}"/>\n`;
+                }
+
+                sashXml += `                    </FILLING>\n\n`;
             }
 
         // Si c'est un modèle -M et que remplissage_vantail1 existe, on ajoute un remplissage pour les ou la zone spécifiée ET un remplissage pour les ou la zone spécifiée + 1
-        } else if (remplissage_vantail1.length > 0 && modelInput.endsWith("-M")) {
-            for (let i = 0; i < remplissage_vantail1.length; i++) {
-                sashXml += `                    <FILLING leaf_id="1" filling_id="${remplissage_vantail1[i]}">\n
-                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
-                    </FILLING>\n\n`;
-            }
-        
-            for (let i = 0; i < remplissage_vantail1.length; i++) {
-                sashXml += `                    <FILLING leaf_id="1" filling_id="${remplissage_vantail1[i] + 1}">\n
-                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
-                    </FILLING>\n\n`;
-            }
-        
-        // Si c'est le modèle MIZA110, la zone à remplir est la zone 2 (cas particulier)
-        } else if (model === "MIZA110") {
-            sashXml += `                    <FILLING leaf_id="1" filling_id="2">\n
-                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
-                    </FILLING>\n\n`;
-        
-        // Si le remplissage_vantail1 existe pour le modèle, on ajoute les remplissages pour le vantail 1
-        } else if (remplissage_vantail1.length > 0 && !modelInput.endsWith("-M")) {
+        } else if (modelInput.includes("110") && remplissage_vantail_110) {
 
-            if (sens == 0) { // Si le modèle le sens est 0, on ajoute le remplissage correspondant à la zone 2 du vantail 1 (cas particulier si les deux vantaux sont différents)
-                sashXml += `                    <FILLING leaf_id="1" filling_id="${remplissage_vantail2[0]}">\n
-                                    <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
-                        </FILLING>\n\n`;
-            } else {
-                sashXml += `                    <FILLING leaf_id="1" filling_id="${remplissage_vantail1[0]}">\n
-                                    <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
-                        </FILLING>\n\n`;
-            }
-            
-            if (remplissage_vantail1.length > 1) {
-                sashXml += `                    <FILLING leaf_id="1" filling_id="${remplissage_vantail1[1]}">\n
-                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
-                    </FILLING>\n\n`;
+            // On ajoute les remplissages pour le vantail 1
+            for (let i = 0; i < remplissage_vantail_110.length; i++) {
+                sashXml += `                    <FILLING leaf_id="1" filling_id="${remplissage_vantail_110[i]}">\n
+                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n`;
+                
+                if (tole_changeable) {
+                    sashXml += `                                <FILLING_OPTION code="QR_ModTole" value="${tole}"/>\n`;
+                }
+
+                sashXml += `                    </FILLING>\n\n`;
             }
 
-        // Si c'est un modèle -M et que remplissage_vantail1 n'existe pas pour le modèle, on ajoute un remplissage pour la zone 1 et 2 du vantail 1
-        } else if (remplissage_vantail1 === 0 && modelInput.endsWith("-M")) {
-            sashXml += `                    <FILLING leaf_id="1" filling_id="1">\n
-                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
-                    </FILLING>\n\n`;
-
-            sashXml += `                    <FILLING leaf_id="1" filling_id="2}">\n
-                                <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
-                    </FILLING>\n\n`;
-
-        } else {
-            sashXml += `                    <FILLING leaf_id="1" filling_id="2">\n
-                                    <FILLING_INNER_COLOUR info="">${color2}</FILLING_INNER_COLOUR>\n
-                        </FILLING>\n\n`;
         }
 
         sashXml += transomXml; // Ajouter le poteau intermédiaire si nécessaire
@@ -299,10 +313,41 @@ router.get('/generate', async (req, res) => {
         }
     } else { // Si le modèle est un portillon
         // Ajuster les dimensions pour les modèles B, BH, BB, B, CDG et CDGI
-        if (modelInput.includes("-B") || modelInput.includes("-CDG") || modelInput.includes("-CDGI")) {
-            console.log("Ajustement des dimensions pour le modèle:", modelInput);
+        if (modelInput.includes("-B") || modelInput.includes("-CDG") || modelInput.includes("-CDGI") || modelInput.includes("-BH") || modelInput.includes("-BB")) {
 
-            if (modelInput.includes("-B")) {
+            if (modelInput.includes("-BH")) {         
+                // Si le modèle est un modèle -BH, C = width * Tangeant(7°)
+                var C = width * Math.tan(7 * Math.PI / 180);
+
+                if (sens_ouverture.includes("gauche")) {
+                    // ajouter -D à la fin du modèle
+                    modelInput = modelInput + "-G";
+                                        
+                    var shapeXml = `<SHAPE id="1" orientation="0" c="${C}" />`;
+                } else {
+                    // ajouter -G à la fin du modèle
+                    modelInput = modelInput + "-D";
+                    
+                    var shapeXml = `<SHAPE id="1" orientation="1" c="${C}" />`;
+                }
+            
+            } else if (modelInput.includes("-BB")) {         
+                // Si le modèle est un modèle -BB, C = width * Tangeant(7°)
+                var C = width * Math.tan(7 * Math.PI / 180);
+
+                if (sens_ouverture.includes("droite")) {
+                    // ajouter -D à la fin du modèle
+                    modelInput = modelInput + "-D";
+                                        
+                    var shapeXml = `<SHAPE id="1" orientation="0" c="${C}" />`;
+                } else {
+                    // ajouter -G à la fin du modèle
+                    modelInput = modelInput + "-D";
+                    
+                    var shapeXml = `<SHAPE id="1" orientation="1" c="${C}" />`;
+                }
+
+            } else if (modelInput.includes("-B")) {
                 // Si le modèle est un modèle -B, C = 7514, E = B - C
                 var C = 7514
                 var E = height - C;
@@ -405,7 +450,7 @@ router.get('/generate', async (req, res) => {
     // Envoi de la requête SOAP, récupération de la réponse, génération du SVG et renvoi au client
     try {
         console.log("------------ Nouvelle requête ------------");
-        console.log(`\nParamètres de la requête : couleur1=${color1}, couleur2=${color2}, largeur=${width}, hauteur=${height}, largeur2=${width2}, modèle=${modelInput}, pose=${pose}, sens_ouverture=${sens_ouverture}, poteau_gauche=${poteau_gauche}, poteau_droit=${poteau_droit}, serrure=${serrure}, ferrage=${ferrage}, poignée=${poignee}, décor=${decor}, gammeDecor=${gammeDecor}, numéroRue=${numeroRue}, aspect=${aspect}`);
+        console.log(`\nParamètres de la requête : couleur1=${color1}, couleur2=${color2}, largeur=${width}, hauteur=${height}, largeur2=${width2}, modèle=${modelInput}, pose=${pose}, sens_ouverture=${sens_ouverture}, poteau_gauche=${poteau_gauche}, poteau_droit=${poteau_droit}, serrure=${serrure}, ferrage=${ferrage}, poignée=${poignee}, tole=${tole}, décor=${decor}, gammeDecor=${gammeDecor}, numéroRue=${numeroRue}, aspect=${aspect}`);
         console.log("\nEnvoi de la requête SOAP...");
         
         const response = await fetch("http://127.0.0.1:8001/soap/IWebshopv1", {

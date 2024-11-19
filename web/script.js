@@ -21,17 +21,18 @@ async function getToken() {
 
 let specs = {};
 
-// Fonction pour charger les spécifications au chargement de la page
+let currentPortalIndex = 0;
+let modelsList = [];
+
+// Fonction pour récupérer les spécifications
 async function loadSpecs() {
     try {
-        // Récupère le token d'authentification
         const token = await getToken();
         if (!token) {
             console.error('Impossible d\'obtenir le token');
             return;
         }
 
-        // Envoi de la requête pour obtenir les spécifications des portails
         const response = await fetch('http://localhost:3000/portail-specifications', {
             method: 'GET',
             headers: {
@@ -41,64 +42,59 @@ async function loadSpecs() {
         });
 
         specs = await response.json();
-
-        // Sélection de l'élément de la liste des portails
         const portalListElement = document.getElementById("portalList");
 
-        // Liste des identifiants de boutons à vérifier
         const buttons = ["110", "210", "310", "510"];
-        
-        // Descriptions des boutons pour chaque type de portail
-        const descriptions = {
-            "110": "Portillons",
-            "210": "Portails 2 vantaux",
-            "310": "Portails coulissants",
-            "510": "Portails coulissants 2 vantaux",
-        };
 
-        // Récupère la description correspondant au bouton actif
         const activeButtonId = buttons.find(buttonId => document.getElementById(buttonId).classList.contains("active"));
-        const description = descriptions[activeButtonId];
 
-        // Efface le contenu actuel de la liste des portails
         portalListElement.innerHTML = "";
 
-        // Vérifie chaque bouton et charge les modèles correspondants
-        buttons.forEach(buttonId => {
-            if (document.getElementById(buttonId).classList.contains("active")) {
-                // Récupère les modèles associés au bouton actif
-                const models = specs[`models${buttonId}`] || [];
+        if (activeButtonId) {
+            modelsList = specs[`models${activeButtonId}`] || [];
+            currentPortalIndex = 0; // Réinitialise l'index
 
-                // Ajoute chaque modèle à la liste des portails
-                models.forEach(model => {
-                    const row = document.createElement("tr");
-                    const cell = document.createElement("td");
-                    cell.className = "col1";
-                    cell.textContent = model;
+            modelsList.forEach((model, index) => {
+                const row = document.createElement("tr");
+                const cell = document.createElement("td");
+                cell.className = "col1";
+                cell.textContent = model;
 
-                    // Ajoute un événement de clic pour chaque modèle
-                    row.addEventListener("click", () => {
-                        document.getElementById("model").value = model; // Remplie le champ "Modèle"
-                        updateCollection(); // Met à jour la collection
-                        // Passe la classe 'active' au modèle dans le tableau
-                        document.querySelectorAll("tr").forEach(row => row.classList.remove("active"));
-                        row.classList.add("active");
-                    });
-
-                    row.appendChild(cell);
-                    portalListElement.appendChild(row);
+                row.addEventListener("click", () => {
+                    document.getElementById("model").value = model;
+                    updateCollection();
+                    document.querySelectorAll("tr").forEach(row => row.classList.remove("active"));
+                    row.classList.add("active");
+                    currentPortalIndex = index; // Met à jour l'index en fonction du clic
                 });
 
-                // Met à jour la description en fonction du bouton actif
-                const descriptionElement = document.getElementById("description");
-                descriptionElement.innerHTML = `<h2>${description}</h2>`;
-
-                // Met à jour la collection
-                updateCollection();
-            }
-        });
+                row.appendChild(cell);
+                portalListElement.appendChild(row);
+            });
+        }
+        updateCollection();
     } catch (error) {
         console.error("Erreur lors de la lecture des spécifications des portails:", error);
+    }
+}
+
+// Fonction pour passer au portail suivant
+function goToNextPortal() {
+    if (modelsList.length === 0) return;
+
+    // Passe au portail suivant (boucle au début si à la fin)
+    currentPortalIndex = (currentPortalIndex + 1) % modelsList.length;
+    const nextModel = modelsList[currentPortalIndex];
+
+    // Met à jour le champ "Modèle" avec le modèle suivant
+    document.getElementById("model").value = nextModel;
+    updateCollection();
+
+    // Met à jour l'état actif dans la liste
+    const portalRows = document.querySelectorAll("#portalList tr");
+    portalRows.forEach(row => row.classList.remove("active"));
+    if (portalRows[currentPortalIndex]) {
+        portalRows[currentPortalIndex].classList.add("active");
     }
 }
 
@@ -112,7 +108,9 @@ function updateCollection() {
         collectionInput.value = "WEB_ELEG_2VTX";
     } else if (modelInput.includes("110")) {
         collectionInput.value = "WEB_ELEG_1VTL";
-    } else {
+    } else if (modelInput.includes("310")) {
+        collectionInput.value = "WEB_ELEG_COUL1";
+    } else if (modelInput.includes("510")) {
         // Recherche la collection correspondant au modèle
         const collection = specs.model_collections[modelInput] || ''; // Valeur par défaut si non trouvée
         collectionInput.value = collection;

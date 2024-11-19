@@ -1,32 +1,43 @@
 {
    "bicolores": [
-      "LYBI310", "LYBI310-1M", "LYBICHA310", "LYBI110", "LYBI110-G",
-      "LYBI410", "OSOY110", "OSOY110-G", "PICT110", "PICT110-G",
-      "OSOY410", "PICT410", "SABL410", "LYBI210", "ALTA210",
-      "DANA210", "NAMI210", "ORDO210", "KAMA210", "MERA210",
-      "MOJA210", "SIRI210", "THAR210", "ALTA310", "DANA310",
-      "KAMA310", "NAMI310", "ORDO310", "MERA310", "MOJA310",
-      "SIRI310", "THAR310", "ALTA410", "DANA410", "KAMA410",
-      "NAMI410", "ORDO410", "MERA410", "MOJA410", "SIRI410",
-      "THAR410", "ALTA510", "DANA510", "NAMI510", "ORDO510",
-      "KAMA510", "MERA510", "MOJA510", "SIRI510", "THAR510",
-      "PICT510", "OSOY310", "PICT310", "PICT310-D", "ALTA110",
-      "DANA110", "KAMA110", "MERA110", "MOJA110", "NAMI110",
-      "ORDO110", "SIRI110", "THAR110", "OSOY210", "PICT210",
-      "NUBI210", "LODR110", "LODR210", "LODR310", "LODR510"
+      "LYBI", "PICT", "DANA", "NAMI", "ORDO", "KAMA", "MERA",
+      "MOJA", "SIRI", "THAR", "NUBI", "LODR", "ALTA"
+   ],
+
+   "models_DG": [
+      "ARCE110", "BARA110", "CHAL110", "COME110", "CREP110", 
+      "GIBS110", "HIBO110", "LODR110", "LYBI110", "MAGN110", 
+      "MIR110", "NASA110", "NODU110", "PICT110", "PLES110", 
+      "POLA110", "REDA110", "TERR110"
+   ],
+
+   "models_tole_changeable": [
+      "CREP110-D", "CREP110-G", "CREP210-B", "CREP310-B", "CREP310-CDG", "GALA110",
+      "GALA110-M", "GALA210", "GALA210-M", "GALA310", "GALA310-M2", "GALA310-M3",
+      "GIEN110", "GIEN110-M", "GIEN210", "GIEN210-M", "GIEN310", "GIEN310-M2",
+      "GIEN310-M3", "GURB110", "GURB110-M", "GURB210", "GURB210-M", "GURB310",
+      "GURB310-M2", "GURB310-M3", "HIBO110-D", "HIBO110-G", "HIBO210", "HIBO310",
+      "LOMP110", "LOMP110-M", "LOMP210", "LOMP210-M", "LOMP310", "LOMP310-M2",
+      "LOMP310-M3", "MAGN210", "MAGN310", "METE110", "METE110-M", "METE210",
+      "METE210-M", "METE310", "METE310-M2", "METE310-M3", "MIZA110", "MIZA110-M",
+      "MIZA210", "MIZA310", "MIZA310-M3", "NODU110-D", "NODU110-G", "NODU210",
+      "NODU310", "PESK110", "PESK110-M", "PESK210", "PESK310", "PESK310-M2",
+      "PESK310-M3", "PICT110-D", "PICT110-G", "PICT210", "PICT310-D", "PICT310-G",
+      "PICT310-M-D", "PICT310-M-G", "PLES110-D", "PLES110-G", "PLES210",
+      "PLES310", "PLES310-M", "POLA110-D", "POLA110-G", "POLA210", "POLA310",
+      "POLA310-M", "REDA110-D", "REDA110-G", "REDA210", "REDA310", "SADI310-4T",
+      "TERR110-D", "TERR110-G", "TERR210", "TERR310", "TERR310-M", "VICT210","VICT310"
    ],
 
    "models110": [
       "ALTA110", "ANTA110", "ANTAR110", "ANTAR110-M", "ARCE110",
       "ARCT110", "ARCT110-M", "ASTR110-CDG",
       "ASTR110-B", "ATAC110", "ATAC110-M", "ATLA110", "ATLA110-M",
-      "ATRI110", "ATRI110-M", "BARA110", "CHAL110",
-      "COME110", "CREP110", "DANA110",
-      "ESPA110-B", "ESPA110-CDG", "ETIN110-B",
-      "ETIN110-CDG", "FOUD110-B",
+      "ATRI110", "ATRI110-M", "CHAL110", "COME110", "CREP110", "DANA110",
+      "ESPA110-B", "ESPA110-CDG", "ETIN110-B", "ETIN110-CDG", "FOUD110-B",
       "FOUD110-CDG", "GALA110", "GALA110-M", "GIBS110", "GIEN110",
       "GIEN110-M", "GURB110", "GURB110-M", "HIBO110", "KAMA110",
-      "LODR110", "LOMP110", "LOMP110-M", "LYBI110",
+      "LODR110", "LOMP110", "LOMP110-M",
       "MAGN110", "MEDI110", "MEDI110-M", "MEGA110", "MERA110",
       "METE110", "METE110-M", "MIR110", "MIZA110", "MIZA110-M", "MOJA110",
       "NAMI110", "NASA110", "NINE110", "NINE110-BH", "NINE110-BB",
@@ -38,13 +49,6 @@
       "UNIV110-BH", "UNIV110-BB", "VICT110", "VONA110"
    ],
 
-   "models_DG": [
-      "ARCE110", "BARA110", "CHAL110", "COME110", "CREP110", 
-      "GIBS110", "HIBO110", "LODR110", "LYBI110", "MAGN110", 
-      "MIR110", "NASA110", "NODU110", "PICT110", "PLES110", 
-      "POLA110", "REDA110", "TERR110-D"
-   ],
-
 
    "models210": [
       "ALTA210", "ANTA210", "ANTAR210", "ARCE210", "ARCT210", "ASTR210-CDGI", 
@@ -52,34 +56,220 @@
       "BARA210", "CHAL210", "COME210-D", "COME210-G", "CREP210-B", "DANA210", 
       "ESPA210-B", "ESPA210-CDG", "ESPA210-CDGI", "ETIN210-B", "ETIN210-CDG", 
       "ETIN210-CDGI", "FOUD210-B", "FOUD210-CDG", "FOUD210-CDGI", "GALA210", 
-      "GIBS210", "GIEN210", "GUR210", "HIBO210", "KAMA210", "LODR210", "LOMP210", 
+      "GIBS210", "GIEN210", "GURB210", "HIBO210", "KAMA210", "LODR210", "LOMP210", 
       "LYBI210", "MAGN210", "MEDI210", "MEGA210", "MERA210", "METE210", "MIR210", 
       "MIZA210", "MOJA210", "NAMI210", "NASA210", "NINE210-BH", "NINE210", 
       "NINE210-BB", "NODU210", "NUBI210", "ORDO210", "PATA210", "PESK210", 
-      "PICT210", "PLE210", "POLA210", "REDA210", "SADI210-3T", "SIRI210", 
+      "PICT210", "PLES210", "POLA210", "REDA210", "SADI210-3T", "SIRI210", 
       "SONO210", "TERR210", "THAR210", "TONN210-CDG", "TONN210-B", "TONN210-CDGI", 
       "TOUR210", "TOUR210-BB", "TOUR210-BH", "UNIV210", "UNIV210-BB", "UNIV210-BH", 
       "VICT210", "VONA210"
    ],
 
    "models310": [
-      "ANTA310", "GALA310-M", "GIBS310-M"
+      "ALTA310", "ALTA310-M", "ANTA310", "ANTA310-M", "ANTAR310", "ANTAR310-M2", "ANTAR310-M3",
+      "ARCE310", "ARCT310", "ARCT310-M2", "ARCT310-M3", "ASTR310-B", "ASTR310-CDG", "ASTR310-CDGI",
+      "ATAC310-M", "ATAC310-M2", "ATAC310-M3", "ATLA310", "ATLA310-M2", "ATLA310-M3", "ATRI310",
+      "ATRI310-M2", "ATRI310-M3", "BARA310", "BARA310-M", "CHAL310", "CHAL310-M", "COME310",
+      "COME310-M", "CREP310-B", "CREP310-CDG", "DANA310", "ESPA310-B", "ESPA310-CDG", "ESPA310-CDGI",
+      "ETIN310-B", "ETIN310-CDG", "ETIN310-CDGI", "FOUD310-B", "FOUD310-CDG", "FOUD310-CDGI", "GALA310",
+      "GALA310-M2", "GALA310-M3", "GIBS310", "GIEN310", "GIEN310-M2", "GIEN310-M3", "GURB310", "GURB310-M2",
+      "GURB310-M3", "HIBO310", "KAMA310", "KAMA310-M", "LODR310", "LOMP310", "LOMP310-M2", "LOMP310-M3",
+      "LYBI310", "LYBI310-M", "MAGN310", "MEDI310", "MEDI310-M2", "MEDI310-M3", "MEGA310", "MERA310", "METE310",
+      "METE310-M2", "METE310-M3", "MIR310", "MIZA310", "MIZA310-M3", "MOJA310", "NAMI310", "NASA310",
+      "NINE310", "NINE310-M2", "NINE310-M3", "NODU310", "NUBI310", "NUBI310-M2", "ORDO310", "PATA310",
+      "PATA310-M2", "PATA310-M3", "PESK310", "PESK310-M2", "PESK310-M3", "PICT310-D", "PICT310-M-D",
+      "PICT310-G", "PICT310-M-G", "PLES310", "PLES310-M", "POLA310", "POLA310-M", "REDA310", "SADI310-3T",
+      "SADI310-4T", "SIRI310", "SIRI310-M", "SONO310", "TERR310", "TERR310-M", "THAR310", "THAR310-M",
+      "TONN310-B", "TONN310-CDG", "TONN310-CDGI", "TOUR310", "TOUR310-M", "TOUR310-BH", "TOUR310-BB",
+      "UNIV310", "UNIV310-M", "UNIV310-BH", "UNIV310-BB", "VICT310", "VONA310", "VONA310-M2", "VONA310-M3"
    ],
 
    "models510": [
       "ALTA510", "ANTA510", "ANTAR510", "ARCE510", "ARCT510", "ATAC510", "ATLA510", "ATRI510", 
       "BARA510", "CHAL510", "DANA510", "GALA510", 
-      "GIBS510", "GIEN510", "GUR510", "HIBO510", "KAMA510", "LODR510", "LOMP510", 
+      "GIBS510", "GIEN510", "GURB510", "HIBO510", "KAMA510", "LODR510", "LOMP510", 
       "LYBI510", "MAGN510", "MEDI510", "MEGA510", "MERA510", "METE510", "MIR510", 
       "MIZA510", "MOJA510", "NAMI510", "NASA510", "NINE510", 
       "NODU510", "NUBI510", "ORDO510", "PATA510", "PESK510", 
-      "PICT510", "PLE510", "POLA510", "REDA510", "SIRI510", 
+      "PICT510", "PLES510", "POLA510", "REDA510", "SIRI510", 
       "SONO510", "TERR510", "THAR510", 
       "TOUR510", "UNIV510", 
       "VICT510", "VONA510"
    ],
 
-   "remplissage_vantail": [
+   "remplissage_vantail_110": [
+      {
+      "model":"ARCE",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"ASTR",
+      "remplissage_vantail_110":[2]
+      },
+      {
+      "model":"ATAC",
+      "remplissage_vantail_110":[2]
+      },
+      {
+      "model":"ATAC110-M",
+      "remplissage_vantail_110":[2, 3]
+      },
+      {
+      "model":"ATRI",
+      "remplissage_vantail_110":[2]
+      },
+      {
+      "model":"ATRI110-M",
+      "remplissage_vantail_110":[2, 3]
+      },
+      {
+      "model":"BARA",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"CHAL",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"COME",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"CREP",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"ETIN",
+      "remplissage_vantail_110":[2]
+      },
+      {
+      "model":"GALA",
+      "remplissage_vantail_110":[1, 2, 3]
+      },
+      {
+      "model":"GALA110-M",
+      "remplissage_vantail_110":[1, 2, 3, 4, 5, 6]
+      },
+      {
+      "model":"GIBS",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"GIEN",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"GIEN110-M",
+      "remplissage_vantail_110":[1, 2, 3, 4]
+      },
+      {
+      "model":"GURB",
+      "remplissage_vantail_110":[2]
+      },
+      {
+      "model":"GURB110-M",
+      "remplissage_vantail_110":[2, 3]
+      },
+      {
+      "model":"HIBO",
+      "remplissage_vantail_110":[2]
+      },
+      {
+      "model":"LODR",
+      "remplissage_vantail_110":[1]
+      },
+      {
+      "model":"LOMP",
+      "remplissage_vantail_110":[2]
+      },
+      {
+      "model":"LOMP110-M",
+      "remplissage_vantail_110":[2, 3]
+      },
+      {
+      "model":"LYBI",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"MAGN",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"METE",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"METE110-M",
+      "remplissage_vantail_110":[1, 2, 3]
+      },
+      {
+      "model":"MIR",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"MIZA",
+      "remplissage_vantail_110":[2]
+      },
+      {
+      "model":"MIZA110-M",
+      "remplissage_vantail_110":[3, 4]
+      },
+      {
+      "model":"NASA",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"NODU",
+      "remplissage_vantail_110":[3]
+      },
+      {
+      "model":"PATA",
+      "remplissage_vantail_110":[2]
+      },
+      {
+      "model":"PATA110-M",
+      "remplissage_vantail_110":[2, 3]
+      },
+      {
+      "model":"PESK",
+      "remplissage_vantail_110":[1]
+      },
+      {
+      "model":"PESK110-M",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"PICT",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"PLES",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"POLA",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"REDA",
+      "remplissage_vantail_110":[2]
+      },
+      {
+      "model":"TERR",
+      "remplissage_vantail_110":[1, 2]
+      },
+      {
+      "model":"TONN",
+      "remplissage_vantail_110":[2]
+      },
+      {
+      "model":"TOUR",
+      "remplissage_vantail_110":[2]
+      }
+   ],
+
+   "remplissage_vantails_210": [
       {
       "model":"ARCE",
       "remplissage_vantail1":[2],
@@ -97,8 +287,8 @@
       },
       {
       "model":"ATRI",
-      "remplissage_vantail1":[2],
-      "remplissage_vantail2":[2]
+      "remplissage_vantail1":[2, 3],
+      "remplissage_vantail2":[2, 3]
       },
       {
       "model":"BARA",
@@ -131,6 +321,11 @@
       "remplissage_vantail2":[1]
       },
       {
+      "model":"GALA",
+      "remplissage_vantail1":[1, 2, 3],
+      "remplissage_vantail2":[1, 2, 3]
+      },
+      {
       "model":"GIBS",
       "remplissage_vantail1":[2],
       "remplissage_vantail2":[2]
@@ -151,7 +346,17 @@
       "remplissage_vantail2":[2]
       },
       {
+      "model":"LODR",
+      "remplissage_vantail1":[1],
+      "remplissage_vantail2":[1]
+      },
+      {
       "model":"LOMP",
+      "remplissage_vantail1":[2],
+      "remplissage_vantail2":[2]
+      },
+      {
+      "model":"LYBI",
       "remplissage_vantail1":[2],
       "remplissage_vantail2":[2]
       },
@@ -208,7 +413,7 @@
       {
       "model":"PICT",
       "remplissage_vantail1":[1],
-      "remplissage_vantail2":[0]
+      "remplissage_vantail2":[2]
       },
       {
       "model":"PLES",
@@ -244,6 +449,237 @@
       "model":"VICT",
       "remplissage_vantail1":[2],
       "remplissage_vantail2":[0]
+      }
+   ],
+
+   "remplissage_vantail_310": [
+      {
+         "model":"ARCE",
+         "remplissage_vantail_310":[2, 4]
+      },
+      {
+         "model":"ASTR",
+         "remplissage_vantail_310":[2, 4]
+      },
+      {
+         "model":"ATAC310-M",
+         "remplissage_vantail_310":[2, 4]
+      },
+      {
+         "model":"ATAC310-M2",
+         "remplissage_vantail_310":[2, 4, 6]
+      },
+      {
+         "model":"ATAC310-M3",
+         "remplissage_vantail_310":[2, 3, 5, 6]
+      },
+      {
+         "model":"ATRI",
+         "remplissage_vantail_310":[2, 4]
+      },
+      {
+         "model":"ATRI310-M2",
+         "remplissage_vantail_310":[2, 4, 6]
+      },
+      {
+         "model":"ATRI310-M3",
+         "remplissage_vantail_310":[2, 3, 5, 6]
+      },
+      {
+         "model":"BARA",
+         "remplissage_vantail_310":[1, 3]
+      },
+      {
+         "model":"BARA310-M",
+         "remplissage_vantail_310":[1, 4]
+      },
+      {
+         "model":"CHAL",
+         "remplissage_vantail_310":[1, 3]
+      },
+      {
+         "model":"CHAL310-M",
+         "remplissage_vantail_310":[1, 4]
+      },
+      {
+         "model":"COME",
+         "remplissage_vantail_310":[2]
+      },
+      {
+         "model":"COME310-M",
+         "remplissage_vantail_310":[3]
+      },
+      {
+         "model":"CREP",
+         "remplissage_vantail_310":[2, 4]
+      },
+      {
+         "model":"ETIN",
+         "remplissage_vantail_310":[2, 4]
+      },
+      {
+         "model":"GALA",
+         "remplissage_vantail_310":[1, 2, 3, 4, 5, 6]
+      },
+      {
+         "model":"GALA310-M2",
+         "remplissage_vantail_310":[1, 2, 3, 4, 5, 6, 7, 8, 9]
+      },
+      {
+         "model":"GALA310-M3",
+         "remplissage_vantail_310":[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
+      },
+      {
+         "model":"GIBS",
+         "remplissage_vantail_310":[2, 4]
+      },
+      {
+         "model":"GIEN",
+         "remplissage_vantail_310":[1, 2, 3, 4]
+      },
+      {
+         "model":"GIEN310-M2",
+         "remplissage_vantail_310":[1, 2, 3, 4, 5, 6]
+      },
+      {
+         "model":"GIEN310-M3",
+         "remplissage_vantail_310":[1, 2, 3, 4, 5, 6, 7, 8]
+      },
+      {
+         "model":"GURB",
+         "remplissage_vantail_310":[2, 4]
+      },
+      {
+         "model":"GURB310-M2",
+         "remplissage_vantail_310":[2, 4, 6]
+      },
+      {
+         "model":"GURB310-M3",
+         "remplissage_vantail_310":[2, 3, 5, 6]
+      },
+      {
+         "model":"HIBO",
+         "remplissage_vantail_310":[3, 4]
+      },
+      {
+         "model":"LODR",
+         "remplissage_vantail_310":[1, 2]
+      },
+      {
+         "model":"LOMP",
+         "remplissage_vantail_310":[2, 4]
+      },
+      {
+         "model":"LOMP310-M2",
+         "remplissage_vantail_310":[2, 4, 6]
+      },
+      {
+         "model":"LOMP310-M3",
+         "remplissage_vantail_310":[2, 3, 5, 6]
+      },
+      {
+         "model":"METE",
+         "remplissage_vantail_310":[1, 2, 4, 5]
+      },
+      {
+         "model":"METE310-M2",
+         "remplissage_vantail_310":[1, 2, 4, 5, 7, 8]
+      },
+      {
+         "model":"METE310-M3",
+         "remplissage_vantail_310":[1, 2, 3, 5, 6, 7]
+      },
+      {
+         "model":"MIR",
+         "remplissage_vantail_310":[1, 2, 3, 4]
+      },
+      {
+         "model":"MIZA",
+         "remplissage_vantail_310":[2, 4, 6]
+      },
+      {
+         "model":"MIZA310-M3",
+         "remplissage_vantail_310":[2, 4, 6, 8]
+      },
+      {
+         "model":"NASA",
+         "remplissage_vantail_310":[1, 4]
+      },
+      {
+         "model":"NODU",
+         "remplissage_vantail_310":[3, 6]
+      },
+      {
+         "model":"PATA",
+         "remplissage_vantail_310":[2, 4]
+      },
+      {
+         "model":"PATA310-M2",
+         "remplissage_vantail_310":[2, 4, 6]
+      },
+      {
+         "model":"PATA310-M3",
+         "remplissage_vantail_310":[2, 3, 5, 6]
+      },
+      {
+         "model":"PESK",
+         "remplissage_vantail_310":[1, 2]
+      },
+      {
+         "model":"PESK310-M2",
+         "remplissage_vantail_310":[1, 2, 3]
+      },
+      {
+         "model":"PESK310-M3",
+         "remplissage_vantail_310":[1, 2, 3, 4]
+      },
+      {
+         "model":"PICT",
+         "remplissage_vantail_310":[1, 2, 3]
+      },
+      {
+         "model":"PLES",
+         "remplissage_vantail_310":[1, 3]
+      },
+      {
+         "model":"PLES310-M",
+         "remplissage_vantail_310":[1, 4]
+      },
+      {
+         "model":"POLA",
+         "remplissage_vantail_310":[1, 3]
+      },
+      {
+         "model":"POLA310-M",
+         "remplissage_vantail_310":[1, 4]
+      },
+      {
+         "model":"REDA",
+         "remplissage_vantail_310":[2, 4]
+      },
+      {
+         "model":"TERR",
+         "remplissage_vantail_310":[1, 3]
+      },
+      {
+         "model":"TERR310-M",
+         "remplissage_vantail_310":[1, 4]
+      },
+      {
+         "model":"TONN",
+         "remplissage_vantail_310":[2, 4]
+      },
+      {
+         "model":"TOUR",
+         "remplissage_vantail_310":[2, 4]
+      },
+      {
+         "model":"TOUR310-M",
+         "remplissage_vantail_310":[2, 4]
+      },
+      {
+         "model":"VICT",
+         "remplissage_vantail_310":[2]
       }
    ]
 
