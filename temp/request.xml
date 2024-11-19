@@ -6,13 +6,13 @@
 
                 <REQUEST_TO_WINPRO>
                     <REQUEST_TYPE>0</REQUEST_TYPE>
-                    <LIBRARY>WEB_ELEG_2VTX</LIBRARY>
-                    <ITEM>VICT210</ITEM>
+                    <LIBRARY>WEB_ELEG_1VTL</LIBRARY>
+                    <ITEM>HIBO110-D</ITEM>
                     <IMAGE type="svg" view="reverse" />
                     <DIMENSION_LINES>0</DIMENSION_LINES>
                     <CONFIGS>
                         <CONFIG>
-                            <WIDTH>4000</WIDTH>
+                            <WIDTH>1000</WIDTH>
                             <HEIGHT>1400</HEIGHT>
                             
                             <COLOUR>7016STRU</COLOUR>
@@ -31,16 +31,16 @@
 
                     <DIRECTION>0</DIRECTION>
 
+                    <FILLING leaf_id="1" filling_id="1">
+
+                                <FILLING_INNER_COLOUR info="">1015STRU</FILLING_INNER_COLOUR>
+                                <FILLING_OPTION code="QR_ModTole" value="QR_ModTole_Lhassa"/>
+                    </FILLING>
+
                     <FILLING leaf_id="1" filling_id="2">
 
                                 <FILLING_INNER_COLOUR info="">1015STRU</FILLING_INNER_COLOUR>
-                                <FILLING_OPTION code="QR_ModTole" value="QR_ModTole_TrouCar"/>
-                    </FILLING>
-
-                    <FILLING leaf_id="2" filling_id="0">
-
-                                <FILLING_INNER_COLOUR info="">1015STRU</FILLING_INNER_COLOUR>
-                                <FILLING_OPTION code="QR_ModTole" value="QR_ModTole_TrouCar"/>
+                                <FILLING_OPTION code="QR_ModTole" value="QR_ModTole_Lhassa"/>
                     </FILLING>
 
                     </SASH>

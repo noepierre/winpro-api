@@ -12,21 +12,21 @@
    ],
 
    "models_tole_changeable": [
-      "CREP110-D", "CREP110-G", "CREP210-B", "CREP310-B", "CREP310-CDG", "GALA110",
+      "CREP110", "CREP110", "CREP210-B", "CREP310-B", "CREP310-CDG", "GALA110",
       "GALA110-M", "GALA210", "GALA210-M", "GALA310", "GALA310-M2", "GALA310-M3",
       "GIEN110", "GIEN110-M", "GIEN210", "GIEN210-M", "GIEN310", "GIEN310-M2",
       "GIEN310-M3", "GURB110", "GURB110-M", "GURB210", "GURB210-M", "GURB310",
-      "GURB310-M2", "GURB310-M3", "HIBO110-D", "HIBO110-G", "HIBO210", "HIBO310",
+      "GURB310-M2", "GURB310-M3", "HIBO110", "HIBO110", "HIBO210", "HIBO310",
       "LOMP110", "LOMP110-M", "LOMP210", "LOMP210-M", "LOMP310", "LOMP310-M2",
       "LOMP310-M3", "MAGN210", "MAGN310", "METE110", "METE110-M", "METE210",
       "METE210-M", "METE310", "METE310-M2", "METE310-M3", "MIZA110", "MIZA110-M",
-      "MIZA210", "MIZA310", "MIZA310-M3", "NODU110-D", "NODU110-G", "NODU210",
+      "MIZA210", "MIZA310", "MIZA310-M3", "NODU110", "NODU110", "NODU210",
       "NODU310", "PESK110", "PESK110-M", "PESK210", "PESK310", "PESK310-M2",
-      "PESK310-M3", "PICT110-D", "PICT110-G", "PICT210", "PICT310-D", "PICT310-G",
-      "PICT310-M-D", "PICT310-M-G", "PLES110-D", "PLES110-G", "PLES210",
-      "PLES310", "PLES310-M", "POLA110-D", "POLA110-G", "POLA210", "POLA310",
-      "POLA310-M", "REDA110-D", "REDA110-G", "REDA210", "REDA310", "SADI310-4T",
-      "TERR110-D", "TERR110-G", "TERR210", "TERR310", "TERR310-M", "VICT210","VICT310"
+      "PESK310-M3", "PICT110", "PICT110", "PICT210", "PICT310", "PICT310",
+      "PICT310-M", "PICT310-M", "PLES110", "PLES110", "PLES210",
+      "PLES310", "PLES310-M", "POLA110", "POLA110", "POLA210", "POLA310",
+      "POLA310-M", "REDA110", "REDA110", "REDA210", "REDA310", "SADI310-4T",
+      "TERR110", "TERR110", "TERR210", "TERR310", "TERR310-M", "VICT210","VICT310"
    ],
 
    "models110": [
@@ -173,7 +173,7 @@
       },
       {
       "model":"HIBO",
-      "remplissage_vantail_110":[2]
+      "remplissage_vantail_110":[1, 2]
       },
       {
       "model":"LODR",
@@ -343,7 +343,7 @@
       {
       "model":"HIBO",
       "remplissage_vantail1":[2],
-      "remplissage_vantail2":[2]
+      "remplissage_vantail2":[1]
       },
       {
       "model":"LODR",
@@ -559,7 +559,7 @@
       },
       {
          "model":"HIBO",
-         "remplissage_vantail_310":[3, 4]
+         "remplissage_vantail_310":[2, 3]
       },
       {
          "model":"LODR",
