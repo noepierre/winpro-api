@@ -63,6 +63,9 @@ router.get('/generate', async (req, res) => {
     // On vérifie si le modèle a une tole changeable ou non
     let tole_changeable = false;
 
+    // Largeur maximale sans meneau
+    let maxWidth_without_m;
+
     async function getToken() {
         try {
             const response = await fetch('http://localhost:3000/api/auth/login', {
@@ -107,6 +110,53 @@ router.get('/generate', async (req, res) => {
 
         const specs = await response.json();
 
+        // Vérifier si le modèle a une largeur maximale sans meneau
+        maxWidth_without_m = specs.maxWidth_without_m.some(model => model.model === modelInput)
+
+        if (maxWidth_without_m) {
+            maxWidth_without_m = specs.maxWidth_without_m.filter(model => model.model === modelInput)[0].maxWidth;
+        }
+
+        // Si on ne trouve pas le modèle dans les spécifications, on reessaye en ajoutant -M à modelInput
+        if (!maxWidth_without_m) {
+            modelInput = modelInput + "-M";
+            maxWidth_without_m = specs.maxWidth_without_m.some(model => model.model === modelInput)
+
+            if (!maxWidth_without_m) {
+                modelInput = modelInput.replace("-M", "");
+            } else {
+                maxWidth_without_m = specs.maxWidth_without_m.filter(model => model.model === modelInput)[0].maxWidth;
+            }
+        }
+
+        // Passer au modèle -M si la largeur est supérieure à maxWidth_without_m
+        if (maxWidth_without_m && width > maxWidth_without_m) {
+            if (modelInput.endsWith("0") || modelInput.endsWith("-D") || modelInput.endsWith("-G")) {
+                modelInput = modelInput.replace("0", "0-M");
+            } else if (modelInput.endsWith("-M")) {
+                modelInput = modelInput + "2";
+            }
+        }
+
+        // Cas particulier pour le modèle MIZA310 qui est chiant
+        if (modelInput.includes("MIZA310") && (aspect === "2" || width > maxWidth_without_m)) {
+            if (modelInput.endsWith("0")) {
+                modelInput = modelInput + "-M3";
+            } else if (modelInput.endsWith("-M")) {
+                modelInput = modelInput + "3";
+            }
+        }        
+
+        // Si le modèle est un 310 de base et que l'aspect est 2, on ajoute -M à la fin du modèle
+        if (aspect === "2" && modelInput.endsWith("310") && maxWidth_without_m) {
+            modelInput = modelInput + "-M";
+        }
+
+        // SI le modèle est déjà un modèle -M2 et que l'aspect est 2, on remplace -M2 par -M3
+        if (aspect === "2" && modelInput.endsWith("M2")) {
+            modelInput = modelInput.replace("-M2", "-M3");
+        }
+
         // Vérifier si le modèle est dans la liste des modèles -G ou -D
         isGDmodelInput = specs.models_DG.includes(modelInput);
 
@@ -119,7 +169,9 @@ router.get('/generate', async (req, res) => {
         isBicolor = specs.bicolores.includes(modelInputName);
 
         // Vérifier si le modèle a une tole changeable
-        tole_changeable = specs.models_tole_changeable.includes(model);
+        tole_changeable = specs.models_tole_changeable.includes(modelInput);
+
+        // Si maxWidth_without_m du modèle existe, on ajoute -M à la fin du modèle si width est supérieur à maxWidth_without_m
 
         // Remplir vantail110 par les remplissages pour les modèles 110
         if (model.includes("110")) {
@@ -175,6 +227,19 @@ router.get('/generate', async (req, res) => {
     // remplissage du vantail si le modèle est 310
     let remplissage_vantail_310 = 0;
 
+    var transomXml = ''; // Initialiser le XML pour le poteau intermédiaire
+
+    // Si l'aspect est 2 et que le modèle ne se termine pas par -M2 et que le modèle n'est pas un 310, alors on ajoute le poteau intermédiaire
+    if (aspect === "2" && !modelInput.endsWith("-M2") && modelInput.includes("310")) {
+
+        // Cas particulier pour le modèle MIZA310
+        if (modelInput === "MIZA310-M3") {
+            transomXml = `              <TRANSOM transom_id="3" leaf_id="1" filling_id="1" pos="W / 2" code="ALU ASPECT 2VTX" info="" masonry="1" />`;
+        } else {
+            transomXml = `              <TRANSOM transom_id="1" leaf_id="1" filling_id="1" pos="W / 2" code="ALU ASPECT 2VTX" info="" masonry="1" />`;
+        }
+    }
+
     // Récupérer les remplissages pour les vantaux et affecter les valeurs aux variables
     if (remplissage210 && vantaux.length > 0) {
         ({ remplissage_vantail1, remplissage_vantail2 } = vantaux[0]);
@@ -182,13 +247,6 @@ router.get('/generate', async (req, res) => {
         ({ remplissage_vantail_310 } = vantail310[0]);
     } else if (remplissage110 && vantail110.length > 0) {
         ({ remplissage_vantail_110 } = vantail110[0]);
-    }
-
-    var transomXml = ''; // Initialiser le XML pour le poteau intermédiaire
-
-    // Si l'aspect est 2 et que le modèle ne se termine pas par -M2 et que le modèle n'est pas un 310, alors on ajoute le poteau intermédiaire
-    if (aspect === "2" && !modelInput.endsWith("-M2") && modelInput.includes("310")) {
-        transomXml = `              <TRANSOM transom_id="1" leaf_id="1" filling_id="1" pos="W / 2" code="ALU ASPECT 2VTX" info="" masonry="1" />`;
     }
 
     // Si modèle est 310 ou 510, que serrure contient "sans" alors on ajoute le moteur    

@@ -29,20 +29,210 @@
       "TERR110", "TERR110", "TERR210", "TERR310", "TERR310-M", "VICT210","VICT310"
    ],
 
+   "maxWidth_without_m": [
+      {
+         "model":"ANTAR110",
+         "maxWidth": 2000
+      },
+      {
+         "model":"ARCT110",
+         "maxWidth": 2000
+      },
+      {
+         "model":"ATAC110",
+         "maxWidth": 2000
+      },
+      {
+         "model":"ATLA110",
+         "maxWidth": 2000
+      },
+      {
+         "model":"ATRI110",
+         "maxWidth": 2000
+      },
+      {
+         "model":"GALA110",
+         "maxWidth": 1800
+      },
+      {
+         "model":"GIEN110",
+         "maxWidth": 1800
+      },
+      {
+         "model":"GURB110",
+         "maxWidth": 2000
+      },
+      {
+         "model":"LOMP110",
+         "maxWidth": 2000
+      },
+      {
+         "model":"MEDI110",
+         "maxWidth": 2000
+      },
+      {
+         "model":"METE110",
+         "maxWidth": 2000
+      },
+      {
+         "model":"MIZA110",
+         "maxWidth": 1200
+      },
+      {
+         "model":"NUBI110",
+         "maxWidth": 2000
+      },
+      {
+         "model":"PATA110",
+         "maxWidth": 2000
+      },
+      {
+         "model":"PESK110",
+         "maxWidth": 1800
+      },
+      {
+         "model":"ALTA310",
+         "maxWidth": 4000
+      },
+      {
+         "model":"ANTA310",
+         "maxWidth": 4000
+      },
+      {
+         "model":"ANTAR310-M",
+         "maxWidth": 4000
+      },
+      {
+         "model":"ARCT310-M",
+         "maxWidth": 4000
+      },
+      {
+         "model":"ATAC310-M",
+         "maxWidth": 4000
+      },
+      {
+         "model":"MIZA310",
+         "maxWidth": 4750
+      },
+      {
+         "model":"ATLA310-M",
+         "maxWidth": 4000
+      },
+      {
+         "model":"ATRI310-M",
+         "maxWidth": 4000
+      },
+      {
+         "model":"BARA310",
+         "maxWidth": 4000
+      },
+      {
+         "model":"CHAL310",
+         "maxWidth": 4000
+      },
+      {
+         "model":"COME310",
+         "maxWidth": 4000
+      },
+      {
+         "model":"GALA310-M",
+         "maxWidth": 3750
+      },
+      {
+         "model":"GIEN310-M",
+         "maxWidth": 3750
+      },
+      {
+         "model":"GURB310-M",
+         "maxWidth": 4000
+      },
+      {
+         "model":"KAMA310",
+         "maxWidth": 4000
+      },
+      {
+         "model":"LOMP310-M",
+         "maxWidth": 4000
+      },
+      {
+         "model":"LYBI310",
+         "maxWidth": 5000
+      },
+      {
+         "model":"MEDI310-M",
+         "maxWidth": 4000
+      },
+      {
+         "model":"METE310-M",
+         "maxWidth": 4000
+      },
+      {
+         "model":"NINE310-M",
+         "maxWidth": 4000
+      },
+      {
+         "model":"NUBI310-M",
+         "maxWidth": 4000
+      },
+      {
+         "model":"PATA310-M",
+         "maxWidth": 4000
+      },
+      {
+         "model":"PESK310-M",
+         "maxWidth": 3750
+      },
+      {
+         "model":"PICT310-D",
+         "maxWidth": 4000
+      },
+      {
+         "model":"PICT310-G",
+         "maxWidth": 4000
+      },
+      {
+         "model":"PLES310",
+         "maxWidth": 4000
+      },
+      {
+         "model":"POLA310",
+         "maxWidth": 4000
+      },
+      {
+         "model":"SIRI310",
+         "maxWidth": 4000
+      },
+      {
+         "model":"TERR310",
+         "maxWidth": 4000
+      },
+      {
+         "model":"THAR310",
+         "maxWidth": 4000
+      },
+      {
+         "model":"TOUR310",
+         "maxWidth": 4000
+      },
+      {
+         "model":"UNIV310",
+         "maxWidth": 4000
+      }
+   ],
+
    "models110": [
-      "ALTA110", "ANTA110", "ANTAR110", "ANTAR110-M", "ARCE110",
-      "ARCT110", "ARCT110-M", "ASTR110-CDG",
-      "ASTR110-B", "ATAC110", "ATAC110-M", "ATLA110", "ATLA110-M",
-      "ATRI110", "ATRI110-M", "CHAL110", "COME110", "CREP110", "DANA110",
+      "ALTA110", "ANTA110", "ANTAR110", "ARCE110",
+      "ARCT110", "ASTR110-CDG",
+      "ASTR110-B", "ATAC110", "ATLA110",
+      "ATRI110", "BARA110", "CHAL110", "COME110", "CREP110", "DANA110",
       "ESPA110-B", "ESPA110-CDG", "ETIN110-B", "ETIN110-CDG", "FOUD110-B",
-      "FOUD110-CDG", "GALA110", "GALA110-M", "GIBS110", "GIEN110",
-      "GIEN110-M", "GURB110", "GURB110-M", "HIBO110", "KAMA110",
-      "LODR110", "LOMP110", "LOMP110-M",
-      "MAGN110", "MEDI110", "MEDI110-M", "MEGA110", "MERA110",
-      "METE110", "METE110-M", "MIR110", "MIZA110", "MIZA110-M", "MOJA110",
+      "FOUD110-CDG", "GALA110", "GIBS110", "GIEN110",  "GURB110", "HIBO110", "KAMA110",
+      "LODR110", "LOMP110",
+      "MAGN110", "MEDI110", "MEGA110", "MERA110",
+      "METE110", "MIR110", "MIZA110", "MOJA110",
       "NAMI110", "NASA110", "NINE110", "NINE110-BH", "NINE110-BB",
-      "NODU110", "NUBI110", "NUBI110-M", "ORDO110", "PATA110", "PATA110-M",
-      "PESK110", "PESK110-M", "PICT110", "PLES110",
+      "NODU110", "NUBI110", "ORDO110", "PATA110",
+      "PESK110", "PICT110", "PLES110",
       "POLA110", "REDA110", "SADI110-3T", "SADI110-4T",
       "SIRI110", "SONO110", "TERR110", "THAR110", "TONN110-B",
       "TONN110-CDG", "TOUR110", "TOUR110-BH", "TOUR110-BB", "UNIV110",
@@ -67,22 +257,21 @@
    ],
 
    "models310": [
-      "ALTA310", "ALTA310-M", "ANTA310", "ANTA310-M", "ANTAR310", "ANTAR310-M2", "ANTAR310-M3",
-      "ARCE310", "ARCT310", "ARCT310-M2", "ARCT310-M3", "ASTR310-B", "ASTR310-CDG", "ASTR310-CDGI",
-      "ATAC310-M", "ATAC310-M2", "ATAC310-M3", "ATLA310", "ATLA310-M2", "ATLA310-M3", "ATRI310",
-      "ATRI310-M2", "ATRI310-M3", "BARA310", "BARA310-M", "CHAL310", "CHAL310-M", "COME310",
-      "COME310-M", "CREP310-B", "CREP310-CDG", "DANA310", "ESPA310-B", "ESPA310-CDG", "ESPA310-CDGI",
+      "ALTA310", "ANTA310", "ANTAR310",
+      "ARCE310", "ARCT310", "ASTR310-B", "ASTR310-CDG", "ASTR310-CDGI",
+      "ATAC310", "ATLA310", "ATRI310", "BARA310", "CHAL310", "COME310",
+      "CREP310-B", "CREP310-CDG", "DANA310", "ESPA310-B", "ESPA310-CDG", "ESPA310-CDGI",
       "ETIN310-B", "ETIN310-CDG", "ETIN310-CDGI", "FOUD310-B", "FOUD310-CDG", "FOUD310-CDGI", "GALA310",
       "GALA310-M2", "GALA310-M3", "GIBS310", "GIEN310", "GIEN310-M2", "GIEN310-M3", "GURB310", "GURB310-M2",
-      "GURB310-M3", "HIBO310", "KAMA310", "KAMA310-M", "LODR310", "LOMP310", "LOMP310-M2", "LOMP310-M3",
-      "LYBI310", "LYBI310-M", "MAGN310", "MEDI310", "MEDI310-M2", "MEDI310-M3", "MEGA310", "MERA310", "METE310",
+      "GURB310-M3", "HIBO310", "KAMA310", "LODR310", "LOMP310", "LOMP310-M2", "LOMP310-M3",
+      "LYBI310", "MAGN310", "MEDI310", "MEDI310-M2", "MEDI310-M3", "MEGA310", "MERA310", "METE310",
       "METE310-M2", "METE310-M3", "MIR310", "MIZA310", "MIZA310-M3", "MOJA310", "NAMI310", "NASA310",
       "NINE310", "NINE310-M2", "NINE310-M3", "NODU310", "NUBI310", "NUBI310-M2", "ORDO310", "PATA310",
       "PATA310-M2", "PATA310-M3", "PESK310", "PESK310-M2", "PESK310-M3", "PICT310-D", "PICT310-M-D",
-      "PICT310-G", "PICT310-M-G", "PLES310", "PLES310-M", "POLA310", "POLA310-M", "REDA310", "SADI310-3T",
-      "SADI310-4T", "SIRI310", "SIRI310-M", "SONO310", "TERR310", "TERR310-M", "THAR310", "THAR310-M",
-      "TONN310-B", "TONN310-CDG", "TONN310-CDGI", "TOUR310", "TOUR310-M", "TOUR310-BH", "TOUR310-BB",
-      "UNIV310", "UNIV310-M", "UNIV310-BH", "UNIV310-BB", "VICT310", "VONA310", "VONA310-M2", "VONA310-M3"
+      "PICT310-G", "PICT310-M-G", "PLES310", "POLA310", "REDA310", "SADI310-3T",
+      "SADI310-4T", "SIRI310", "SONO310", "TERR310", "THAR310", 
+      "TONN310-B", "TONN310-CDG", "TONN310-CDGI", "TOUR310", "TOUR310-BH", "TOUR310-BB",
+      "UNIV310", "UNIV310-BH", "UNIV310-BB", "VICT310", "VONA310", "VONA310-M2", "VONA310-M3"
    ],
 
    "models510": [
@@ -474,7 +663,7 @@
          "remplissage_vantail_310":[2, 3, 5, 6]
       },
       {
-         "model":"ATRI",
+         "model":"ATRI310-M",
          "remplissage_vantail_310":[2, 4]
       },
       {
@@ -518,7 +707,7 @@
          "remplissage_vantail_310":[2, 4]
       },
       {
-         "model":"GALA",
+         "model":"GALA310-M",
          "remplissage_vantail_310":[1, 2, 3, 4, 5, 6]
       },
       {
@@ -534,7 +723,7 @@
          "remplissage_vantail_310":[2, 4]
       },
       {
-         "model":"GIEN",
+         "model":"GIEN310-M",
          "remplissage_vantail_310":[1, 2, 3, 4]
       },
       {
@@ -546,7 +735,7 @@
          "remplissage_vantail_310":[1, 2, 3, 4, 5, 6, 7, 8]
       },
       {
-         "model":"GURB",
+         "model":"GURB310-M",
          "remplissage_vantail_310":[2, 4]
       },
       {
@@ -566,7 +755,7 @@
          "remplissage_vantail_310":[1, 2]
       },
       {
-         "model":"LOMP",
+         "model":"LOMP310-M",
          "remplissage_vantail_310":[2, 4]
       },
       {
@@ -578,7 +767,7 @@
          "remplissage_vantail_310":[2, 3, 5, 6]
       },
       {
-         "model":"METE",
+         "model":"METE310-M",
          "remplissage_vantail_310":[1, 2, 4, 5]
       },
       {
@@ -610,7 +799,7 @@
          "remplissage_vantail_310":[3, 6]
       },
       {
-         "model":"PATA",
+         "model":"PATA310-M",
          "remplissage_vantail_310":[2, 4]
       },
       {
@@ -622,7 +811,7 @@
          "remplissage_vantail_310":[2, 3, 5, 6]
       },
       {
-         "model":"PESK",
+         "model":"PESK310-M",
          "remplissage_vantail_310":[1, 2]
       },
       {

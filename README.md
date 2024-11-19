@@ -202,6 +202,15 @@ Il contient les champs suivants :
 - **bicolores** : Modèles de portail pouvant être bicolores.
 - **models_DG** : Modèles de portillons (XXXX110) qui existe en deux versions : XXXX110-D et XXXX110-G (et pas en XXXX110).
 - **models_tole_changeable** : Modèles de portail pour lesquels la tôle est changeable.
+- **maxWidth_without_m** : Largeur maximale des modèles de portail sans meneau.
+
+    Exemple :
+
+    ```json
+    "model":"ATRI110", // Modèle de portail
+    "maxWidth": 2000 // Largeur maximale du portail
+    ```
+
 - **remplissage_vantail_110** : Remplissage du vantail des modèles 110 (Portillons).
 
     Exemple :

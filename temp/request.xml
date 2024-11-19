@@ -6,14 +6,14 @@
 
                 <REQUEST_TO_WINPRO>
                     <REQUEST_TYPE>0</REQUEST_TYPE>
-                    <LIBRARY>WEB_ELEG_1VTL</LIBRARY>
-                    <ITEM>HIBO110-D</ITEM>
+                    <LIBRARY>WEB_ELEG_COUL1</LIBRARY>
+                    <ITEM>UNIV310-M</ITEM>
                     <IMAGE type="svg" view="reverse" />
                     <DIMENSION_LINES>0</DIMENSION_LINES>
                     <CONFIGS>
                         <CONFIG>
-                            <WIDTH>1000</WIDTH>
-                            <HEIGHT>1400</HEIGHT>
+                            <WIDTH>4001</WIDTH>
+                            <HEIGHT>1600</HEIGHT>
                             
                             <COLOUR>7016STRU</COLOUR>
                             
@@ -30,18 +30,6 @@
                     <SASH_OPTION code="QQ_ferrage" value="QQ_ferrage_A" />
 
                     <DIRECTION>0</DIRECTION>
-
-                    <FILLING leaf_id="1" filling_id="1">
-
-                                <FILLING_INNER_COLOUR info="">1015STRU</FILLING_INNER_COLOUR>
-                                <FILLING_OPTION code="QR_ModTole" value="QR_ModTole_Lhassa"/>
-                    </FILLING>
-
-                    <FILLING leaf_id="1" filling_id="2">
-
-                                <FILLING_INNER_COLOUR info="">1015STRU</FILLING_INNER_COLOUR>
-                                <FILLING_OPTION code="QR_ModTole" value="QR_ModTole_Lhassa"/>
-                    </FILLING>
 
                     </SASH>
 
