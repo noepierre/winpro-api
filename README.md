@@ -152,16 +152,17 @@ winpro-api/
 ├── portail_specifications.json
 ├── server.js
 ├── routes/
-│   └── generateRoute.js     <-- Route qui gère la génération du portail
+│   └── generateRoute.js
 │   └── authRoute.js
 ├── requete/
 │   └── template.xml
 ├── utils/
-│   ├── svgUtils.js          <-- Fonctionnalités liées à la gestion SVG (si nécessaire)
-│   ├── jwtUtils.js          <-- Gestion des tokens JWT pour l'authentification
-│   ├── shapeGenerator.js     <-- Génération des balises <SHAPE>
+│   ├── svgUtils.js
+│   ├── jwtUtils.js
+│   ├── shapeGenerator.js
+|   └── sashGenerator.js
 ├── middleware/
-│   └── authJwt.js           <-- Middleware pour l'authentification JWT
+│   └── authJwt.js
 ├── web/
 │   ├── index.html
 │   ├── script.js
@@ -183,6 +184,8 @@ winpro-api/
 
 - **utils/svgUtils.js** : Fonctions utilitaires pour générer le fichier SVG.
 - **utils/jwtUtils.js** : Fonctions utilitaires pour gérer les tokens JWT.
+- **utils/shapeGenerator.js** : Fonctions pour générer les balises `<SHAPE>`.
+- **utils/sashGenerator.js** : Fonctions pour générer les balises `<SASH>`.
 
 - **middleware/authJwt.js** : Middleware pour vérifier le token JWT.
 
