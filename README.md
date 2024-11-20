@@ -152,22 +152,23 @@ winpro-api/
 ├── portail_specifications.json
 ├── server.js
 ├── routes/
-│   └── generateRoute.js
-│   ├── authRoute.js
+│   └── generateRoute.js     <-- Route qui gère la génération du portail
+│   └── authRoute.js
 ├── requete/
-|   └── template.xml
+│   └── template.xml
 ├── utils/
-│   ├── svgUtils.js
-│   └── jwtUtils.js
+│   ├── svgUtils.js          <-- Fonctionnalités liées à la gestion SVG (si nécessaire)
+│   ├── jwtUtils.js          <-- Gestion des tokens JWT pour l'authentification
+│   ├── shapeGenerator.js     <-- Génération des balises <SHAPE>
 ├── middleware/
-│   └── authJwt.js
+│   └── authJwt.js           <-- Middleware pour l'authentification JWT
 ├── web/
 │   ├── index.html
 │   ├── script.js
-|   └── style.css
+│   └── style.css
 └── temp/
-    │── portail.svg
-    │── request.xml
+    ├── portail.svg
+    ├── request.xml
     └── response.xml
 ```
 

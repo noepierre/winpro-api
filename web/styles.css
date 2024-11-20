@@ -43,6 +43,7 @@ table {
     overflow: hidden; /* Nécessaire pour appliquer les coins arrondis */
     border: 1px solid #dee2e6; /* Bordure discrète */
     width: 100%;
+    margin-bottom: 20px;
 }
 
 tr:hover {

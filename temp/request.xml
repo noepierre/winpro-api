@@ -6,36 +6,43 @@
 
                 <REQUEST_TO_WINPRO>
                     <REQUEST_TYPE>0</REQUEST_TYPE>
-                    <LIBRARY>WEB_ELEG_2VTX</LIBRARY>
-                    <ITEM>ALTA210</ITEM>
+                    <LIBRARY>WEB_ELEG_COUL1</LIBRARY>
+                    <ITEM>ANTA310-M</ITEM>
                     <IMAGE type="svg" view="reverse" />
                     <DIMENSION_LINES>0</DIMENSION_LINES>
                     <CONFIGS>
                         <CONFIG>
-                            <WIDTH>4000</WIDTH>
+                            <WIDTH>4001</WIDTH>
                             <HEIGHT>1400</HEIGHT>
                             
                             <COLOUR>7016STRU</COLOUR>
-                            <FILLING_INNER_COLOUR info="">1015STRU</FILLING_INNER_COLOUR>
-
+                            
                             
                             <SASH id="1" leaves="2" leaf_orientation="H" door="0" fixe="0" doorfixe="0">
 
-                    <ASYMETRIC_LEAVES_0>0</ASYMETRIC_LEAVES_0>
+                                <ASYMETRIC_LEAVES_0>0</ASYMETRIC_LEAVES_0>
 
-                    <FITTING_OPTION code="QQ_serrure" value="QQ_serrure_PR" />
+                                <FITTING_OPTION code="QQ_serrure" value="QQ_serrure_PR" />
 
-                    <FITTING_OPTION code="QQ_poignee" value="QQ_Poignee_BeqInox" />
+                                <FITTING_OPTION code="QQ_poignee" value="QQ_Poignee_BeqInox" />
 
-                    
-                    <SASH_OPTION code="QQ_ferrage" value="QQ_ferrage_A" />
+                                
+                                <SASH_OPTION code="QQ_ferrage" value="QQ_ferrage_A" />
 
-                    <DIRECTION>0</DIRECTION>
+                                <DIRECTION>0</DIRECTION>
 
-                    </SASH>
+                            </SASH>
 
 
-                                                
+                            
+                    <PERIPHERAL_PROFILES>
+                        <PERIPHERAL_PROFILE code="DECORS">
+                            <PERIPHERAL_PROFILE_OPTION code="QP_GamDecor" value="QP_GamDecor_Acces" />
+                            <PERIPHERAL_PROFILE_OPTION code="QP_ModDecor" value="QP_ModDecor_A09" />
+                            <PERIPHERAL_PROFILE_OPTION code="QP_NumRue" value="12" />
+                        </PERIPHERAL_PROFILE>
+                    </PERIPHERAL_PROFILES>
+                            
                             
                             <OPTION code="QD_ControleCoheL" value="QD_ControleCoheL_non" />
                             <OPTION code="QD_typepose" value="QD_typepose_RGarrp" />
