@@ -20,6 +20,8 @@
     <div class="container">
         <div class="info" id="info">
             <h2>Liste des modèles disponibles</h2>
+            
+            <button id="lastPortal" onclick="goToLastPortal()">Précédent</button>
             <button id="nextPortal" onclick="goToNextPortal()">Suivant</button>
 
             <table id="portalTable">
@@ -32,6 +34,8 @@
             
 
         <form id="Form">
+            <h2>Spécifications du portail</h2>
+
             <button type="button" onclick="sendRequest()">Générer l'image</button>
 
             <p>Tous les champs sont remplissables et toutes les valeurs sont possibles. Il faut choisir des valeurs appropriées au portail choisi.</p>

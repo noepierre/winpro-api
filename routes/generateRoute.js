@@ -163,8 +163,6 @@ router.get('/generate', async (req, res) => {
         // Trouver les remplissages pour le modèle spécifié
         modelInputName = modelInput.match(/^[A-Za-z]+/)[0]; // Extraire le nom du modèle sans les chiffres
 
-        vantaux = specs.remplissage_vantails_210.filter(vantail => vantail.model === modelInputName);
-
         // Vérifier si le modèle est un modèle bicolore
         isBicolor = specs.bicolores.includes(modelInputName);
 
@@ -187,7 +185,15 @@ router.get('/generate', async (req, res) => {
              
         } else if (model.includes("210")) {
 
-            remplissage210 = specs.remplissage_vantails_210.some(vantail => vantail.model === modelInputName);
+            if (modelInput.endsWith("-M")) {
+                remplissage210 = specs.remplissage_vantails_210.some(vantail => vantail.model === modelInput);
+
+                vantaux = specs.remplissage_vantails_210.filter(vantail => vantail.model === modelInput);
+            } else {
+                remplissage210 = specs.remplissage_vantails_210.some(vantail => vantail.model === modelInputName);
+
+                vantaux = specs.remplissage_vantails_210.filter(vantail => vantail.model === modelInputName);
+            }
 
         } else if (model.includes("310")) {
 

@@ -9,9 +9,12 @@ body {
 }
 
 h1 {
-    margin-bottom: 20px;
-    color: #007bff;
-    text-align: center;
+    font-size: 2.5rem; /* Taille légèrement plus grande */
+    color: #0056b3; /* Couleur bleu foncé */
+    text-transform: uppercase; /* Texte en majuscules */
+    letter-spacing: 2px; /* Espacement entre les lettres */
+    border-bottom: 2px solid #007bff; /* Ligne décorative en dessous */
+    padding-bottom: 10px; /* Espacement avec la ligne */
 }
 
 p {
@@ -35,18 +38,21 @@ p {
 }
 
 table {
+    border-spacing: 0; /* Réduit les espaces entre les cellules */
+    border-radius: 8px; /* Coins arrondis pour un look moderne */
+    overflow: hidden; /* Nécessaire pour appliquer les coins arrondis */
+    border: 1px solid #dee2e6; /* Bordure discrète */
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
+}
+
+tr:hover {
+    background-color: #e9ecef; /* Couleur de survol plus douce */
+    transition: background-color 0.2s ease-in-out; /* Transition fluide */
 }
 
 tr {
     border-bottom: 1px solid #f2f2f2;
     cursor: pointer;
-}
-
-tr:hover {
-    background-color: #d4d4d4;
 }
 
 tr.active {
@@ -110,10 +116,6 @@ button {
     margin-bottom: 20px;
 }
 
-button:hover {
-    background-color: #0056b3;
-}
-
 #imageContainer {
     display: flex;
     flex-direction: column;
@@ -132,10 +134,13 @@ button:hover {
 }
 
 svg {
+    display: block;
     max-width: 100%;
     height: auto;
-    padding : 50px;
+    padding-top: 40px;
+    padding-bottom: 40px;
 }
+
 
 .download-button {
     background-color: #007bff;
@@ -167,8 +172,63 @@ svg {
 
 .choice button.active {
     background-color: #007bff;
+    transform: translateY(-2px); /* Légère élévation */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre douce */
 }
 
 .choice button:hover {
     background-color: #007bff;
 }
+
+.info,
+form,
+#imageContainer {
+    position: relative; /* Nécessaire pour positionner le pseudo-élément par rapport à la boîte */
+}
+
+.info::before,
+form::before,
+#imageContainer::before {
+    content: '';
+    position: absolute;
+    top: 0; /* Place le liseré en haut de la boîte */
+    left: 0; /* Aligne le liseré au bord gauche */
+    right: 0; /* Étend le liseré jusqu’au bord droit */
+    height: 4px; /* Épaisseur du liseré */
+    background: linear-gradient(to right, #007bff, #00d4ff); /* Dégradé bleu */
+    border-radius: 8px 8px 0 0; /* Coins arrondis si nécessaire */
+}
+
+button:hover {
+    transform: translateY(-2px); /* Légère élévation */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre douce */
+}
+
+button,
+tr:hover,
+.choice button:hover,
+.info::before,
+form::before {
+    transition: all 0.3s ease; /* Animation fluide */
+}
+
+input:focus,
+select:focus {
+    outline: none; /* Retire la bordure par défaut */
+    border-color: #007bff; /* Bordure bleu vif */
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5); /* Éclat autour du champ */
+}
+
+.info,
+form,
+#imageContainer {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Ombre douce */
+    transition: box-shadow 0.3s ease; /* Transition fluide */
+}
+
+.info:hover,
+form:hover,
+#imageContainer:hover {
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Ombre accentuée au survol */
+}
+

@@ -78,6 +78,26 @@ async function loadSpecs() {
     }
 }
 
+// Fonction pour passer au portail précédent
+function goToLastPortal() {
+    if (modelsList.length === 0) return;
+
+    // Passe au portail suivant (boucle au début si à la fin)
+    currentPortalIndex = (currentPortalIndex - 1) % modelsList.length;
+    const nextModel = modelsList[currentPortalIndex];
+
+    // Met à jour le champ "Modèle" avec le modèle suivant
+    document.getElementById("model").value = nextModel;
+    updateCollection();
+
+    // Met à jour l'état actif dans la liste
+    const portalRows = document.querySelectorAll("#portalList tr");
+    portalRows.forEach(row => row.classList.remove("active"));
+    if (portalRows[currentPortalIndex]) {
+        portalRows[currentPortalIndex].classList.add("active");
+    }
+}
+
 // Fonction pour passer au portail suivant
 function goToNextPortal() {
     if (modelsList.length === 0) return;
