@@ -7,12 +7,12 @@
                 <REQUEST_TO_WINPRO>
                     <REQUEST_TYPE>0</REQUEST_TYPE>
                     <LIBRARY>WEB_ELEG_COUL1</LIBRARY>
-                    <ITEM>ANTA310-M</ITEM>
+                    <ITEM>ANTA310</ITEM>
                     <IMAGE type="svg" view="reverse" />
                     <DIMENSION_LINES>0</DIMENSION_LINES>
                     <CONFIGS>
                         <CONFIG>
-                            <WIDTH>4001</WIDTH>
+                            <WIDTH>4000</WIDTH>
                             <HEIGHT>1400</HEIGHT>
                             
                             <COLOUR>7016STRU</COLOUR>
@@ -34,15 +34,7 @@
                             </SASH>
 
 
-                            
-                    <PERIPHERAL_PROFILES>
-                        <PERIPHERAL_PROFILE code="DECORS">
-                            <PERIPHERAL_PROFILE_OPTION code="QP_GamDecor" value="QP_GamDecor_Acces" />
-                            <PERIPHERAL_PROFILE_OPTION code="QP_ModDecor" value="QP_ModDecor_A09" />
-                            <PERIPHERAL_PROFILE_OPTION code="QP_NumRue" value="12" />
-                        </PERIPHERAL_PROFILE>
-                    </PERIPHERAL_PROFILES>
-                            
+                                                
                             
                             <OPTION code="QD_ControleCoheL" value="QD_ControleCoheL_non" />
                             <OPTION code="QD_typepose" value="QD_typepose_RGarrp" />
