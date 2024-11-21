@@ -131,9 +131,7 @@ function updateCollection() {
     } else if (modelInput.includes("310")) {
         collectionInput.value = "WEB_ELEG_COUL1";
     } else if (modelInput.includes("510")) {
-        // Recherche la collection correspondant au modèle
-        const collection = specs.model_collections[modelInput] || ''; // Valeur par défaut si non trouvée
-        collectionInput.value = collection;
+        collectionInput.value = "WEB_ELEG_COUL2";
     }
 }
 

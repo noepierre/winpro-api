@@ -15,7 +15,7 @@ const buildShapeXml = (id, c, d = null, e = null, f = null, orientation = null) 
 };
 
 // Fonction pour générer le XML en fonction des différents modèles et entrées
-const generateShapeXml = (modelInput, width, height, sens_ouverture, isGDmodelInput) => {
+const generateShapeXml = (modelInput, width, height, sens_ouverture, isGDmodel) => {
     let shapeXml = '';
     let newModelInput;
 
@@ -87,7 +87,7 @@ const generateShapeXml = (modelInput, width, height, sens_ouverture, isGDmodelIn
                 shapeXml = buildShapeXml("43", 200, D, E, F, orientation);
             }
 
-        } else if (isGDmodelInput) {
+        } else if (isGDmodel) {
             const suffix = sens_ouverture.includes("droite") ? "-D" : "-G";
             modelInput += suffix;
             shapeXml = '';

@@ -4,7 +4,7 @@ import path from 'path';
 import { extractSvgAndAdjustViewBox } from '../utils/svgUtils.js';
 import { generateShapeXml } from '../utils/shapeGenerator.js';
 import { buildSashXml } from '../utils/sashGenerator.js';
-import { getToken } from '../utils/jwtUtils.js';
+import { fetchSpecs, adjustModelBasedOnWidthAndAspect, getModelProperties, getRemplissages } from '../utils/specUtils.js';
 
 const router = express.Router();
 
@@ -51,34 +51,6 @@ router.get('/generate', async (req, res) => {
         collection = "WEB_ELEG_COUL2";
     }
 
-    // Vérifier si le modèle est bicolore
-    let isBicolor = false;
-
-    // Vérifier si le modèle est dans la liste des modèles -G ou -D
-    let isGDmodelInput = false;
-
-    // Récupérer les remplissages pour les vantaux
-    let vantaux = [];
-
-    // Vérifier si il existe des remplissages pour le modèle
-    let remplissage210 = false;
-
-    // Vérifier si le modèle a un remplissage pour le modèle 310
-    let remplissage310 = false;
-
-    // Vérifier si le modèle a un remplissage pour les modèles 110
-    let remplissage110 = false;
-
-    // Remplissages pour les modèles
-    let vantail110 = [];
-    let vantail310 = [];
-
-    // On vérifie si le modèle a une tole changeable ou non
-    let tole_changeable = false;
-
-    // Largeur maximale sans meneau
-    let maxWidth_without_m;
-
     // Nom du modèle sans les chiffres (ex: ALTA310 => ALTA)
     const modelInputName = modelInput.match(/^[A-Za-z]+/)[0];
     
@@ -89,150 +61,40 @@ router.get('/generate', async (req, res) => {
 
     // Charger le fichier de spécifications et récupérer les informations nécessaires
     try {
-        const token = await getToken(); // Récupérer le token
-
-        if (!token) {
-            console.error('Impossible d\'obtenir le token'); // Si le token n'est pas récupéré, afficher un message d'erreur
-            return;
-        }
-
-        // Récupérer le fichier JSON des spécifications des portails
-        const response = await fetch('http://localhost:3000/portail-specifications', {
-            method: 'GET',
-            headers: {
-                'Authorization': `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            }
-        });
-
-        if (!response.ok) {
-            throw new Error('Erreur lors de la récupération des spécifications'); // Si la récupération des spécifications échoue, afficher un message d'erreur
-        }
-
-        specs = await response.json();
-
+        specs = await fetchSpecs();
     } catch (error) {
-        console.error('Erreur lors de la récupération des spécifications des portails:', error);
+        console.error("Erreur lors de la récupération des spécifications :", error);
+        return res.status(500).send("Erreur lors de la récupération des spécifications");
     }
 
     // -------------------------------------- GESTION DU MODÈLE SELON LE MENEAU ET L'ASPECT -------------------------------------- //
 
-    // Vérifier si le modèle a une largeur maximale sans meneau
-    maxWidth_without_m = specs.maxWidth_without_m.some(model => model.model === modelInput)
+    // Comme les modèles 210 et 510 ont les mêmes remplissages, on vérifie si le modèle a une largeur maximale sans meneau pour les modèles 210
+    if (model.includes("510")) {
+        modelInput = modelInput.replace("510", "210");
+    }
+    
+    // Récupérer le modèle ajusté en fonction de la largeur et de l'aspect
+    modelInput = adjustModelBasedOnWidthAndAspect(specs, modelInput, width, aspect);
 
-    // Si le modèle est trouvé dans la liste des modèles sans meneau, on récupère la largeur maximale
-    if (maxWidth_without_m) {
-
-        maxWidth_without_m = specs.maxWidth_without_m.filter(model => model.model === modelInput)[0].maxWidth;
-
-    } else { // Si le modèle n'est pas trouvé dans la liste, on vérifie si le modèle -M existe
-        modelInput = modelInput + "-M";
-        maxWidth_without_m = specs.maxWidth_without_m.some(model => model.model === modelInput)
-
-        if (!maxWidth_without_m) {
-            modelInput = modelInput.replace("-M", ""); // Si le modèle -M n'existe pas, on enlève -M car c'est un modèle qui n'a pas de largeur maximale
-        } else {
-            maxWidth_without_m = specs.maxWidth_without_m.filter(model => model.model === modelInput)[0].maxWidth; // Si le modèle existe avec -M, on récupère la largeur maximale de ce modèle
-        }
+    // On remet 510 à la place de 210 pour les modèles 510
+    if (model.includes("510")) {
+        modelInput = modelInput.replace("210", "510");
     }
 
-    // Passer au modèle -M si la largeur est supérieure à maxWidth_without_m
-    if (maxWidth_without_m && width > maxWidth_without_m) {
-        if (modelInput.endsWith("0") || modelInput.endsWith("-D") || modelInput.endsWith("-G")) {
-            modelInput = modelInput.replace("0", "0-M");
-        } else if (modelInput.endsWith("-M")) {
-            modelInput = modelInput + "2";
-        }
-    }
+    // -------------------------------------- RÉCUPÉRATION DES SPÉCIFICATIONS DU MODÈLE (BICOLORATION, GD, TOLE CHANGEABLE) -------------------------------------- //
 
-    // Cas particulier pour le modèle MIZA310 qui est chiant
-    if (modelInput.includes("MIZA310") && (aspect === "2" || width > maxWidth_without_m)) {
-        if (modelInput.endsWith("0")) {
-            modelInput = modelInput + "-M3";
-        } else if (modelInput.endsWith("-M")) {
-            modelInput = modelInput + "3";
-        }
-    }        
-
-    // Si le modèle est un 310 de base et que l'aspect est 2, on ajoute -M à la fin du modèle
-    if (aspect === "2" && modelInput.endsWith("310") && maxWidth_without_m) {
-        modelInput = modelInput + "-M";
-    }
-
-    // SI le modèle est déjà un modèle -M2 et que l'aspect est 2, on remplace -M2 par -M3
-    if (aspect === "2" && modelInput.endsWith("M2")) {
-        modelInput = modelInput.replace("-M2", "-M3");
-    }
-
-    // -------------------------------------- RÉCUPÉRATION DES SPÉCIFICATIONS DU MODÈLE -------------------------------------- //
-
-    // Vérifier si le modèle est dans la liste des modèles -G ou -D
-    isGDmodelInput = specs.models_DG.includes(modelInput);
-
-    // Vérifier si le modèle est un modèle bicolore
-    isBicolor = specs.bicolores.includes(modelInputName);
-
-    // Vérifier si le modèle a une tole changeable
-    tole_changeable = specs.models_tole_changeable.includes(modelInput);
+    // Vérifier si le modèle est dans la liste des modèles -G ou -D, est bicolore et a une tole changeable
+    const { isGDmodel, isBicolor, tole_changeable } = getModelProperties(specs, modelInput, modelInputName);
 
     // -------------------------------------- RÉCUPÉRATION DES REMPLISSAGES POUR LES VANTAUX -------------------------------------- //
 
-    // Remplir vantail110 par les remplissages pour les modèles 110
-    if (model.includes("110")) {
+    // Appeler la fonction pour récupérer les remplissages pour les vantaux
+    const remplissages = getRemplissages(specs, model, modelInput, modelInputName);
 
-        // Vérifier si le modèle a un remplissage pour les modèles 110
-        remplissage110 = specs.remplissage_vantail_110.some(vantail => vantail.model === modelInputName);
+    // Extraire les remplissages pour les vantaux
+    const { remplissage210, remplissage310, remplissage110, vantail110, vantail310 } = remplissages;
 
-        if (modelInput.endsWith("-M")) {
-            vantail110 = specs.remplissage_vantail_110.filter(vantail => vantail.model === modelInput);
-        } else {
-            vantail110 = specs.remplissage_vantail_110.filter(vantail => vantail.model === modelInputName);
-        }
-         
-    } else if (model.includes("210")) {
-
-        if (modelInput.endsWith("-M")) {
-            remplissage210 = specs.remplissage_vantails_210.some(vantail => vantail.model === modelInput);
-
-            vantaux = specs.remplissage_vantails_210.filter(vantail => vantail.model === modelInput);
-        } else {
-            remplissage210 = specs.remplissage_vantails_210.some(vantail => vantail.model === modelInputName);
-
-            vantaux = specs.remplissage_vantails_210.filter(vantail => vantail.model === modelInputName);
-        }
-
-    } else if (model.includes("310")) {
-
-        // Vérifier si le modèle a un remplissage pour les modèles 310
-        remplissage310 = specs.remplissage_vantail_310.some(vantail => vantail.model.includes(modelInputName));
-
-        // Remplir vantail310 par les remplissages pour les modèles 310
-        if (modelInput.endsWith("-M3")) {
-            vantail310 = specs.remplissage_vantail_310.filter(vantail => vantail.model === modelInput);
-        } else if (modelInput.endsWith("-M2")) {
-            vantail310 = specs.remplissage_vantail_310.filter(vantail => vantail.model === modelInput);
-        } else if (modelInput.endsWith("-M")) {
-            vantail310 = specs.remplissage_vantail_310.filter(vantail => vantail.model === modelInput);
-        } else {
-            vantail310 = specs.remplissage_vantail_310.filter(vantail => vantail.model === modelInputName);
-        }
-
-    }
-
-    // -------------------------------------- GÉNÉRATION DU XML POUR LE POTEAU INTERMÉDIAIRE -------------------------------------- //
-
-    var transomXml = ''; // Initialiser le XML pour le poteau intermédiaire
-
-    // Si l'aspect est 2 et que le modèle ne se termine pas par -M2 et que le modèle n'est pas un 310, alors on ajoute le poteau intermédiaire
-    if (aspect === "2" && !modelInput.endsWith("-M2") && modelInput.includes("310")) {
-
-        transomXml = `                               <TRANSOM transom_id="1" leaf_id="1" filling_id="1" pos="W / 2" code="ALU ASPECT 2VTX" info="" masonry="1" />\n`;
-
-        // Cas particulier pour le modèle MIZA310
-        if (modelInput === "MIZA310-M3") {
-            transomXml = `                               <TRANSOM transom_id="3" leaf_id="1" filling_id="1" pos="W / 2" code="ALU ASPECT 2VTX" info="" masonry="1" />\n`;
-        }
-    }
 
     // -------------------------------------- COLORATION DU MODÈLE (COULEUR SECONDAIRE et REMPLISSAGES) -------------------------------------- //
 
@@ -256,6 +118,25 @@ router.get('/generate', async (req, res) => {
         ({ remplissage_vantail_310 } = vantail310[0]);
     } else if (remplissage110 && vantail110.length > 0) {
         ({ remplissage_vantail_110 } = vantail110[0]);
+    }
+
+    // -------------------------------------- GÉNÉRATION DU XML POUR LE POTEAU INTERMÉDIAIRE -------------------------------------- //
+
+    var transomXml = ''; // Initialiser le XML pour le poteau intermédiaire
+
+    // Fonction pour déterminer si on doit ajouter le poteau intermédiaire
+    function shouldAddTransom(model, aspect) {
+        return aspect === "2" && !model.endsWith("-M2") && model.includes("310");
+    }
+
+    // Ajouter le poteau intermédiaire si nécessaire
+    if (shouldAddTransom(modelInput, aspect)) {
+        transomXml = `                               <TRANSOM transom_id="1" leaf_id="1" filling_id="1" pos="W / 2" code="ALU ASPECT 2VTX" info="" masonry="1" />\n`;
+    }
+
+    // Cas particulier pour le MIZA310
+    if (modelInput.includes("MIZA310-M3")) {
+        transomXml = `                               <TRANSOM transom_id="3" leaf_id="1" filling_id="1" pos="W / 2" code="ALU ASPECT 2VTX" info="" masonry="1" />\n`;
     }
 
     // -------------------------------------- MOTORISATION DU MODÈLE -------------------------------------- //
@@ -298,7 +179,7 @@ router.get('/generate', async (req, res) => {
 
     // Utiliser la fonction pour générer le shapeXml
     // Appeler generateShapeXml 
-    const { shapeXml, newModelInput } = generateShapeXml(modelInput, width, height, sens_ouverture, isGDmodelInput);
+    const { shapeXml, newModelInput } = generateShapeXml(modelInput, width, height, sens_ouverture, isGDmodel);
     modelInput = newModelInput; // Mettre à jour le modèle avec le nouveau modèle
 
     // -------------------------------------- GÉNÉRATION DE <PERIPHERAL_PROFILES> -------------------------------------- //
