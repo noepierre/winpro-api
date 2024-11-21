@@ -6,7 +6,7 @@ dotenv.config(); // Charger les variables d'environnement à partir de .env
 // Utiliser la variable d'environnement
 const jwtSecret = process.env.JWT_SECRET;
 const username = process.env.ADMIN_USERNAME;
-const password = process.env.ADMIN_USERNAME;
+const password = process.env.ADMIN_PASSWORD;
 
 // Fonction pour générer un token
 export function generateToken(payload) {

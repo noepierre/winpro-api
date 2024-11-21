@@ -68,11 +68,7 @@ export function adjustModelBasedOnWidthAndAspect(specs, modelInput, width, aspec
         } else if (modelInput.endsWith("-M")) {
             modelInput = modelInput + "3";
         }
-
-        console.log(modelInput);
     }
-
-    console.log(modelInput);
 
     // Si le modèle est un 310 de base et que l'aspect est 2, on ajoute -M à la fin du modèle
     if (aspect === "2" && modelInput.endsWith("310") && maxWidth_without_m) {
