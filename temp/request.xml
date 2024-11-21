@@ -6,8 +6,8 @@
 
                 <REQUEST_TO_WINPRO>
                     <REQUEST_TYPE>0</REQUEST_TYPE>
-                    <LIBRARY>WEB_ELEG_COUL1</LIBRARY>
-                    <ITEM>PICT310-D</ITEM>
+                    <LIBRARY>WEB_ELEG_2VTX</LIBRARY>
+                    <ITEM>CHAL210</ITEM>
                     <IMAGE type="svg" view="reverse" />
                     <DIMENSION_LINES>0</DIMENSION_LINES>
                     <CONFIGS>
@@ -16,8 +16,7 @@
                             <HEIGHT>1400</HEIGHT>
                             
                             <COLOUR>7016STRU</COLOUR>
-                            <FILLING_INNER_COLOUR info="">1015STRU</FILLING_INNER_COLOUR>
-
+                            
                             
                             <SASH id="1" leaves="2" leaf_orientation="H" door="0" fixe="0" doorfixe="0">
 
@@ -32,17 +31,12 @@
 
                                 <DIRECTION>0</DIRECTION>
 
-                                 <FILLING leaf_id="1" filling_id="1">
-
-                                    <FILLING_INNER_COLOUR info="">1015STRU</FILLING_INNER_COLOUR>
-                                 </FILLING>
-
                                  <FILLING leaf_id="1" filling_id="2">
 
                                     <FILLING_INNER_COLOUR info="">1015STRU</FILLING_INNER_COLOUR>
                                  </FILLING>
 
-                                 <FILLING leaf_id="1" filling_id="3">
+                                 <FILLING leaf_id="2" filling_id="2">
 
                                     <FILLING_INNER_COLOUR info="">1015STRU</FILLING_INNER_COLOUR>
                                  </FILLING>

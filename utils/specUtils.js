@@ -183,5 +183,5 @@ export function getRemplissages(specs, model, modelInput, modelInputName) {
 
     }
 
-    return { remplissage210, remplissage310, remplissage110, vantail110, vantail310 };
+    return { remplissage210, remplissage310, remplissage110, vantail110, vantail310, vantaux };
 }

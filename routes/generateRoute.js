@@ -93,7 +93,7 @@ router.get('/generate', async (req, res) => {
     const remplissages = getRemplissages(specs, model, modelInput, modelInputName);
 
     // Extraire les remplissages pour les vantaux
-    const { remplissage210, remplissage310, remplissage110, vantail110, vantail310 } = remplissages;
+    const { remplissage210, remplissage310, remplissage110, vantail110, vantail310, vantaux } = remplissages;
 
 
     // -------------------------------------- COLORATION DU MODÈLE (COULEUR SECONDAIRE et REMPLISSAGES) -------------------------------------- //
