@@ -5,6 +5,8 @@ dotenv.config(); // Charger les variables d'environnement à partir de .env
 
 // Utiliser la variable d'environnement
 const jwtSecret = process.env.JWT_SECRET;
+const username = process.env.ADMIN_USERNAME;
+const password = process.env.ADMIN_USERNAME;
 
 // Fonction pour générer un token
 export function generateToken(payload) {
@@ -27,7 +29,7 @@ export async function getToken() {
         const response = await fetch('http://localhost:3000/api/auth/login', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username: 'admin', password: 'password' }) // A changer peut-être
+            body: JSON.stringify({ username: username, password: password })
         });
         
         if (!response.ok) {
