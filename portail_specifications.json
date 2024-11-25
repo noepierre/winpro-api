@@ -8,7 +8,7 @@
       "ARCE110", "BARA110", "CHAL110", "COME110", "CREP110", 
       "GIBS110", "HIBO110", "LODR110", "LYBI110", "MAGN110", 
       "MIR110", "NASA110", "NODU110", "PICT110", "PLES110", 
-      "POLA110", "REDA110", "TERR110"
+      "POLA110", "REDA110", "TERR110", "COME210", "COME310"
    ],
 
    "models_tole_changeable": [
@@ -28,6 +28,8 @@
       "POLA310-M", "REDA110", "REDA110", "REDA210", "REDA310", "SADI310-4T",
       "TERR110", "TERR110", "TERR210", "TERR310", "TERR310-M", "VICT210","VICT310"
    ],
+
+
 
    "maxWidth_without_m": [
       {
@@ -191,7 +193,11 @@
          "maxWidth": 4000
       },
       {
-         "model":"COME310",
+         "model":"COME310-D",
+         "maxWidth": 4000
+      },
+      {
+         "model":"COME310-G",
          "maxWidth": 4000
       },
       {
@@ -303,7 +309,7 @@
    "models210": [
       "ALTA210", "ANTA210", "ANTAR210", "ARCE210", "ARCT210", "ASTR210-CDGI", 
       "ASTR210-B", "ASTR210-CDG", "ASTR210-CDG-PTLG", "ATAC210", "ATLA210", "ATRI210", 
-      "BARA210", "CHAL210", "COME210-D", "COME210-G", "CREP210-B", "DANA210", 
+      "BARA210", "CHAL210", "CREP210-B", "DANA210", 
       "ESPA210-B", "ESPA210-CDG", "ESPA210-CDGI", "ETIN210-B", "ETIN210-CDG", 
       "ETIN210-CDGI", "FOUD210-B", "FOUD210-CDG", "FOUD210-CDGI", "GALA210", 
       "GIBS210", "GIEN210", "GURB210", "HIBO210", "KAMA210", "LODR210", "LOMP210", 
@@ -319,7 +325,7 @@
    "models310": [
       "ALTA310", "ANTA310", "ANTAR310",
       "ARCE310", "ARCT310", "ASTR310-B", "ASTR310-CDG", "ASTR310-CDGI",
-      "ATAC310", "ATLA310", "ATRI310", "BARA310", "CHAL310", "COME310",
+      "ATAC310", "ATLA310", "ATRI310", "BARA310", "CHAL310",
       "CREP310-B", "CREP310-CDG", "DANA310", "ESPA310-B", "ESPA310-CDG", "ESPA310-CDGI",
       "ETIN310-B", "ETIN310-CDG", "ETIN310-CDGI", "FOUD310-B", "FOUD310-CDG", "FOUD310-CDGI", "GALA310",
       "GIBS310", "GIEN310", "GURB310",
@@ -327,8 +333,7 @@
       "LYBI310", "MAGN310", "MEDI310", "MEGA310", "MERA310", "METE310",
       "MIR310", "MIZA310", "MOJA310", "NAMI310", "NASA310",
       "NINE310", "NODU310", "NUBI310", "ORDO310", "PATA310",
-      "PESK310", "PICT310-D",
-      "PICT310-G", "PLES310", "POLA310", "REDA310", "SADI310-3T",
+      "PESK310", "PLES310", "POLA310", "REDA310", "SADI310-3T",
       "SADI310-4T", "SIRI310", "SONO310", "TERR310", "THAR310", 
       "TONN310-B", "TONN310-CDG", "TONN310-CDGI", "TOUR310", "TOUR310-BH", "TOUR310-BB",
       "UNIV310", "UNIV310-BH", "UNIV310-BB", "VICT310", "VONA310"
@@ -797,7 +802,7 @@
       },
       {
          "model":"COME",
-         "remplissage_vantail_310":[2]
+         "remplissage_vantail_310":[2, 3]
       },
       {
          "model":"COME310-M",

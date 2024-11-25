@@ -40,6 +40,10 @@ const generateShapeXml = (modelInput, width, height, sens_ouverture, isGDmodel) 
                 shapeXml = buildShapeXml("42", C, D, E, F);
             }
 
+        } else if (isGDmodel) {
+            const suffix = sens_ouverture.includes("droite") ? "-D" : "-G";
+            modelInput += suffix;
+            shapeXml = '';
         } else {
             shapeXml = '';
         }

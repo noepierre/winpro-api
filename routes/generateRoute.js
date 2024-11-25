@@ -35,8 +35,8 @@ router.get('/generate', async (req, res) => {
 
     // -------------------------------------- INITIALISATION DES VARIABLES PRINCIPALES -------------------------------------- //
 
-    // Copier le modèle pour le modifier si nécessaire
-    let modelInput = model;
+    // On récupère le modèle initial pour pouvoir le modifier ensuite si nécessaire
+    let modelInput = model
 
     // Mettre à jour la collection selon le modèle
     let collection = "";
