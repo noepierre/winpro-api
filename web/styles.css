@@ -168,17 +168,15 @@ svg {
 }
 
 .choice button {
-    background-color: #aaaaaa;
+    background-color: #f8f9fa;
+    color: #007bff;
+    font-weight: bold;
 }
 
 .choice button.active {
+    color: white;
     background-color: #007bff;
-    transform: translateY(-2px); /* Légère élévation */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre douce */
-}
-
-.choice button:hover {
-    background-color: #007bff;
 }
 
 .info,
@@ -198,11 +196,6 @@ form::before,
     height: 4px; /* Épaisseur du liseré */
     background: linear-gradient(to right, #007bff, #00d4ff); /* Dégradé bleu */
     border-radius: 8px 8px 0 0; /* Coins arrondis si nécessaire */
-}
-
-button:hover {
-    transform: translateY(-2px); /* Légère élévation */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Ajout d'une ombre douce */
 }
 
 button,

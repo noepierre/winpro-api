@@ -19,6 +19,7 @@ router.get('/generate', async (req, res) => {
         height, // Hauteur
         width2, // Largeur du deuxième vantail si vantaux asymétriques (0 si vantaux symétriques)
         model, // Modèle
+        collection, // Collection
         pose, // Type de pose
         sens_ouverture, // Sens d'ouverture
         poteau_gauche, // Poteaux
@@ -37,19 +38,7 @@ router.get('/generate', async (req, res) => {
 
     // On récupère le modèle initial pour pouvoir le modifier ensuite si nécessaire
     let modelInput = model
-
-    // Mettre à jour la collection selon le modèle
-    let collection = "";
-
-    if (modelInput.includes("210")) {
-        collection = "WEB_ELEG_2VTX";
-    } else if (modelInput.includes("110")) {
-        collection = "WEB_ELEG_1VTL";
-    } else if (modelInput.includes("310")) {
-        collection = "WEB_ELEG_COUL1";
-    } else if (modelInput.includes("510")) {
-        collection = "WEB_ELEG_COUL2";
-    }
+    
 
     // Nom du modèle sans les chiffres (ex: ALTA310 => ALTA)
     const modelInputName = modelInput.match(/^[A-Za-z]+/)[0];
@@ -235,7 +224,27 @@ router.get('/generate', async (req, res) => {
     // Envoi de la requête SOAP, récupération de la réponse, génération du SVG et renvoi au client
     try {
         console.log("------------ Nouvelle requête ------------");
-        console.log(`\nParamètres de la requête : couleur1=${color1}, couleur2=${color2}, largeur=${width}, hauteur=${height}, largeur2=${width2}, modèle=${modelInput}, pose=${pose}, sens_ouverture=${sens_ouverture}, poteau_gauche=${poteau_gauche}, poteau_droit=${poteau_droit}, serrure=${serrure}, ferrage=${ferrage}, poignée=${poignee}, tole=${tole}, décor=${decor}, gammeDecor=${gammeDecor}, numéroRue=${numeroRue}, aspect=${aspect}`);
+        console.log(`\nParamètres de la requête :
+        - Modèle : ${modelInput}
+        - Collection : ${collection}
+        - Largeur : ${width}
+        - Hauteur : ${height}
+        - Couleur principale : ${color1}
+        - Couleur secondaire : ${color2}
+        - Pose : ${pose}
+        - Sens d'ouverture : ${sens_ouverture}
+        - Poteau gauche : ${poteau_gauche}
+        - Poteau droit : ${poteau_droit}
+        - Serrure : ${serrure}
+        - Ferrage : ${ferrage}
+        - Tôle : ${tole}
+        - Poignée : ${poignee}
+        - Décor : ${decor}
+        - Gamme de décor : ${gammeDecor}
+        - Numéro de rue : ${numeroRue}
+        - Aspect : ${aspect}
+        - Largeur du deuxième vantail : ${width2}`);
+
         console.log("\nEnvoi de la requête SOAP...");
         
         const response = await fetch("http://127.0.0.1:8001/soap/IWebshopv1", {
