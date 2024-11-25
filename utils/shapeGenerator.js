@@ -39,11 +39,6 @@ const generateShapeXml = (modelInput, width, height, sens_ouverture, isGDmodel) 
                 const D = (width - 2329) / 4 + 15;
                 shapeXml = buildShapeXml("42", C, D, E, F);
             }
-
-        } else if (isGDmodel) {
-            const suffix = sens_ouverture.includes("droite") ? "-D" : "-G";
-            modelInput += suffix;
-            shapeXml = '';
         } else {
             shapeXml = '';
         }
@@ -90,11 +85,6 @@ const generateShapeXml = (modelInput, width, height, sens_ouverture, isGDmodel) 
                 orientation = sens_ouverture.includes("droite") ? "1" : "-1";
                 shapeXml = buildShapeXml("43", 200, D, E, F, orientation);
             }
-
-        } else if (isGDmodel) {
-            const suffix = sens_ouverture.includes("droite") ? "-D" : "-G";
-            modelInput += suffix;
-            shapeXml = '';
         } else {
             shapeXml = '';
         }

@@ -75,7 +75,7 @@ router.get('/generate', async (req, res) => {
     }
     
     // Récupérer le modèle ajusté en fonction de la largeur et de l'aspect
-    modelInput = adjustModelBasedOnWidthAndAspect(specs, modelInput, width, aspect);
+    modelInput = adjustModelBasedOnWidthAndAspect(specs, modelInput, width, aspect, sens_ouverture);
 
     // On remet 510 à la place de 210 pour les modèles 510
     if (model.includes("510")) {

@@ -32,7 +32,17 @@ export async function fetchSpecs() {
  * @param {string} aspect - L'aspect du portail.
  * @returns {string} Le modèle ajusté en fonction de la largeur et de l'aspect.
  */
-export function adjustModelBasedOnWidthAndAspect(specs, modelInput, width, aspect ) {
+export function adjustModelBasedOnWidthAndAspect(specs, modelInput, width, aspect, sens_ouverture) {
+
+    // Vérifier si le modèle est dans la liste des modèles -G ou -D
+    let isGDmodel = specs.models_DG.includes(modelInput);
+
+    // Ajouter le suffixe -D ou -G si le modèle est dans la liste des modèles -G ou -D
+    if (isGDmodel) {
+        const suffix = sens_ouverture.includes("droite") ? "-D" : "-G";
+        modelInput += suffix;
+    }
+
     // Vérifier si le modèle a une largeur maximale sans meneau
     let maxWidth_without_m = specs.maxWidth_without_m.some(model => model.model === modelInput)
 
@@ -71,14 +81,29 @@ export function adjustModelBasedOnWidthAndAspect(specs, modelInput, width, aspec
     }
 
     // Si le modèle est un 310 de base et que l'aspect est 2, on ajoute -M à la fin du modèle
-    if (aspect === "2" && modelInput.endsWith("310") && maxWidth_without_m) {
-        modelInput = modelInput + "-M";
+    if (aspect === "2" && (modelInput.endsWith("310") || modelInput.endsWith("310-G") || modelInput.endsWith("310-D")) && maxWidth_without_m) {
+        // on remplace 310 par 310-M (on ne peu pas simplement ajouter -M car certains modèles ont un -D ou -G à la fin)
+        modelInput = modelInput.replace("310", "310-M");
     }
 
     // Si le modèle est déjà un modèle -M2 et que l'aspect est 2, on remplace -M2 par -M3
     if (aspect === "2" && modelInput.endsWith("M2")) {
         modelInput = modelInput.replace("-M2", "-M3");
     }
+
+    // On verifie si le modèle est dans la liste des modèles avec l'aspect 2
+    const isASP2model = specs.models_asp2.includes(modelInput.match(/^[A-Za-z]+/)[0]); // On récupère le nom du modèle sans les chiffres (ex: ALTA310 => ALTA)
+
+    if (aspect === "2" && isASP2model) {
+        // On enlève ce qu'il y a après le tiret (ex: LOMP310-M => LOMP310)
+        modelInput = modelInput.replace(/-.+$/, "");
+
+        console.log(modelInput);
+
+        // On ajoute -ASP2 à la fin du modèle car il existe un modèle avec l'aspect 2 directement dans la bibliothèque
+        modelInput = modelInput + "-ASP2";
+    }
+    
 
     // On retourne le modèle ajusté en fonction de la largeur et de l'aspect
     return modelInput;

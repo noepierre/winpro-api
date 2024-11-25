@@ -205,6 +205,7 @@ Il contient les champs suivants :
 
 - **bicolores** : Modèles de portail pouvant être bicolores.
 - **models_DG** : Modèles de portillons (XXXX110) qui existe en deux versions : XXXX110-D et XXXX110-G (et pas en XXXX110).
+- **models_asp2** : Modèles de portail qui ont un aspect 2 directement dans la bibliothèque WinPro. (XXX310-ASP2)
 - **models_tole_changeable** : Modèles de portail pour lesquels la tôle est changeable.
 - **maxWidth_without_m** : Largeur maximale des modèles de portail sans meneau.
 
