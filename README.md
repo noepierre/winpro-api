@@ -39,8 +39,8 @@ Les dépendances suivantes sont utilisées dans ce projet :
 1. **Cloner le dépôt :**
 
     ```bash
-    git clone https://github.com/votre-utilisateur/portail-api.git
-    cd portail-api
+    git clone https://github.com/noepierre/winpro-api.git
+    cd winpro-api
     ```
 
 2. **Installer les dépendances :**

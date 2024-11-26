@@ -6,8 +6,8 @@
 
                 <REQUEST_TO_WINPRO>
                     <REQUEST_TYPE>0</REQUEST_TYPE>
-                    <LIBRARY>WEB_ELEG_COUL2</LIBRARY>
-                    <ITEM>ALTA510</ITEM>
+                    <LIBRARY>WEB_ELEG_2VTX</LIBRARY>
+                    <ITEM>ANTA210</ITEM>
                     <IMAGE type="svg" view="reverse" />
                     <DIMENSION_LINES>0</DIMENSION_LINES>
                     <CONFIGS>
@@ -17,17 +17,15 @@
                             
                             <COLOUR>7016STRU</COLOUR>
 
-                            <OPTION code="QD_Guide" value="QD_Guide_Telesco" />
+                            
 
-
-                            <FILLING_INNER_COLOUR info="">1015STRU</FILLING_INNER_COLOUR>
-
+                            
                             
                             <SASH id="1" leaves="2" leaf_orientation="H" door="0" fixe="0" doorfixe="0">
 
                                 <ASYMETRIC_LEAVES_0>0</ASYMETRIC_LEAVES_0>
 
-                                <SASH_OPTION code="QO_TypeOuvr" value="QO_TypeOuvr_TELE" />
+                                <SASH_OPTION code="QO_TypeOuvr" value="" />
 
                                 <FITTING_OPTION code="QQ_serrure" value="QQ_serrure_PR" />
 
