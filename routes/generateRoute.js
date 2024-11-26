@@ -4,7 +4,7 @@ import path from 'path';
 import { extractSvgAndAdjustViewBox } from '../utils/svgUtils.js';
 import { generateShapeXml } from '../utils/shapeGenerator.js';
 import { buildSashXml } from '../utils/sashGenerator.js';
-import { fetchSpecs, adjustModelBasedOnWidthAndAspect, getModelProperties, getRemplissages } from '../utils/specUtils.js';
+import { fetchSpecs, adjustModelBasedOnWidthAndTypeCoulissant, getModelProperties, getRemplissages } from '../utils/specUtils.js';
 
 const router = express.Router();
 
@@ -12,7 +12,7 @@ const router = express.Router();
 router.get('/generate', async (req, res) => {
     // Récupérer tous les paramètres depuis la requête
     // La description de tous les paramètres est disponible dans le fichier README.md
-    const {
+    let {
         color1, // Couleur principale
         color2, // Couleur secondaire
         width, // Largeur
@@ -31,14 +31,20 @@ router.get('/generate', async (req, res) => {
         decor, // Décor du modèle
         gammeDecor, // Gamme de décor
         numeroRue, // Numéro de rue pour le décor
-        aspect // Aspect du modèle (avec ou sans meneau)
+        typeCoulissant // typeCoulissant du modèle
     } = req.query;
 
     // -------------------------------------- INITIALISATION DES VARIABLES PRINCIPALES -------------------------------------- //
 
     // On récupère le modèle initial pour pouvoir le modifier ensuite si nécessaire
-    let modelInput = model
+    let modelInput = model;
     
+    // Si le type de coulissant est "antagoniste", on modifie 310 par 510
+    if (typeCoulissant === "antagoniste" || typeCoulissant === "telescopique") {
+        modelInput = modelInput.replace("310", "510");
+        model = model.replace("310", "510");
+        collection = "WEB_ELEG_COUL2";
+    }
 
     // Nom du modèle sans les chiffres (ex: ALTA310 => ALTA)
     const modelInputName = modelInput.match(/^[A-Za-z]+/)[0];
@@ -56,15 +62,15 @@ router.get('/generate', async (req, res) => {
         return res.status(500).send("Erreur lors de la récupération des spécifications");
     }
 
-    // -------------------------------------- GESTION DU MODÈLE SELON LE MENEAU ET L'ASPECT -------------------------------------- //
+    // -------------------------------------- GESTION DU MODÈLE SELON LE MENEAU ET LE TYPE DE COULISSANT -------------------------------------- //
 
     // Comme les modèles 210 et 510 ont les mêmes remplissages, on vérifie si le modèle a une largeur maximale sans meneau pour les modèles 210
     if (model.includes("510")) {
         modelInput = modelInput.replace("510", "210");
     }
     
-    // Récupérer le modèle ajusté en fonction de la largeur et de l'aspect
-    modelInput = adjustModelBasedOnWidthAndAspect(specs, modelInput, width, aspect, sens_ouverture);
+    // Récupérer le modèle ajusté en fonction de la largeur et de le type de coulissant
+    modelInput = adjustModelBasedOnWidthAndTypeCoulissant(specs, modelInput, width, typeCoulissant, sens_ouverture);
 
     // On remet 510 à la place de 210 pour les modèles 510
     if (model.includes("510")) {
@@ -114,12 +120,12 @@ router.get('/generate', async (req, res) => {
     var transomXml = ''; // Initialiser le XML pour le poteau intermédiaire
 
     // Fonction pour déterminer si on doit ajouter le poteau intermédiaire
-    function shouldAddTransom(model, aspect) {
-        return aspect === "2" && !model.endsWith("-M2") && model.includes("310");
+    function shouldAddTransom(model, typeCoulissant) {
+        return typeCoulissant === "2" && !model.endsWith("-M2") && model.includes("310");
     }
 
     // Ajouter le poteau intermédiaire si nécessaire
-    if (shouldAddTransom(modelInput, aspect)) {
+    if (shouldAddTransom(modelInput, typeCoulissant)) {
         transomXml = `                               <TRANSOM transom_id="1" leaf_id="1" filling_id="1" pos="W / 2" code="ALU ASPECT 2VTX" info="" masonry="1" />\n`;
     }
 
@@ -128,7 +134,7 @@ router.get('/generate', async (req, res) => {
         transomXml = `                               <TRANSOM transom_id="3" leaf_id="1" filling_id="1" pos="W / 2" code="ALU ASPECT 2VTX" info="" masonry="1" />\n`;
     }
 
-    // -------------------------------------- MOTORISATION DU MODÈLE -------------------------------------- //
+    // -------------------------------------- MOTORISATION DU MODÈLE ET GESTION DU TELESCOPIQUE -------------------------------------- //
 
     // Si modèle est 310 ou 510, que serrure contient "sans" alors on ajoute le moteur    
     let motorXml = '';
@@ -137,6 +143,12 @@ router.get('/generate', async (req, res) => {
         motorXml = `<FITTING_OPTION code="QQ_Motor" value="QQ_Motor_ELI" />\n`;
     } else {
         motorXml = '';
+    }
+
+    let guideXml = ''; // Initialiser le XML pour le guide
+
+    if (typeCoulissant === "telescopique") {
+        guideXml = `<OPTION code="QD_Guide" value="QD_Guide_Telesco" />\n`;
     }
 
     // -------------------------------------- GÉNÉRATION DE <SASH> -------------------------------------- //
@@ -153,6 +165,7 @@ router.get('/generate', async (req, res) => {
         motorXml,
         ferrage,
         sens,
+        typeCoulissant,
         modelInput,
         remplissage_vantail1,
         remplissage_vantail2,
@@ -204,7 +217,10 @@ router.get('/generate', async (req, res) => {
         .replace('{{shapeXml}}', shapeXml)
         
         .replace('{{color1}}', color1)
-        .replace('{{bicoloration}}', bicoloration) // Ajouter la couleur secondaire si le modèle est bicolore
+
+        .replace('{{guideXml}}', guideXml)
+
+        .replace('{{bicoloration}}', bicoloration)
 
         .replace('{{sashXml}}', SashXml)
 
@@ -242,7 +258,7 @@ router.get('/generate', async (req, res) => {
         - Décor : ${decor}
         - Gamme de décor : ${gammeDecor}
         - Numéro de rue : ${numeroRue}
-        - Aspect : ${aspect}
+        - Type de coulissant : ${typeCoulissant}
         - Largeur du deuxième vantail : ${width2}`);
 
         console.log("\nEnvoi de la requête SOAP...");

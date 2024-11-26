@@ -16,6 +16,9 @@
                             <HEIGHT>{{height}}</HEIGHT>
                             {{shapeXml}}
                             <COLOUR>{{color1}}</COLOUR>
+
+                            {{guideXml}}
+
                             {{bicoloration}}
                             
                             {{sashXml}}

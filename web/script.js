@@ -157,7 +157,7 @@ async function sendRequest() {
     const height = getValue('height');
     const width2 = getValue('width2');
     const collection = getValue('collection');
-    var model = getValue('model'); // car le modèle peut être modifié sellon l'aspect
+    var model = getValue('model'); // car le modèle peut être modifié ensuite
     const pose = getValue('pose');
     const sens_ouverture = getValue('sens_ouverture');
     const poteau_gauche = getValue('poteau_gauche');
@@ -169,12 +169,12 @@ async function sendRequest() {
     const decor = getValue('decor');
     const gammeDecor = getValue('gammeDecor');
     const numeroRue = getValue('numero');
-    const aspect = getValue('aspect');
+    const typeCoulissant = getValue('typeCoulissant');
 
     const token = await getToken(); // Récupère le token
 
     // URL de l'API avec les paramètres
-    const url = `http://localhost:3000/api/generate?color1=${color1}&color2=${color2}&width=${width}&height=${height}&width2=${width2}&collection=${collection}&model=${model}&pose=${pose}&sens_ouverture=${sens_ouverture}&poteau_gauche=${poteau_gauche}&poteau_droit=${poteau_droit}&serrure=${serrure}&ferrage=${ferrage}&tole=${tole}&poignee=${poignee}&decor=${decor}&gammeDecor=${gammeDecor}&numeroRue=${numeroRue}&aspect=${aspect}`;
+    const url = `http://localhost:3000/api/generate?color1=${color1}&color2=${color2}&width=${width}&height=${height}&width2=${width2}&collection=${collection}&model=${model}&pose=${pose}&sens_ouverture=${sens_ouverture}&poteau_gauche=${poteau_gauche}&poteau_droit=${poteau_droit}&serrure=${serrure}&ferrage=${ferrage}&tole=${tole}&poignee=${poignee}&decor=${decor}&gammeDecor=${gammeDecor}&numeroRue=${numeroRue}&typeCoulissant=${typeCoulissant}`;
 
     try {
         // Envoi de la requête avec l'en-tête Authorization contenant le token

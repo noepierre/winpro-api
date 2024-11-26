@@ -21,6 +21,7 @@ const buildSashXml = (params) => {
         motorXml,
         ferrage,
         sens,
+        typeCoulissant,
         modelInput,
         remplissage_vantail1 = [],
         remplissage_vantail2 = [],
@@ -32,8 +33,17 @@ const buildSashXml = (params) => {
         transomXml,
     } = params;
 
+    // Définir le guide pour les portails coulissants
+    let guide = "";
+
+    // Si le portail est un téléscopique, le guide est QO_TypeOuvr_TELE
+    if (typeCoulissant === "telescopique") {
+        guide = "QO_TypeOuvr_TELE"
+    }
+
     let sashXml = `<SASH id="1" leaves="2" leaf_orientation="H" door="0" fixe="0" doorfixe="0">\n
                                 <ASYMETRIC_LEAVES_0>${width2}</ASYMETRIC_LEAVES_0>\n
+                                <SASH_OPTION code="QO_TypeOuvr" value="${guide}" />\n
                                 <FITTING_OPTION code="QQ_serrure" value="${serrure}" />\n
                                 <FITTING_OPTION code="QQ_poignee" value="${poignee}" />\n
                                 ${motorXml}

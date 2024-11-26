@@ -80,6 +80,7 @@ Les paramètres suivants sont nécessaires pour la génération du fichier SVG :
 | `width`          | `number` | Largeur du portail en mm                                      | `1600`                                     |
 | `height`         | `number` | Hauteur du portail en mm                                      | `4000`                                     |
 | `width2`         | `number` | Largeur du deuxième vantail si vantaux asymétriques (0 si vantaux symétriques) | `2200`                    |
+| `collection`     | `string` | Collection de portail                                         | `WEB_ELEG_2VTX`                            |
 | `model`          | `string` | Modèle de portail                                             | `ANTA210`                                  |
 | `pose`           | `string` | Type de pose                                                  | `Pose entre piliers`                       |
 | `sens_ouverture` | `string` | Sens d'ouverture                                              | `Droite poussant`                          |
@@ -115,6 +116,7 @@ Chaque paramètre accepte des valeurs spécifiques encodées par CFP. Voici une 
 | `width`          | N'importe quel nombre entier (largeur en mm, ex : `1000`, `4000`)                                 |
 | `height`         | N'importe quel nombre entier (hauteur en mm, ex : `1200`, `2000`)                                 |
 | `width2`         | N'importe quel nombre entier (largeur du vantail secondaire en mm, `0` si vantaux symétriques)    |
+| `collection`     | `WEB_ELEG_1VTL`, `WEB_ELEG_2VTX`, `WEB_ELEG_COUL1`, `WEB_ELEG_COUL1`                                     |
 | `model`          | N'importe quel nom de modèle de portail (ex : `ANTA210`, `TONN110-B`, `FOUD110-CDG`)                       |
 | `pose`           | `QD_typepose_RGarrp`, `QD_typepose_entrep`, `QD_typepose_entGA`, `QD_typepose_ouvext`, `QD_typepose_ouvextDP`, `QD_typepose_entrepDapG`, `QD_typepose_entrepGapD`, `QD_typepose_gonarr`, `QD_typepose_RarrGc`, `QD_typepose_RGdevp`, `QD_typepose_RdevGc` |
 | `sens_ouverture` | `QO_sensouv_droiteP`, `QO_sensouv_gaucheP`, `QO_sensouv_droiteT`, `QO_sensouv_gaucheT`                    |
@@ -138,7 +140,7 @@ Il est possible qu'il y ai d'autres valeurs possibles pour chaque paramètre. Ve
 Utilisez votre navigateur, **curl** ou un outil comme **Postman** pour envoyer une requête.
 
 ```bash
-http://localhost:3000/api/generate?color1=7016STRU&color2=BLEUCANON&width=4000&height=1600&width2=0&model=ALTA210&pose=QD_typepose_RGarrp&sens_ouverture=QO_sensouv_droiteP&poteau_gauche=QD_poteauG_Sans&poteau_droit=QD_poteauD_Sans&serrure=QQ_serrure_PR&ferrage=QQ_ferrage_A&tole=QR_ModTole_0&poignee=QQ_Poignee_BeqInox&decor=QP_ModDecor_A08&gammeDecor=QP_GamDecor_Acces&numeroRue=12&aspect=1
+http://localhost:3000/api/generate?color1=7016STRU&color2=BLEUCANON&width=4000&height=1600&width2=0&collection=WEB_ELEG_2VTX&model=ALTA210&pose=QD_typepose_RGarrp&sens_ouverture=QO_sensouv_droiteP&poteau_gauche=QD_poteauG_Sans&poteau_droit=QD_poteauD_Sans&serrure=QQ_serrure_PR&ferrage=QQ_ferrage_A&tole=QR_ModTole_0&poignee=QQ_Poignee_BeqInox&decor=QP_ModDecor_A08&gammeDecor=QP_GamDecor_Acces&numeroRue=12&aspect=1
 ```
 
 La réponse sera un fichier SVG généré avec les paramètres fournis.
@@ -265,7 +267,7 @@ Un exemple d'utilisation avec JavaScript est disponible dans le fichier `web/scr
 Ensuite, il vous suffit de l'ajouter dans le header `Authorization` de vos requêtes :
 
 ```bash
-curl -X GET http://localhost:3000/api/generate?color1=7016STRU&color2=BLEUCANON&width=4000&height=1600&width2=0&model=ALTA210&pose=QD_typepose_RGarrp&sens_ouverture=QO_sensouv_droiteP&poteau_gauche=QD_poteauG_Sans&poteau_droit=QD_poteauD_Sans&serrure=QQ_serrure_PR&ferrage=QQ_ferrage_A&tole=QR_ModTole_0&poignee=QQ_Poignee_BeqInox&decor=QP_ModDecor_A08&gammeDecor=QP_GamDecor_Acces&numeroRue=12&aspect=1 -H "Authorization: Bearer <the_token>"
+curl -X GET http://localhost:3000/api/generate?color1=7016STRU&color2=BLEUCANON&width=4000&height=1600&width2=0&collection=WEB_ELEG_2VTX&model=ALTA210&pose=QD_typepose_RGarrp&sens_ouverture=QO_sensouv_droiteP&poteau_gauche=QD_poteauG_Sans&poteau_droit=QD_poteauD_Sans&serrure=QQ_serrure_PR&ferrage=QQ_ferrage_A&tole=QR_ModTole_0&poignee=QQ_Poignee_BeqInox&decor=QP_ModDecor_A08&gammeDecor=QP_GamDecor_Acces&numeroRue=12&aspect=1 -H "Authorization: Bearer <the_token>"
 ```
 
 Un exemple d'utilisation avec JavaScript est disponible dans le fichier `web/script.js` (lignes 159 à 170).

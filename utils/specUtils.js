@@ -25,14 +25,14 @@ export async function fetchSpecs() {
 
 
 /**
- * Met à jour le modèle pour gérer les cas de largeur maximale et d'aspect.
+ * Met à jour le modèle pour gérer les cas de largeur maximale et de type de coulissant
  * @param {Object} specs - Les spécifications des portails.
  * @param {string} modelInput - Le modèle à ajuster.
  * @param {number} width - La largeur du portail.
- * @param {string} aspect - L'aspect du portail.
- * @returns {string} Le modèle ajusté en fonction de la largeur et de l'aspect.
+ * @param {string} typeCoulissant - Le type de coulissant du portail.
+ * @returns {string} Le modèle ajusté en fonction de la largeur et du type de coulissant.
  */
-export function adjustModelBasedOnWidthAndAspect(specs, modelInput, width, aspect, sens_ouverture) {
+export function adjustModelBasedOnWidthAndTypeCoulissant(specs, modelInput, width, typeCoulissant, sens_ouverture) {
 
     // Vérifier si le modèle est dans la liste des modèles -G ou -D
     let isGDmodel = specs.models_DG.includes(modelInput);
@@ -72,7 +72,7 @@ export function adjustModelBasedOnWidthAndAspect(specs, modelInput, width, aspec
     }
 
     // Cas particulier pour le modèle MIZA310 qui est chiant
-    if (modelInput.includes("MIZA310") && (aspect === "2" || width > maxWidth_without_m)) {
+    if (modelInput.includes("MIZA310") && (typeCoulissant === "2" || width > maxWidth_without_m)) {
         if (modelInput.endsWith("0")) {
             modelInput = modelInput + "-M3";
         } else if (modelInput.endsWith("-M")) {
@@ -80,32 +80,32 @@ export function adjustModelBasedOnWidthAndAspect(specs, modelInput, width, aspec
         }
     }
 
-    // Si le modèle est un 310 de base et que l'aspect est 2, on ajoute -M à la fin du modèle
-    if (aspect === "2" && (modelInput.endsWith("310") || modelInput.endsWith("310-G") || modelInput.endsWith("310-D")) && maxWidth_without_m) {
+    // Si le modèle est un 310 de base et que le type de coulissant est 2, on ajoute -M à la fin du modèle
+    if (typeCoulissant === "2" && (modelInput.endsWith("310") || modelInput.endsWith("310-G") || modelInput.endsWith("310-D")) && maxWidth_without_m) {
         // on remplace 310 par 310-M (on ne peu pas simplement ajouter -M car certains modèles ont un -D ou -G à la fin)
         modelInput = modelInput.replace("310", "310-M");
     }
 
-    // Si le modèle est déjà un modèle -M2 et que l'aspect est 2, on remplace -M2 par -M3
-    if (aspect === "2" && modelInput.endsWith("M2")) {
+    // Si le modèle est déjà un modèle -M2 et que le type de coulissant est 2, on remplace -M2 par -M3
+    if (typeCoulissant === "2" && modelInput.endsWith("M2")) {
         modelInput = modelInput.replace("-M2", "-M3");
     }
 
-    // On verifie si le modèle est dans la liste des modèles avec l'aspect 2
+    // On verifie si le modèle est dans la liste des modèles avec le type de coulissant est 2
     const isASP2model = specs.models_asp2.includes(modelInput.match(/^[A-Za-z]+/)[0]); // On récupère le nom du modèle sans les chiffres (ex: ALTA310 => ALTA)
 
-    if (aspect === "2" && isASP2model) {
+    if (typeCoulissant === "2" && isASP2model) {
         // On enlève ce qu'il y a après le tiret (ex: LOMP310-M => LOMP310)
         modelInput = modelInput.replace(/-.+$/, "");
 
         console.log(modelInput);
 
-        // On ajoute -ASP2 à la fin du modèle car il existe un modèle avec l'aspect 2 directement dans la bibliothèque
+        // On ajoute -ASP2 à la fin du modèle car il existe un modèle avec le type de coulissant 2 directement dans la bibliothèque
         modelInput = modelInput + "-ASP2";
     }
     
 
-    // On retourne le modèle ajusté en fonction de la largeur et de l'aspect
+    // On retourne le modèle ajusté en fonction de la largeur et de le type de coulissant
     return modelInput;
 }
 

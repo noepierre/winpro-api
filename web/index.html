@@ -13,8 +13,7 @@
         <!-- Bouton pour changer de vue -->
         <button type="button" id="110" onclick="toggleActive(1) & loadSpecs()">PORTILLONS</button>
         <button type="button" id="210" onclick="toggleActive(2) & loadSpecs()" class="active">PORTAILS 2 VANTAUX</button>
-        <button type="button" id="310" onclick="toggleActive(3) & loadSpecs()">PORTAIL COULISSANT 1 VANTAIL</button>
-        <button type="button" id="510" onclick="toggleActive(4) & loadSpecs()">PORTAIL COULISSANT 2 VANTAUX</button>
+        <button type="button" id="310" onclick="toggleActive(3) & loadSpecs()">PORTAILS COULISSANTS</button>
     </div>
 
     <div class="container">
@@ -63,11 +62,16 @@
             <label for="width2">Largeur vantail secondaire (si vantaux inégaux, sinon laisser à 0) :</label>
             <input type="number" id="width2" name="width2" placeholder="Ex : 2000" value="0">
 
-            <label for="aspect">Aspect (pour les portails coulissants) :</label>
-            <select id="aspect" name="aspect">
+            <label for="typeCoulissant">Type de coulissant (pour les portails coulissants) :</label>
+            <select id="typeCoulissant" name="typeCoulissant">
                 <option value="1">Aspect 1</option>
                 <option value="2">Aspect 2</option>
+                <option value="telescopique">Coulissant téléscopique</option>
+                <option value="autoportant">Coulissant autoportant</option>
+                <option value="antagoniste">Coulissant antagoniste (double refoulement)</option>
             </select>
+
+            <label for="coulissant">Coulissant (pour les portails coulissants) :</label>
             
             <h2>Pose et configuration</h2>
 
